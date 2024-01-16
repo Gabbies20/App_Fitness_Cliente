@@ -1,0 +1,18 @@
+{% extends 'fitness/principal.html' %}
+{% load static%}
+
+{% block cabecera%}
+{% endblock %}
+
+{% block contenido%}
+<BR>
+    <h1>USUARIOS SIN COMENTARIOS:</h1>
+    <ul>
+        {% for usuario in usuarios_sin_comentarios %}
+            <li>{{ usuario.nombre }}</li>
+        {% empty %}
+            <p>Lo sentimos pero no hay usuarios.</p>
+        {% endfor %}
+    </ul>
+{% endblock%}
+

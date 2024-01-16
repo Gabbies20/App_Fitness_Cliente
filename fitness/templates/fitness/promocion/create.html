@@ -1,0 +1,34 @@
+{% extends 'fitness/principal.html' %}
+{% load static%}
+
+{% block cabecera%}
+<br>
+ 
+{% endblock %}
+
+{% block contenido%}
+{% load bootstrap5 %}
+{% bootstrap_css %}
+<div class="container">
+  <div class="row ">
+    <h2>CREAR PROMOCIÓN:</h2>
+      <div class="col-md-4">
+          <div class="card">
+              <div class="card-body">
+                  <form action="{% url 'create-promocion' %}" method="post">
+                      {% csrf_token %}
+                      {% bootstrap_form formulario %}
+                      <br>
+                      {% buttons %}
+                      <button type="submit" class="btn btn-secondary">Guardar</button>
+                      {% endbuttons %}
+                  </form>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+
+    <br>
+{% endblock %}
+<br>

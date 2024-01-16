@@ -1,0 +1,30 @@
+{% extends 'fitness/principal.html' %}
+{% load static%}
+
+{% block cabecera%}
+<br>
+<h1>LISTA DE ENTRENAMIENTOS:</h1>
+{% endblock %}
+
+{% block contenido %}
+
+{%for entrenamiento in entrenamientos %}
+    <p><strong>Nombre:</strong></p><i>{{entrenamiento.nombre}}</i>
+    <ul>
+        <li><p><strong>Descripción:</strong>{{entrenamiento.descripcion}}</p></li>
+        <li><p><strong>Duración:</strong>{{entrenamiento.duracion}}</p></li>
+        <li><p><strong>Tipo:</strong>{{entrenamiento.tipo}}</p></li>
+        <li><h3>EJERCICIOS:</h3>
+        
+            <ul>
+                {%for ejercicio in entrenamiento.ejercicios.all %}
+                    <li><p><strong>Nombre:</strong>{{ejercicio.nombre}}</p></li>
+                   <li><p><strong>Descripción</strong>{{ejercicio.descripcion}}</p></li>
+                   <hr>
+                {% endfor %}
+            </ul>
+        </p></li>
+    </ul>
+
+    {% endfor%}
+{% endblock %}

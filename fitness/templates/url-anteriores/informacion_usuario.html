@@ -1,0 +1,22 @@
+{% extends 'fitness/principal.html' %}
+{% load static%}
+
+{% block cabecera%}
+<br>
+<h1>Lista de Usuarios</h1>
+{% endblock %}
+    
+{% block contenido %}
+<ul>
+    {% for usuario in usuario_mostrar %}
+        <li>
+            <p><b>ID:</b> {{ usuario.id }}</p>
+            <p><b>Nombre:</b> {{ usuario.nombre }}</p>
+            <p><b>Email:</b> {{ usuario.email }}</p>
+            <a href="{% url 'perfil_usuario' usuario.id %}">Ver Perfil de Usuario</a>
+        </li>
+        <hr>
+    {% endfor %}
+</ul>
+{% endblock %}
+

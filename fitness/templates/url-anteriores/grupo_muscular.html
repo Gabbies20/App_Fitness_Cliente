@@ -1,0 +1,25 @@
+{% extends 'fitness/principal.html' %}
+{% load static%}
+
+{% block cabecera%}
+{% endblock %}
+
+    
+{% block contenido %}
+<BR>
+<h1>CATEGORÍAS DE EJERCICIOS PARA EL EL GRUPO MUSCULAR:<i>{{ grupo_muscular }}</i></h1>
+<ul>
+    {% for category in categories %}
+    <li>
+        <p><strong>Nombre:</strong>{{ category.nombre }}</p>
+        <ul> 
+            <strong>Ejercicios:</strong>
+            {% for exercise in category.ejercicios.all %}
+            <li>{{ exercise.nombre }}</li>
+            {% endfor %}
+        </ul>
+    </li>
+    <hr>
+    {% endfor %}
+</ul>
+{% endblock %}

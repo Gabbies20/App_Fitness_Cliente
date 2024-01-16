@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Usuarios sin Votos</title>
+</head>
+<body>
+    <h1>Usuarios o Clientes sin Votos</h1>
+    
+    <ul>
+        {% for usuario in usuarios_sin_votos %}
+            <li>
+                <h2>{{ usuario.nombre }}</h2>
+                <p>Email: {{ usuario.email }}</p>
+                <p>Otra información del usuario o cliente</p>
+            </li>
+        {% empty %}
+            <li>No se encontraron usuarios o clientes sin votos.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

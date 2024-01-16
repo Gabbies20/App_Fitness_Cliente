@@ -1,0 +1,51 @@
+{% extends 'fitness/principal.html' %}
+{% load static %}
+{% load bootstrap_icons %}  <!-- Debe ir antes de cualquier uso de las etiquetas de íconos -->
+
+{% block cabecera %}
+<br>
+  <h2 class="display-5">SUSCRIPCIONES:</h2>
+{% endblock %}
+
+{% block contenido %}
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            
+        {% endfor %}
+    {% endif %}
+
+    {% block busqueda %}
+    <form method="get" action="{% url 'suscripcion_buscar' %}">
+        <div class="mb-3">
+            <label for="search-query" class="form-label">¿Desea buscar alguna suscripción?</label>
+            <div class="input-group">
+                <input type="text" class="form-control" id="search-query" placeholder="Buscar suscripción..." name="textoBusqueda" value="">
+                <button class="btn btn-outline-secondary" type="submit">Buscar</button>
+            </div>
+        </div>
+    </form>
+
+    <div class="mt-3">
+        <label class="form-label">¿Desea realizar una búsqueda avanzada?</label>
+        <a href="{% url 'suscripcion_busqueda_avanzada' %}" class="btn btn-outline-secondary">Búsqueda Avanzada</a>
+    </div>
+    <br>
+{% endblock %}
+
+    <div class="row">
+        {% for suscripcion in mostrar_suscripcion%}
+            <div class="col-sm-4 mb-2">
+                {% include 'fitness/suscripcion/suscripcion.html' %}
+            </div>
+        {% empty %}
+            <h1 class="display-6">Lo sentimos pero no hay suscripciones</h1>
+        {% endfor %}
+    </div>
+    <br>
+    <br>
+{% endblock %}

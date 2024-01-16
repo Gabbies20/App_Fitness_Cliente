@@ -1,0 +1,18 @@
+{% extends 'fitness/principal.html' %}
+{% load static %}
+{% load bootstrap_icons %}  <!-- Debe ir antes de cualquier uso de las etiquetas de íconos -->
+
+{% block cabecera %}
+<br>
+  <h2 class="display-5">SUSCRIPCIONES:</h2>
+{% endblock %}
+
+{% block contenido %}
+
+    <h6 class="">{{suscripcion.titular|upper}}</h6>
+    <div class="col-sm-12 mb-2">
+        {% include 'fitness/suscripcion/suscripcion.html'%}
+    </div>
+    <br>
+    <br>
+{% endblock %}

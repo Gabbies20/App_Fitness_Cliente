@@ -1,0 +1,19 @@
+{% extends 'fitness/principal.html' %}
+{% load static %}
+{% load bootstrap_icons %}  <!-- Debe ir antes de cualquier uso de las etiquetas de íconos -->
+
+{% block cabecera %}
+<br>
+  <h2 class="display-5">LISTA DE PROMOCIONES:</h2>
+{% endblock %}
+
+{% block contenido %}
+
+    <h6 class="">{{promocion.nombre|upper}}</h6>
+            {% include 'fitness/promocion/promocion.html' %}
+    <br>
+    <br>
+    </div>
+    <br>
+    <br>
+{% endblock %}

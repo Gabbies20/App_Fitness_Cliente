@@ -1,0 +1,14 @@
+{% extends "fitness/principal.html" %}
+
+{% block contenido %}
+<form action = "{% url 'registrar_usuario' %}" method = "post"> 
+    
+    {% load bootstrap5 %}
+    {% csrf_token %} 
+    {% bootstrap_form formulario %}         
+
+    {% buttons %}
+        <button type="submit" class="btn btn-primary">Enviar</button>
+    {% endbuttons %}
+</form>
+{% endblock %}

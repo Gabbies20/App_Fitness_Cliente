@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cuentas Bancarias</title>
+</head>
+<body>
+    <h1>Cuentas Bancarias</h1>
+    <ul>
+        {% for cuenta in cuenta_mostrar %}
+            <li>
+                Propietario: {{ cuenta.titular.nombre }}<br>
+                Banco: {{ cuenta.banco }}<br>
+                Número de cuenta: {{ cuenta.numero_cuenta }}<br>
+            </li>
+        {% empty %}
+            <li>No se encontraron cuentas que cumplan con los criterios.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

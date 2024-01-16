@@ -1,0 +1,24 @@
+{% extends 'fitness/principal.html' %}
+{% load static%}
+
+{% block cabecera%}
+<br>
+  <h2>RESULTADOS DE BÚSQUEDA:</h2>
+{% endblock %}
+
+{% block busqueda %}
+    <h2 class="display-6">{{ texto_busqueda|linebreaksbr }}</h1>
+{% endblock %}
+{% block contenido %}
+ <b>{{texto_busqueda}}</b> 
+ <br>
+<p>La cantidad de comentarios que  contiene  <b>{{texto_busqueda}}</b> son: {{ comentarios_mostrar|length }}</p>
+
+      {% for comentario in comentarios_mostrar%}
+        {% include 'fitness/comentario/comentario.html'%}
+      {% endfor %}
+
+{% endblock %}
+
+
+

@@ -1,0 +1,77 @@
+{% extends "fitness/principal.html" %}
+
+{% block contenido %}
+
+{% load bootstrap5 %}
+<form action = "{% url 'ejercicio_editar' ejercicio.id %}" method = "post"> 
+    
+    {% csrf_token %} 
+
+    <div class="mb-4">
+        <label for="{{ formulario.nombre.id_for_label }}" class="form-label">{{ formulario.nombre.label }}: </label>
+        <input  name="{{ formulario.nombre.html_name }}" 
+                type="text" 
+                class="form-control {% if formulario.nombre.errors %} is-invalid{% elif formulario.is_bound %} is-valid{% endif %}" 
+                id="{{ formulario.nombre.id_for_label }}"
+                maxlength="{{ formulario.nombre.field.max_length }}"
+                {% if formulario.nombre.field.required %}
+                    required
+                {% endif %}
+                value="{% spaceless %}
+                        {{ formulario.nombre.value }}
+                       {% endspaceless %}"
+        />
+        {% if formulario.nombre.help_text %}
+        <div class="form-text">
+            {{ formulario.nombre.help_text }}
+        </div>
+        {% endif %}
+        <div class="invalid-feedback">
+            {% for error in formulario.nombre.errors %} 
+                {{ error }}
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="mb-4">
+        <label for="{{ formulario.descripcion.id_for_label }}" class="form-label">{{ formulario.descripcion.label }}: </label>
+        <textarea name="{{ formulario.descripcion.html_name }}" 
+                  class="form-control {% if formulario.descripcion.errors %} is-invalid{% elif formulario.is_bound %} is-valid{% endif %}" 
+                  id="{{ formulario.descripcion.id_for_label }}"
+                  >{% spaceless %}
+                        {{ formulario.descripcion.value }}
+                        {% endspaceless %}</textarea>
+        <div class="invalid-feedback">
+            {% for error in formulario.descripcion.errors %} 
+                {{ error }}
+            {% endfor %}
+        </div>
+    </div>
+    <div class="mb-4">
+        <label for="{{ formulario.tipo_ejercicio.id_for_label }}" class="form-label">{{ formulario.tipo_ejercicio.label }}:</label>
+<input name="{{ formulario.tipo_ejercicio.html_name }}" 
+       type="text" 
+       class="form-control {% if formulario.tipo_ejercicio.errors %} is-invalid{% endif %}" 
+       id="{{ formulario.tipo_ejercicio.id_for_label }}"
+       value="{{ formulario.tipo_ejercicio.value }}"
+       maxlength="{{ formulario.tipo_ejercicio.field.max_length }}"
+       {% if formulario.tipo_ejercicio.field.required %}
+           required
+       {% endif %}
+/>
+{% if formulario.tipo_ejercicio.help_text %}
+    <div class="form-text">
+        {{ formulario.tipo_ejercicio.help_text }}
+    </div>
+{% endif %}
+<div class="invalid-feedback">
+    {% for error in formulario.tipo_ejercicio.errors %} 
+        {{ error }}
+    {% endfor %}
+</div>
+    <button type="submit" class="btn btn-primary">Enviar</button>
+
+</form> 
+
+
+{% endblock %}

@@ -1,0 +1,63 @@
+{% load static %}
+<div class="card custom-card">
+    <div class="custom-card-body">
+        <h5 class="card-title"><a href="{% url 'mostrar_plan' plan.id  %}"> {{ plan.nombre|capfirst }}</a></h5>
+        <h6 class="card-subtitle mb-2 text-muted">Nombre:{{ plan.nombre }}</h6>
+        <p class="card-text">Descripción:{{ plan.descripcion }}</p>
+        <p class="card-text">Descripción:{{ plan.duracion_estimada}}</p>
+        <p class="card-text">Dificultad:{{ plan.dificultad }}</p>
+        <p class="card-text">Usuario:{{ plan.usuario }}</p>
+        <div>
+            <p class="card-text">Entrenamientos:</p>
+            <ul >
+                {% for entrenamiento in plan.entrenamientos.all %}
+                    <li class="card-text" >{{ entrenamiento.nombre }}</li>
+                {% empty %}
+                    <li class="card-text">No hay ejercicios asociados a este plan.</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div>
+            <p class="card-text" >Ejercicios:</p>
+            <ul >
+                
+            </ul>
+        </div>
+        {% load bootstrap_icons %}
+        <div class="btn-group custom-btn-group">
+            <button type="button" class="btn btn-outline-primary">
+                <a href="{% url 'plan_editar' plan.id %}">
+                    <span>{% bs_icon 'pencil' %}</span> 
+                </a>
+            </button>
+            
+            
+            <form action="{% url 'plan_eliminar' plan.id %}" method="post">
+                {% csrf_token %}
+                <button class="btn btn-danger" data-toggle="modal" data-target="#confirmDeleteModal" type="button">
+                    <span>{% bs_icon 'trash' %}</span> 
+                </button>
+                 <!-- Ventana modal -->
+                 <div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmar Eliminación</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p>¿Estás seguro de que deseas eliminar este plan?</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                <button type="submit" class="btn btn-danger">Eliminar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

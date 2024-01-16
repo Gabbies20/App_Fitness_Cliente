@@ -1,0 +1,26 @@
+{% extends 'fitness/principal.html' %}
+{% load static%}
+
+{% block cabecera%}
+<br>
+  <h2>RUTINA DIARIA DE USUARIOS, CUYO NOMBRE ENPIEZA CON H:</h2>
+{% endblock %}
+
+{% block contenido%}
+    <ul>
+        {% for rutina_diaria in rutinas_diarias %}
+            <li>
+                <p><strong>Nombre:</strong>{{ rutina_diaria.usuario.nombre }}</p>
+                <p><strong>Fecha:</strong> {{ rutina_diaria.fecha }}</p>
+                <p><strong>Descripción:</strong> {{ rutina_diaria.descripcion }}</p>
+                <p><strong>Duración (minutos):</strong> {{ rutina_diaria.duracion }}</p>
+                <h3>Ejercicios:</h3>
+                <ul>
+                    {% for ejercicio in rutina_diaria.ejercicios.all %}
+                        <li>{{ ejercicio.nombre }}
+                    {% endfor %}
+                </ul>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock%}

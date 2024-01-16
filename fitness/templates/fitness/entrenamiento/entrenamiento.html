@@ -1,0 +1,59 @@
+{% load static %}
+<div class="card custom-card">
+    <div class="custom-card-body">
+        <h5 class="card-title"><a href="{% url 'entrenamiento_mostrar' entrenamiento.id  %}"> {{ entrenamiento.nombre|capfirst }}</a></h5>
+        <h6 class="card-subtitle mb-2 text-muted">Nombre:{{ entrenamiento.nombre }}</h6>
+        <p class="card-text">Descripción:{{ entrenamiento.descripcion }}</p>
+        <p class="card-text">Duración:{{ entrenamiento.duracion }}</p>
+        <p class="card-text">Tipo de ejercicio:{{ entrenamiento.tipo }}</p>
+        <p class="card-text">Tipo de ejercicio:{{ entrenamiento.usuario.nombre }}</p>
+        <div>
+            <p class="card-text" >Usuario:{{ entrenamiento.usuario.nombre }}</p>
+        </div>
+        <div>
+            <p class="card-text" >Ejercicios:</p>
+            <ul >
+                {% for ejercicio in entrenamiento.ejercicios.all %}
+                    <li class="card-text" >{{ ejercicio.nombre }}</li>
+                {% empty %}
+                    <li class="card-text">No hay ejercicios asociados a este entrenamiento.</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% load bootstrap_icons %}
+        <div class="btn-group custom-btn-group">
+            <button type="button" class="btn btn-outline-primary">
+                <a href="{% url 'entrenamiento_editar' entrenamiento.id %}">
+                    <span>{% bs_icon 'pencil' %}</span> 
+                </a>
+            </button>
+            
+            <form action="{% url 'entrenamiento_eliminar' entrenamiento.id %}" method="post">
+                {% csrf_token %}
+                <button class="btn btn-danger" data-toggle="modal" data-target="#confirmDeleteModal" type="button">
+                    <span>{% bs_icon 'trash' %}</span> 
+                </button>
+                 <!-- Ventana modal -->
+                 <div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmar Eliminación</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p>¿Estás seguro de que deseas eliminar este entrenamiento?</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                <button type="submit" class="btn btn-danger">Eliminar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

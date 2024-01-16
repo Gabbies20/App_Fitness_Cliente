@@ -1,0 +1,18 @@
+{% extends 'fitness/principal.html' %}
+{% load static%}
+
+{% block cabecera%}
+<br>
+  <h2>RESULTADO DE BÚSQUEDA:</h2>
+{% endblock %}
+
+{% block busqueda %}
+    <h2 class="display-6">{{ texto_busqueda|linebreaksbr }}</h1>
+{% endblock %}
+{% block contenido %}
+<p>La cantidad de suscripciones que contiene <b>{{texto_busqueda}}</b> son: {{ suscripcion_mostrar|length }}</p>
+        {% for suscripcion in suscripcion_mostrar %}
+            {% include 'fitness/suscripcion/suscricpion.html'%}
+            <br>
+        {% endfor %}
+{% endblock %}

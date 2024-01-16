@@ -1,0 +1,24 @@
+{% extends 'fitness/principal.html' %}
+{% load static%}
+
+{% block cabecera%}
+{% endblock %}
+    
+
+{% block contenido%}
+<BR>
+<h1>COMENTARIOS DEL ENTRENAMIENTO:</h1>
+<p><i>{{ entrenamiento.nombre }}</i></p>
+<br>
+<ul>
+    {% for comentario in comentarios %}
+        <li>
+            <p><strong>Usuario:</strong> {{ comentario.usuario.nombre }}</p>
+            <p><strong>Fecha:</strong> {{ comentario.fecha }}</p>
+            <p><strong>Comentario:</strong> {{ comentario.texto }}</p>
+        </li>
+        <hr>
+    {% endfor %}
+</ul>
+{% endblock%}
+

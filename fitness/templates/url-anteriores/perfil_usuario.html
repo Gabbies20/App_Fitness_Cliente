@@ -1,0 +1,15 @@
+{% extends 'fitness/principal.html' %}
+{% load static%}
+
+{% block cabecera%}
+<br>
+  <h2>PERFIL DE USUARIO</h2>
+{% endblock %}
+
+{% block contenido %}
+    <img src="{% static 'imagenes/harry.png'%}" width="350" height="300"></img>
+    <p>Nombre:{{ perfil_mostrar.usuario.nombre }}</p>
+    <p>Edad: {{ perfil_mostrar.edad }}</p>
+    <p>Altura: {{ perfil_mostrar.altura }}</p>
+    <p>Peso: {{ perfil_mostrar.usuario.nombre }}</p>
+{% endblock %}

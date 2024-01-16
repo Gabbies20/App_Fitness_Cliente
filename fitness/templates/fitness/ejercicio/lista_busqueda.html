@@ -1,0 +1,24 @@
+{% extends 'fitness/principal.html' %}
+{% load static%}
+
+{% block cabecera%}
+<br>
+  <h2>RESULTADOsczc DE BÚSQUEDA:</h2>
+{% endblock %}
+
+{% block busqueda %}
+    <h2 class="display-6">{{ texto_busqueda|linebreaksbr }}</h1>
+{% endblock %}
+{% block contenido %}
+ <b>{{texto_busqueda}}</b> 
+ <br>
+<p>La cantidad de planes que contiene son: {{ ejercicios_mostrar|length }}</p>
+
+      {% for ejercicio in ejercicios_mostrar%}
+        {% include 'fitness/ejercicio/ejercicio.html'%}
+      {% endfor %}
+
+{% endblock %}
+
+
+

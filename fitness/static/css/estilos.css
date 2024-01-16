@@ -1,0 +1,110 @@
+
+.card {
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s;
+}
+
+.card:hover {
+    transform: scale(1.1);
+}
+
+/* Agrega estilos para el footer */
+footer {
+    background-color: #cea8a8;
+    color: #b73434;
+    padding: 20px; /* Ajusta el padding según sea necesario */
+}
+
+.social-icons a {
+    color: #2d17a9; /* Color de los iconos de redes sociales */
+    margin-right: 10px; /* Espaciado entre los iconos, ajusta según sea necesario */
+}
+
+/* En tu archivo de estilos CSS personalizado */
+a.btn.btn-outline-dangerous {
+    color: white; /* Color del texto */
+}
+
+.card-title,
+    .card-subtitle,
+    .card-text {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 200px;  /* ajusta este valor según tus necesidades */
+    }
+
+.user-list {
+        list-style-type: square;  /* Puedes ajustar el peso de la fuente según tus preferencias */
+}
+
+.custom-card-body .card-title,
+ .card-subtitle, .card-text {
+    margin: 10px;
+    /* Estilos específicos para la nueva estructura */
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip; /* O puedes eliminar esta línea */
+    max-width: none;
+}
+
+.custom-btn-group {
+    display: flex;
+    justify-content: center;
+    gap:px; /* Puedes ajustar este valor según tus necesidades */
+}
+
+.custom-card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.custom-btn-group {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.custom-btn-group button {
+    margin: 0 5px; /* Ajusta el margen entre los botones */
+}
+.custom-btn-group button {
+    margin: 0 5px; /* Ajusta el margen entre los botones */
+    max-width: 150px; /* O ajusta según tus necesidades */
+    width: auto; /* Ajusta el ancho automáticamente según el contenido */
+}
+
+.custom-card:hover {
+    /* Estilos para el hover */
+    background-color: #ececec;
+}
+
+.custom-card {
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s;
+}
+
+.custom-card:hover {
+    transform: none; /* Esto restablecerá la transformación a su valor predeterminado */
+}
+
+
+/* Estilos para el campo 'tipo' */
+.tu-clase-css {
+    /* Estilos específicos para el campo 'tipo' */
+    width: 200px;
+    /* Agrega más estilos según sea necesario */
+}
+
+/* Estilos para el campo 'duracion' */
+.otra-clase-css {
+    /* Estilos específicos para el campo 'duracion' */
+    width: 100px;
+    /* Agrega más estilos según sea necesario */
+}
+
+/* Puedes agregar estilos adicionales para otros campos si es necesario */

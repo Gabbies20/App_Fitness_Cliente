@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ejercicios con Puntuación 3</title>
+</head>
+<body>
+    <h1>Ejercicios con Puntuación 3:{{ usuario }}</h1>
+    
+    <ul>
+        {% for ejercicio in ejercicios_mostrar %}
+            <li>
+                <h2>{{ ejercicio.titulo }}</h2>
+                <p>{{ ejercicio.descripcion }}</p>
+                <p>Puntuación: {{ ejercicio.voto.puntuacion }}</p>
+                <!-- Aquí puedes mostrar otros detalles del ejercicio -->
+            </li>
+        {% empty %}
+            <li>No se encontraron ejercicios con puntuación 3 realizados por {{ usuario }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

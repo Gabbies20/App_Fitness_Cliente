@@ -1,0 +1,16 @@
+{% extends 'fitness/principal.html' %}
+{% load static %}
+{% load bootstrap_icons %}  <!-- Debe ir antes de cualquier uso de las etiquetas de íconos -->
+
+{% block cabecera %}
+<br>
+  <h2 class="display-5">LISTA DE EJERCICIOS:</h2>
+{% endblock %}
+
+{% block contenido %}
+
+    <h1 class="display-6">{{ejercicio.nombre|upper}}</h1>
+    <div class="col-sm-12 mb-2">
+        {% include 'fitness/ejercicio/ejercicio.html'%}
+    </div>
+{% endblock %}

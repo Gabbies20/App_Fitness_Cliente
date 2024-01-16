@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Historial de Ejercicios del Usuario</title>
+</head>
+<body>
+    <h1>Historial de Ejercicios para el Usuario: {{ usuario.nombre }}</h1>
+    <ul>
+        {% for ejercicio in historial_ejercicios %}
+        <li>
+            <strong>Fecha:</strong> {{ ejercicio.fecha }}<br>
+            <strong>Ejercicio:</strong> {{ ejercicio.ejercicio.nombre }}<br>
+            <strong>Repeticiones:</strong> {{ ejercicio.repeticiones }}<br>
+            <strong>Peso Utilizado:</strong> {{ ejercicio.peso }}<br>
+        </li>
+        {% endfor %}
+    </ul>
+    <footer>
+        <p>Pie de página &copy; 2023 Gabriela Pinzón</p>
+    </footer>
+</body>
+</html>

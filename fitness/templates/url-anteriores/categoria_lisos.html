@@ -1,0 +1,36 @@
+{% extends 'fitness/principal.html' %}
+{% load static%}
+
+{% block cabecera%}
+<br>
+<h1>CATEGORÍA DE EJERCICIOS PARA MÚSCULOS LISOS:</h1>
+{% endblock %}
+
+
+    <h1>Categorías de Ejercicios para Músculos Lisos</h1>
+
+{% block contenido %}
+<br>
+<ul>
+    {% for categoria in categoria_mostrar %}
+        <li>
+            <p><strong>Nombre:</strong> {{ categoria.nombre }}</p>
+            <p><strong>Descripción:</strong> {{ categoria.descripcion }}</p>
+            <p><strong>Grupo Muscular Principal:</strong> {{ categoria.grupo_muscular_principal }}</p>
+            <h3>EJERCICIOS:</h3>
+            <ul>
+                {% for ejercicio in categoria.ejercicios.all %}
+                    <li>
+                        <p><strong>Nombre:</strong> {{ ejercicio.nombre }}</p>
+                        <p><strong>Descripción:</strong> {{ ejercicio.descripcion }}</p>
+                        <p><strong>Tipo de Ejercicio:</strong> {{ ejercicio.tipo_ejercicio }}</p>
+                        <!-- Otros campos relacionados con Ejercicio -->
+                    </li>
+                    <hr>
+                {% endfor %}
+            </ul>
+        </li>
+        <hr>
+    {% endfor %}
+</ul>
+{% endblock %}

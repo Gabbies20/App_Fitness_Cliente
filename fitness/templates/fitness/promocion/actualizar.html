@@ -1,0 +1,28 @@
+{% extends "fitness/principal.html" %}
+
+{% block contenido %}
+
+{% load bootstrap5 %}
+<form action = "{% url 'promocion_editar' promocion.id %}" method = "post"> 
+    
+    {% csrf_token %} 
+
+    <div class="mb-4">
+        {% include 'fitness/promocion/create.html'%}
+</div>
+{% if formulario.descuento.help_text %}
+    <div class="form-text">
+        {{ formulario.descuento.help_text }}
+    </div>
+{% endif %}
+<div class="invalid-feedback">
+    {% for error in formulario.descuento.errors %} 
+        {{ error }}
+    {% endfor %}
+</div>
+    <button type="submit" class="btn btn-primary">Enviar</button>
+
+</form> 
+
+
+{% endblock %}

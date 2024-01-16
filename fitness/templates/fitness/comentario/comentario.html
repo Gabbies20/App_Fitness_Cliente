@@ -1,0 +1,49 @@
+{% load static %}
+<div class="card custom-card">
+    <div class="custom-card-body">
+        <h5 class="card-title"><a href="{% url 'mostrar_comentario' comentario.id %}"> {{ comentario.texto|capfirst }}</a></h5>
+        <h6 class="card-subtitle mb-2 text-muted">Usuario:{{ comentario.usuario }}</h6>
+        <p class="card-text">Entrenamiento:{{comentario.entrenamiento }}</p>
+        <p class="card-text">Texto:{{ comentario.texto}}</p>
+        <p class="card-text">Fecha:{{ comentario.fecha }}</p>
+       
+        <div>
+        </div>
+        {% load bootstrap_icons %}
+        <div class="btn-group custom-btn-group">
+            <button type="button" class="btn btn-outline-primary">
+                <a href="{% url 'comentario_editar' comentario.id %}">
+                    <span>{% bs_icon 'pencil' %}</span> 
+                </a>
+            </button>
+            
+            
+            <form action="{% url 'comentario_eliminar' comentario.id %}" method="post">
+                {% csrf_token %}
+                <button class="btn btn-danger" data-toggle="modal" data-target="#confirmDeleteModal" type="button">
+                    <span>{% bs_icon 'trash' %}</span> 
+                </button>
+                 <!-- Ventana modal -->
+                 <div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmar Eliminación</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p>¿Estás seguro de que deseas eliminar este comentario?</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                <button type="submit" class="btn btn-danger">Eliminar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
