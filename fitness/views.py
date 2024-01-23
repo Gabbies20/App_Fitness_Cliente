@@ -19,8 +19,10 @@ def index(request):
 
 def ejercicios_lista_api(request):
     #Obtenemos los ejercicios.
-    response = requests.get('http://127.0.0.1:8000/api/v1/ejercicios')
+    headers = {'Authorization':'Bearer 8LzrEEahgeoE6wsFHKKVRXZuQ3HFfy'}
+    response = requests.get('http://127.0.0.1:8000/api/v1/ejercicios',headers=headers)
     #Transformamos la respuesta de json.
     ejercicios = response.json()
     return render(request, 'fitness/lista_api.html',{'ejercicios_mostrar':ejercicios})
 
+#Debi acceder a la URL y no me muestra nada, de forma interna me esta dando un error 400. Ahora al crear 'headers' con su respectivo token me muestra ya los libros.
