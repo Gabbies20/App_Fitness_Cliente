@@ -30,7 +30,7 @@ def crear_cabecera():
 def ejercicios_lista_api(request):
     #Obtenemos los ejercicios.
     headers = {'Authorization':'Bearer TJ07ZlJIR91m6Ovmk6u76jlF39bo2U'}
-    response = requests.get('http://127.0.0.1:8000/api/v1/ejercicios',headers=headers)
+    response = requests.get('http://gabrielapinzon.pythonanywhere.com/api/v1/ejercicios',headers=headers)
     #Transformamos la respuesta de json.
     ejercicios = response.json()
     return render(request, 'fitness/lista_api.html',{'ejercicios_mostrar':ejercicios})
