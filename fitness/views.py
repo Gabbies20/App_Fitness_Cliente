@@ -24,13 +24,19 @@ def index(request):
     return render(request, 'fitness/index2.html')
 
 def crear_cabecera():
-    return {'Authorization': 'Bearer TJ07ZlJIR91m6Ovmk6u76jlF39bo2U'}
+    return {'Authorization': 'DXsWFMq1D1ZiXm45oo6RSaqx82mnLH'}
 
 
 def ejercicios_lista_api(request):
     #Obtenemos los ejercicios.
+<<<<<<< HEAD
     headers = {'Authorization':'Bearer TJ07ZlJIR91m6Ovmk6u76jlF39bo2U'}
     response = requests.get('http://gabrielapinzon.pythonanywhere.com/api/v1/ejercicios',headers=headers)
+=======
+    headers = {'Authorization':'Bearer DXsWFMq1D1ZiXm45oo6RSaqx82mnLH'}
+    response = requests.get('http://127.0.0.1:8000/api/v1/ejercicios',headers=headers)
+    #response = requests.get('http://gabrielapinzon.pythonanywhere.com/api/v1/ejercicios',headers=headers)
+>>>>>>> 785c0eae6bb4cee0c565ebbd628f9cfa04639a0d
     #Transformamos la respuesta de json.
     ejercicios = response.json()
     return render(request, 'fitness/lista_api.html',{'ejercicios_mostrar':ejercicios})
