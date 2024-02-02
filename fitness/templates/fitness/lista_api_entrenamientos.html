@@ -1,0 +1,45 @@
+{% extends 'fitness/principal.html' %}
+{% load static %}
+{% load bootstrap_icons %}  <!-- Debe ir antes de cualquier uso de las etiquetas de íconos -->
+
+{% block cabecera %}
+<br>
+  <h2 class="display-5">LISTA DE EJERCICIOS:</h2>
+{% endblock %}
+
+{% block contenido %}
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    {% block busqueda %}
+    <form method="get" action="">
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="Buscar ejercicio" name="textoBusqueda" value="">
+            <button class="btn btn-outline-secondary" type="submit">Buscar</button>
+        </div>
+    </form>
+
+    <div class="mt-3">
+        <label class="form-label">¿Desea realizar una búsqueda avanzada?</label>
+        <a href="" class="btn btn-outline-secondary">Búsqueda Avanzada</a>
+    </div>
+    <br>
+    {% endblock %}
+
+    <div class="row">
+        {% for entrenamientos in entrenamientos_mostrar %}
+            <div class="col-sm-4 mb-2">
+                {% include 'fitness/entrenamiento/entrenamiento.html' %}
+            </div>
+        {% empty %}
+            <h1>Lo sentimos pero no hay entrenamientos.</h1>
+        {% endfor %}
+    </div>
+{% endblock %}

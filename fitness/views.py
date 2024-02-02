@@ -13,8 +13,8 @@ from pathlib import Path
 
 #.ENV:
 #BASE_DIR = Path(__file__).resolve().parent.parent
+#environ.Env.read_env(os.path.join(BASE_DIR, '.env'),True)
 #env = environ.Env()
-#environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
 
 
@@ -27,9 +27,12 @@ def crear_cabecera():
     return {'Authorization': 'DXsWFMq1D1ZiXm45oo6RSaqx82mnLH'}
 
 
+"""
+VISTAS DE EJERCICIO:
+"""
 def ejercicios_lista_api(request):
     #Obtenemos los ejercicios.
-    headers = {'Authorization':'Bearer TJ07ZlJIR91m6Ovmk6u76jlF39bo2U'}
+    headers = {'Authorization':'Bearer KympJJ2dEtlQ3FVqTI9rpMV7m4rTFW'}
     response = requests.get('http://127.0.0.1:8000/api/v1/ejercicios',headers=headers)
     #response = requests.get('http://gabrielapinzon.pythonanywhere.com/api/v1/ejercicios',headers=headers)
     #Transformamos la respuesta de json.
@@ -90,6 +93,17 @@ def ejercicio_busqueda_avanzada(request):
         formulario = BusquedaEjercicioAvanzadaForm(None)
     return render(request, 'fitness/ejercicio/busqueda_avanzada.html',{"formulario":formulario})
     
+    
+"""
+   VISTAS ENTRENAMIENTOS: 
+"""
+def entrenamientos_lista_api(request):
+    #Obtenemos todos los entrenamientos.
+    response = request.get('http://127.0.0.1:8000/api/v1/entrenamientos')
+    #Transformamos la respuesta e JSON y lo cargo en un objeto python.
+    # La función json() es una conveniencia proporcionada por la biblioteca requests para convertir el contenido JSON de la respuesta en un objeto Python.
+    entrenamientos = response.json()
+    return render(request,'fitness/lista_api_entrenamientos.html',{'entrenamientos_mostrar':entrenamientos})
     
 
 
