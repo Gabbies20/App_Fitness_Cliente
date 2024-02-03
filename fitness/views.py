@@ -99,13 +99,13 @@ def ejercicio_busqueda_avanzada(request):
 """
 def entrenamientos_lista_api(request):
     #Obtenemos todos los entrenamientos.
-    response = request.get('http://127.0.0.1:8000/api/v1/entrenamientos')
+    headers = {'Authorization':'Bearer KympJJ2dEtlQ3FVqTI9rpMV7m4rTFW'}
+    response = requests.get('http://127.0.0.1:8000/api/v1/entrenamientos',headers=headers)
     #Transformamos la respuesta e JSON y lo cargo en un objeto python.
     # La función json() es una conveniencia proporcionada por la biblioteca requests para convertir el contenido JSON de la respuesta en un objeto Python.
     entrenamientos = response.json()
     return render(request,'fitness/lista_api_entrenamientos.html',{'entrenamientos_mostrar':entrenamientos})
     
-
 
 
 

@@ -4,7 +4,7 @@
 
 {% block cabecera %}
 <br>
-  <h2 class="display-5">LISTA DE EJERCICIOS:</h2>
+  <h2 class="display-5">LISTA DE ENTRENAMIENTOS:</h2>
 {% endblock %}
 
 {% block contenido %}
@@ -34,7 +34,7 @@
     {% endblock %}
 
     <div class="row">
-        {% for entrenamientos in entrenamientos_mostrar %}
+        {% for entrenamiento in entrenamientos_mostrar %}
             <div class="col-sm-4 mb-2">
                 {% include 'fitness/entrenamiento/entrenamiento.html' %}
             </div>
