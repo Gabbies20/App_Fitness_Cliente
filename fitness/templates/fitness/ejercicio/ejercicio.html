@@ -6,12 +6,12 @@
         <h5 class="card-title"><a href=""> {{ ejercicio.nombre|capfirst }}</a></h5>
         <h6 class="card-subtitle mb-2 text-muted">Nombre:{{ ejercicio.nombre }}</h6>
         <p class="card-text">Descripción:{{ ejercicio.descripcion }}</p>
-        <p class="card-text">Tipo de ejercicio:{{ ejercicio.tipo_ejercicio }}</p>
+        <p class="card-text">Tipo: {{ ejercicio.tipo_ejercicio }}</p>
         <div>
             <p class="card-text" >Usuarios:</p>
             <ul >
-                {% for usuario in ejercicio.usuarios.all %}
-                    <li class="card-text" >{{ usuario.nombre }}</li>
+                {% for usuario in ejercicio.usuarios %}
+                    <li class="card-text" >{{ usuario.usuario.username }}</li>
                 {% endfor%}
             </ul>
         </div>
