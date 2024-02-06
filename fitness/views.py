@@ -33,13 +33,14 @@ VISTAS DE EJERCICIO:
 def ejercicios_lista_api(request):
     #Obtenemos los ejercicios.
     headers = {'Authorization':'Bearer KympJJ2dEtlQ3FVqTI9rpMV7m4rTFW'}
+    #Debi acceder a la URL y no me muestra nada, de forma interna me esta dando un error 400. Ahora al crear 'headers' con su respectivo token me muestra ya los ejercicios.
     response = requests.get('http://127.0.0.1:8000/api/v1/ejercicios',headers=headers)
     #response = requests.get('http://gabrielapinzon.pythonanywhere.com/api/v1/ejercicios',headers=headers)
     #Transformamos la respuesta de json.
     ejercicios = response.json()
     return render(request, 'fitness/lista_api.html',{'ejercicios_mostrar':ejercicios})
 
-#Debi acceder a la URL y no me muestra nada, de forma interna me esta dando un error 400. Ahora al crear 'headers' con su respectivo token me muestra ya los ejercicios.
+
 def ejercicio_busqueda_simple(request):
     formulario = BusquedaEjercicioForm(request.GET)
     
@@ -56,6 +57,7 @@ def ejercicio_busqueda_simple(request):
         return redirect(request.META["HTTP_REFERER"])
     else:
         return redirect("index")
+
 
 def ejercicio_busqueda_avanzada(request):
     if(len(request.GET) > 0):
