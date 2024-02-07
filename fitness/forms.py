@@ -26,3 +26,5 @@ class BusquedaEjercicioAvanzadaForm(forms.Form):
     textoBusqueda = forms.CharField(required=False)
     descripcion = forms.CharField(widget=forms.Textarea, required=False)
 
+class BusquedaEntrenamientoForm(forms.Form):
+    textoBusqueda = forms.CharField(required=True)

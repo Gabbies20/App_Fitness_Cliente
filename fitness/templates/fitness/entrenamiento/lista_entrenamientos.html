@@ -19,7 +19,7 @@
     {% endif %}
 
     {% block busqueda %}
-    <form method="get" action="{% url 'entrenamiento_buscar' %}">
+    <form method="get" action="{% url 'entrenamiento_busqueda_simple' %}">
         <div class="input-group mb-3">
             <input type="text" class="form-control" placeholder="Buscar ejercicio" name="textoBusqueda" value="">
             <button class="btn btn-outline-secondary" type="submit">Buscar</button>

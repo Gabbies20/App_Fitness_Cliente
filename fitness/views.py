@@ -52,7 +52,7 @@ def ejercicio_busqueda_simple(request):
             params = formulario.cleaned_data
         )
         ejercicios = response.json()
-        return render(request,'fitness/ejercicio/lista_mejorada.html',{'ejercicios_mostrar':ejercicios})
+        return render(request,'fitness/ejercicio/lista_busqueda.html',{'ejercicios_mostrar':ejercicios})
     if("HTTP_REFERER" in request.META):
         return redirect(request.META["HTTP_REFERER"])
     else:
@@ -110,13 +110,103 @@ def entrenamientos_lista_api(request):
     
 
 
-
-
-
-
-
-
-
+def entrenamiento_busqueda_simple(request):
+    formulario = BusquedaEntrenamientoForm(request.GET)
+    if formulario.is_valid():
+        headers = crear_cabecera()
+        response = requests.get('http://127.0.0.1:8000/api/v1/entrenamientos/busqueda_simple',
+        headers=headers,
+        params=formulario.cleaned_data
+        )
+        entrenamientos = response.json()
+        return render(request,'fitness/entrenamiento/lista_busqueda.html',{'entrenamientos_mostrar':entrenamientos})
+    if("HTTP_REFERER" in request.META):
+        return redirect(request.META["HTTP_REFERER"])
+    else:
+        return redirect("index")
+"""
+def entrenamiento_busqueda_simple(request):
+    formulario = BusquedaEntrenamientoForm(request.GET)
+    if formulario.is_valid():
+        headers = crear_cabecera()
+        response = requests.get('http://127.0.0.1:8000/api/v1/entrenamientos/busqueda_simple',
+                                headers=headers,
+                                params={'textoBusqueda': formulario.data.get('textoBusqueda')}
+                                )
+        entrenamientos = response.json()
+        
+        # Obtener los nombres de los ejercicios asociados a cada entrenamiento
+        for entrenamiento in entrenamientos:
+            ejercicios = []
+            if 'ejercicios' in entrenamiento:  # Verificar si 'ejercicios' está presente en el diccionario
+                for entrenamiento_ejercicio in entrenamiento['ejercicios']:
+                    if 'ejercicio' in entrenamiento_ejercicio:  # Verificar si 'ejercicio' está presente en el diccionario
+                        ejercicios.append(entrenamiento_ejercicio['ejercicio']['nombre'])
+                entrenamiento['nombres_ejercicios'] = ejercicios
+        
+        return render(request, 'fitness/entrenamiento/lista_busqueda.html', {'entrenamientos_mostrar': entrenamientos})
+    if "HTTP_REFERER" in request.META:
+        return redirect(request.META["HTTP_REFERER"])
+    else:
+        return redirect("index")
+"""
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
 #Páginas de Error
 def mi_error_404(request,exception=None):

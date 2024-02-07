@@ -1,0 +1,28 @@
+{% extends "fitness/principal.html" %}
+{% block contenido %}
+    <h1 class="display-3">Lista de E.Libros g</h1>
+
+    <div class="row">
+        {% for ejercicio in entrenamientos_mostrar %}
+            <div class="col-sm-4 mb-2">
+               
+                <p>nombre: {{ejercicio.nombre}}</p>
+                <p>descripcion: {{ejercicio.descripcion}}</p>
+                <p>tipo ejercicio: {{ejercicio.tipo_ejercicio}}</p>
+                <p>Usuarios:</p>
+                <ul>
+                {% for usuario in ejercicio.usuarios %}
+                    <li>{{ usuario.nombre }}</li>
+                {% endfor %}
+                </ul>
+            </div>
+        {% empty %}
+            <h1>Lo sentimos pero no hay libros</h1>
+        {% endfor %}
+    </div>
+{% endblock %}  
+
+
+
+
+
