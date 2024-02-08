@@ -155,15 +155,15 @@ def entrenamiento_busqueda_simple(request):
     
 def entrenamiento_busqueda_avanzada(request):
     if(len(request.GET)>0):
-         formulario = BusquedaEntrenamientoAvanzadaForm(request.GET)
+        formulario = BusquedaEntrenamientoAvanzadaForm(request.GET)
         try:
-             headers = crear_cabecera()
-             response = requests.get(
+            headers = crear_cabecera()
+            response = requests.get(
                  'http://127.0.0.1:8000/api/v1/libros/busqueda_avanzada',
                  headers=headers,
                  params = formulario.data
              )
-             if(response.status_code == requests.codes.ok):
+            if(response.status_code == requests.codes.ok):
                  entrenamientos = response.json()
                  return render(request,'fitness/entrenamiento/busqueda_avanzada.html',
                                {'entrenamientos_mostrar':entrenamientos})
@@ -185,7 +185,7 @@ def entrenamiento_busqueda_avanzada(request):
             print(f'Ocurrió un error: {err}')
             return mi_error_500(request)
     else:
-        formulario = BusquedaAvanzadaLibroForm(None)
+        formulario = BusquedaEntrenamientoAvanzadaForm(None)
     return render(request, 'libro/busqueda_avanzada.html',{"formulario":formulario})
     
     
