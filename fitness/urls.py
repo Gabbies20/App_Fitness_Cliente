@@ -10,4 +10,5 @@ urlpatterns = [
     #ENTRENAMIENTOS:
     path('lista_entrenamientos',views.entrenamientos_lista_api,name='lista_entrenamientos'),
     path('entrenamientos/busqueda',views.entrenamiento_busqueda_simple,name='entrenamiento_busqueda_simple'),
+    path('entrenamientos/busqueda_avanzada',views.entrenamiento_busqueda_avanzada,name='ejercicio_busqueda_avanzada'),
 ]

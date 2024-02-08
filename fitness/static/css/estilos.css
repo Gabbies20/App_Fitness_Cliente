@@ -108,3 +108,8 @@ a.btn.btn-outline-dangerous {
 }
 
 /* Puedes agregar estilos adicionales para otros campos si es necesario */
+
+/*Color amarillo menu*/
+.bg-lightyellow {
+    background-color: rgb(243, 243, 152);
+}

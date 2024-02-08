@@ -28,3 +28,25 @@ class BusquedaEjercicioAvanzadaForm(forms.Form):
 
 class BusquedaEntrenamientoForm(forms.Form):
     textoBusqueda = forms.CharField(required=True)
+    
+
+class BusquedaEntrenamientoAvanzadaForm(forms.Form):
+    textoBusqueda = forms.CharField(required=True)
+    
+    TIPOS= [
+        ('AER','Aerobico'),
+        ('FUE', 'Fuerza o Anaerobico'),
+        ('FUN','Funcional'),
+        ('HIT','Hit'),
+        ('POT','Potencia'),
+    ]
+    
+    tipos = forms.MultipleChoiceField(choices=TIPOS,
+                                    required=False,
+                                    widget=forms.CheckboxSelectMultiple)
+    
+    usuario = forms.CharField(required=True)
+    nombre = forms.CharField(required=True)
+    descripcion = forms.Textarea(required=True)
+    duracion = forms.IntegerField()
+    
