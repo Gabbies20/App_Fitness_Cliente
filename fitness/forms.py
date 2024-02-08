@@ -45,7 +45,7 @@ class BusquedaEntrenamientoAvanzadaForm(forms.Form):
                                     required=False,
                                     widget=forms.CheckboxSelectMultiple)
     
-    usuario = forms.CharField(required=True)
+    #usuario = forms.CharField(required=True)
     nombre = forms.CharField(required=True)
     descripcion = forms.Textarea(required=True)
     duracion = forms.IntegerField()
