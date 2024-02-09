@@ -20,7 +20,7 @@
     {% endif %}
 
     {% block busqueda %}
-    <form method="get" action="{% url 'comentario_buscar' %}">
+    <form method="get" action="{% url 'comentario_busqueda_simple'%}">
         <div class="mb-3">
             <label for="search-query" class="form-label">¿Desea buscar un comentario?</label>
             <div class="input-group">
@@ -38,7 +38,7 @@
 {% endblock %}
 
     <div class="row">
-        {% for comentario in mostrar_comentarios%}
+        {% for comentario in comentarios_mostrar %}
             <div class="col-sm-4 mb-2">
                 {% include 'fitness/comentario/comentario.html' %}
             </div>

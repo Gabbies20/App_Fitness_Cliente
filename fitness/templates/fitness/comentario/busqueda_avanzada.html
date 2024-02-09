@@ -13,15 +13,12 @@
         {% csrf_token %}
 
         <div class="mb-4">
-            {% bootstrap_field formulario.texto_busqueda show_label=True %}
+            {% bootstrap_field formulario.textoBusqueda show_label=True %}
         </div>   
 
         <div class="mb-4">
-            {% bootstrap_field formulario.fecha%}
+            {% bootstrap_field formulario.fecha show_label=True%}
         </div>
-
-
-        
         {% buttons %}
             <button type="submit" class="btn btn-primary" >Enviar</button>
         {% endbuttons %}

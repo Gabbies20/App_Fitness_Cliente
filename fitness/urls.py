@@ -10,5 +10,9 @@ urlpatterns = [
     #ENTRENAMIENTOS:
     path('lista_entrenamientos',views.entrenamientos_lista_api,name='lista_entrenamientos'),
     path('entrenamientos/busqueda',views.entrenamiento_busqueda_simple,name='entrenamiento_busqueda_simple'),
-    path('entrenamientos/busqueda_avanzada',views.entrenamiento_busqueda_avanzada,name='ejercicio_busqueda_avanzada'),
+    path('entrenamientos/busqueda_avanzada',views.entrenamiento_busqueda_avanzada,name='entrenamiento_busqueda_avanzada'),
+    #COMENTARIOS:
+    path('lista_comentarios',views.comentarios_lista_api,name='lista_comentarios'),
+    path('comentarios/busqueda',views.comentario_busqueda_simple,name='comentario_busqueda_simple'),
+    path('comentarios/busqueda_avanzada',views.comentario_busqueda_avanzada,name='comentario_busqueda_avanzada'),
 ]

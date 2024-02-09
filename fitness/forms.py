@@ -4,28 +4,18 @@ from .models import *
 from datetime import date
 import datetime
 
-
+#EJERCICIOS:
 class BusquedaEjercicioForm(forms.Form):
     textoBusqueda = forms.CharField(required=True)
-    
-
-
-    """class Ejercicio(models.Model):
-    nombre = models.CharField(max_length=100)
-    descripcion = models.TextField()
-    tipo_ejercicio = models.CharField(max_length=20)
-    usuarios = models.ManyToManyField(Usuario, through='HistorialEjercicio')
-    #usuarios_votos = models.ManyToManyField(Usuario,through='Voto',related_name='usuarios_votos')
-
-    def __str__(self) -> str:
-        return self.nombre
-    """
+ 
 class BusquedaEjercicioAvanzadaForm(forms.Form):
     textoBusqueda = forms.CharField(required=False)
     
     textoBusqueda = forms.CharField(required=False)
     descripcion = forms.CharField(widget=forms.Textarea, required=False)
 
+
+#ENTRENAMIENTOS:
 class BusquedaEntrenamientoForm(forms.Form):
     textoBusqueda = forms.CharField(required=True)
     
@@ -46,7 +36,31 @@ class BusquedaEntrenamientoAvanzadaForm(forms.Form):
                                     widget=forms.CheckboxSelectMultiple)
     
     #usuario = forms.CharField(required=True)
-    nombre = forms.CharField(required=True)
-    descripcion = forms.Textarea(required=True)
+    nombre = forms.CharField(required=False)
+    descripcion = forms.CharField(widget=forms.Textarea, required=False)
     duracion = forms.IntegerField()
+    
+"""class BusquedaAvanzadaEntrenamientoForm(forms.Form):
+    textoBusqueda = forms.CharField(required=False)
+    tipos = forms.MultipleChoiceField(choices =Entrenamiento.TIPOS,
+                                      required=False,
+                                      widget=forms.CheckboxSelectMultiple())
+    duracion = forms.IntegerField(
+        required=False,
+        widget=forms.NumberInput(attrs={'min': 1, 'max': 100, 'class': 'tu-clase-css'})
+    )
+"""
+
+#COMENTARIOS:
+class BusquedaComentarioForm(forms.Form):
+    textoBusqueda = forms.CharField(required=True)
+    
+
+class BusquedaComentarioAvanzadoForm(forms.Form):
+    textoBusqueda = forms.CharField(required=True)
+    fecha = forms.DateField(label='Fecha:',
+                            required=False,
+                            widget=forms.SelectDateWidget(years=range(1950,2025)))
+
+
     

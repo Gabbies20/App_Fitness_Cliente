@@ -1,5 +1,6 @@
 from django.shortcuts import render,redirect,HttpResponse
 from .forms import *
+from django.http import Http404
 # Create your views here.
 #Vistas API
 
@@ -154,30 +155,88 @@ def entrenamiento_busqueda_simple(request):
     
     
 def entrenamiento_busqueda_avanzada(request):
-    if(len(request.GET)>0):
-        formulario = BusquedaEntrenamientoAvanzadaForm(request.GET)
+    formulario = BusquedaEntrenamientoAvanzadaForm(request.GET or None)
+
+    if request.method == 'GET' and formulario.is_valid():
         try:
             headers = crear_cabecera()
             response = requests.get(
-                 'http://127.0.0.1:8000/api/v1/libros/busqueda_avanzada',
-                 headers=headers,
-                 params = formulario.data
-             )
+                'http://127.0.0.1:8000/api/v1/entrenamientos/busqueda_avanzada',
+                headers=headers,
+                params=formulario.cleaned_data
+            )
+            response.raise_for_status()
+            entrenamientos = response.json()
+            return render(request, 'fitness/entrenamiento/busqueda_avanzada.html', {'entrenamientos_mostrar': entrenamientos})
+        except HTTPError as http_err:
+            print(f'Hubo un error HTTP: {http_err}')
+            if response.status_code == 400:
+                errores = response.json()
+                for campo, mensaje in errores.items():
+                    formulario.add_error(campo, mensaje)
+            else:
+                raise Http404("No se pudo completar la solicitud")
+        except Exception as err:
+            print(f'Ocurrió un error: {err}')
+            raise Http404("No se pudo completar la solicitud")
+
+    return render(request, 'fitness/entrenamiento/busqueda_avanzada.html', {'formulario': formulario})
+    
+    
+
+"""COMENTARIOS"""
+def comentarios_lista_api(request):
+    headers = {'Authorization':'Bearer KympJJ2dEtlQ3FVqTI9rpMV7m4rTFW'}
+    response = requests.get('http://127.0.0.1:8000/api/v1/comentarios',headers=headers)
+    comentarios = response.json()
+    return render(request, 'fitness/comentario/lista_comentarios.html',{'comentarios_mostrar':comentarios})
+
+
+
+def comentario_busqueda_simple(request):
+    formulario = BusquedaComentarioForm(request.GET)
+    
+    if formulario.is_valid():
+        headers = crear_cabecera()
+        response = requests.get(
+            'http://127.0.0.1:8000/api/v1/comentarios/busqueda_simple',
+            headers = headers,
+            params = formulario.cleaned_data
+        )
+        comentarios = response.json()
+        return render(request,'fitness/comentario/lista_busqueda.html',{'comentarios_mostrar':comentarios})
+    if("HTTP_REFERER" in request.META):
+        return redirect(request.META["HTTP_REFERER"])
+    else:
+        return redirect("index")
+    
+    
+def comentario_busqueda_avanzada(request):
+    if(len(request.GET) > 0):
+        formulario = BusquedaComentarioAvanzadoForm(request.GET)
+        
+        try:
+            headers = crear_cabecera()
+            response = requests.get(
+                'http://127.0.0.1:8000/api/v1/comentario/busqueda_avanzada',
+                headers=headers,
+                params=formulario.data
+            )             
             if(response.status_code == requests.codes.ok):
-                 entrenamientos = response.json()
-                 return render(request,'fitness/entrenamiento/busqueda_avanzada.html',
-                               {'entrenamientos_mostrar':entrenamientos})
+                ejercicios = response.json()
+                return render(request, 'fitness/comentario/lista_mejorada.html',
+                              {"ejercicios_mostrar":ejercicios})
             else:
                 print(response.status_code)
                 response.raise_for_status()
         except HTTPError as http_err:
             print(f'Hubo un error en la petición: {http_err}')
-            if(response.status_code == 400):
+            if(http_err == 400):
                 errores = response.json()
                 for error in errores:
                     formulario.add_error(error,errores[error])
                 return render(request, 
-                            'libro/busqueda_avanzada.html',
+                            'fitness/comentario/busqueda_avanzada.html',
                             {"formulario":formulario,"errores":errores})
             else:
                 return mi_error_500(request)
@@ -185,16 +244,8 @@ def entrenamiento_busqueda_avanzada(request):
             print(f'Ocurrió un error: {err}')
             return mi_error_500(request)
     else:
-        formulario = BusquedaEntrenamientoAvanzadaForm(None)
-    return render(request, 'libro/busqueda_avanzada.html',{"formulario":formulario})
-    
-    
-    
-    
-    
-    
-    
-    
+        formulario = BusquedaComentarioAvanzadoForm(None)
+    return render(request, 'fitness/comentario/busqueda_avanzada.html',{"formulario":formulario})
     
     
     
