@@ -3,6 +3,7 @@ from django.forms import ModelForm
 from .models import *
 from datetime import date
 import datetime
+from.helper import helper
 
 #EJERCICIOS:
 class BusquedaEjercicioForm(forms.Form):
@@ -14,7 +15,24 @@ class BusquedaEjercicioAvanzadaForm(forms.Form):
     textoBusqueda = forms.CharField(required=False)
     descripcion = forms.CharField(widget=forms.Textarea, required=False)
 
-
+class EjercicioForm(forms.Form):
+    nombre = forms.CharField(required=True)
+    descripcion = forms.CharField(widget=forms.Textarea, required=True)
+    tipo_ejercicio = forms.CharField(required=True)
+    
+    def ___init__(self, *args, **kwargs):
+        super(EjercicioForm,self).__init__(*args,**kwargs)
+        
+        usuariosDisponibles = helper.obtener_usuarios_select()
+        self.fields['usuarios'] = forms.ChoiceField(
+            choices=usuariosDisponibles,
+            widget=forms.Select,
+            required=True,
+        )
+        
+        
+    
+    
 #ENTRENAMIENTOS:
 class BusquedaEntrenamientoForm(forms.Form):
     textoBusqueda = forms.CharField(required=True)

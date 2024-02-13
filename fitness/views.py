@@ -1,13 +1,12 @@
-from django.shortcuts import render,redirect,HttpResponse
+from django.shortcuts import render,redirect
 from .forms import *
-from django.http import Http404
-# Create your views here.
-#Vistas API
-
+from django.contrib import messages
+from .helper import helper
+import json
+from requests.exceptions import HTTPError
 
 import requests
-from requests.exceptions import HTTPError
-#import environ
+import environ
 import os
 from pathlib import Path
 
@@ -97,6 +96,47 @@ def ejercicio_busqueda_avanzada(request):
     return render(request, 'fitness/ejercicio/busqueda_avanzada.html',{"formulario":formulario})
     
     
+def ejercicio_crear(request):
+    
+    if(request.method == 'POST'):
+        try:
+            formulario = EjercicioForm(request.POST)
+            headers = {
+                'Authorization': 'Bearer' + env('TOKEN_CLIENTE'),
+                'Content-Type':'application/json'
+            }   
+            datos = formulario.data.copy()
+            datos['usuarios'] =request.POST.getList('autores')
+        
+            response = requests.post(
+                'http://127.0.0.1:8000/api/v1/libros/crear',
+                headers=headers,
+                data=json.dumps(datos)
+            )
+            if(response.status_code == requests.codes.ok):
+                return redirect("lista_ejercicios")
+            else:
+                print(response.status_code)
+                response.raise_for_status()
+        except HTTPError as http_err:
+            print(f'Hubo un error en la petición: {http_err}')
+            if(response.status_code == 400):
+                errores = response.json()
+                for error in errores:
+                    formulario.add_error(error,errores[error])
+                return render(request, 
+                            'fitness/ejercicio/create.html',
+                            {"formulario":formulario})
+            else:
+                return mi_error_500(request)
+        except Exception as err:
+            print(f'Ocurrió un error: {err}')
+            return mi_error_500(request)
+        
+    else:
+         formulario = EjercicioForm(None)
+    return render(request, 'fitness/ejercicio/create.html',{"formulario":formulario})
+
 """
    VISTAS ENTRENAMIENTOS: 
 """
