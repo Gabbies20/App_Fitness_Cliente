@@ -15,13 +15,30 @@
       <div class="col-md-6">
           <div class="card">
               <div class="card-body">
-                  <form action="{% url 'create' %}" method="post">
+                  <form action="{% url 'ejercicio_crear' %}" method="post">
                       {% csrf_token %}
                       {% bootstrap_form formulario %}
                       <br>
                       {% buttons %}
                       <button type="submit" class="btn btn-secondary">Enviar</button>
                       {% endbuttons %}
+                      <!--<div class="mb-4">
+                        {% bootstrap_field formulario.nombre show_label=True %}
+                    </div>
+                
+                    <div class="mb-4">
+                        {% bootstrap_field formulario.descripcion show_label=True %}
+                    </div>
+                    
+                    <div class="mb-4">
+                        {% bootstrap_field formulario.tipo_ejercicio show_label=True %}
+                    </div>
+                    <div class="mb-4">
+                        {% bootstrap_field formulario.usuarios show_label=True %}
+                    </div> -->
+                    {% buttons %}
+                    <button type="submit" class="btn btn-primary">Enviar</button>
+                    {% endbuttons %}
                   </form>
               </div>
           </div>

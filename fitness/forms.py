@@ -20,7 +20,7 @@ class EjercicioForm(forms.Form):
     descripcion = forms.CharField(widget=forms.Textarea, required=True)
     tipo_ejercicio = forms.CharField(required=True)
     
-    def ___init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs):
         super(EjercicioForm,self).__init__(*args,**kwargs)
         
         usuariosDisponibles = helper.obtener_usuarios_select()
@@ -30,9 +30,6 @@ class EjercicioForm(forms.Form):
             required=True,
         )
         
-        
-    
-    
 #ENTRENAMIENTOS:
 class BusquedaEntrenamientoForm(forms.Form):
     textoBusqueda = forms.CharField(required=True)

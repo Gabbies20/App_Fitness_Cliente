@@ -11,11 +11,10 @@ import os
 from pathlib import Path
 
 
-#.ENV:
-#BASE_DIR = Path(__file__).resolve().parent.parent
-#environ.Env.read_env(os.path.join(BASE_DIR, '.env'),True)
-#env = environ.Env()
-
+#ENV:
+BASE_DIR = Path(__file__).resolve().parent.parent
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'),True)
+env = environ.Env()
 
 
 # Create your views here.
@@ -102,14 +101,14 @@ def ejercicio_crear(request):
         try:
             formulario = EjercicioForm(request.POST)
             headers = {
-                'Authorization': 'Bearer' + env('TOKEN_CLIENTE'),
+                'Authorization': 'Bearer ' + env('TOKEN_CLIENTE'),
                 'Content-Type':'application/json'
             }   
             datos = formulario.data.copy()
-            datos['usuarios'] =request.POST.getList('autores')
+            datos['usuarios'] =request.POST.getList('usuarios')
         
             response = requests.post(
-                'http://127.0.0.1:8000/api/v1/libros/crear',
+                'http://127.0.0.1:8000/api/v1/ejercicios/crear',
                 headers=headers,
                 data=json.dumps(datos)
             )
