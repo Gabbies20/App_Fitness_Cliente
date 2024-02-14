@@ -4,7 +4,6 @@ from django.contrib import messages
 from .helper import helper
 import json
 from requests.exceptions import HTTPError
-
 import requests
 import environ
 import os
@@ -96,7 +95,6 @@ def ejercicio_busqueda_avanzada(request):
     
     
 def ejercicio_crear(request):
-    
     if(request.method == 'POST'):
         try:
             formulario = EjercicioForm(request.POST)
@@ -105,7 +103,7 @@ def ejercicio_crear(request):
                 'Content-Type':'application/json'
             }   
             datos = formulario.data.copy()
-            datos['usuarios'] =request.POST.getList('usuarios')
+            datos['usuarios'] =request.POST.getlist('usuarios')
         
             response = requests.post(
                 'http://127.0.0.1:8000/api/v1/ejercicios/crear',
@@ -113,12 +111,12 @@ def ejercicio_crear(request):
                 data=json.dumps(datos)
             )
             if(response.status_code == requests.codes.ok):
-                return redirect("lista_ejercicios")
+                return redirect("ejercicios_lista_api")
             else:
                 print(response.status_code)
                 response.raise_for_status()
         except HTTPError as http_err:
-            print(f'Hubo un error en la petición: {http_err}')
+            print(f'Hubo un error en la peticiiiiiiiiiiión: {http_err}')
             if(response.status_code == 400):
                 errores = response.json()
                 for error in errores:
