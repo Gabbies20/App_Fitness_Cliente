@@ -19,7 +19,7 @@ env = environ.Env()
 # Create your views here.
 def index(request):
   
-    return render(request, 'fitness/index2.html')
+      return render(request, 'fitness/index2.html')
 
 def crear_cabecera():
     return {'Authorization': 'DXsWFMq1D1ZiXm45oo6RSaqx82mnLH'}
