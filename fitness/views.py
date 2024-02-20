@@ -189,7 +189,7 @@ def ejercicio_editar(request, ejercicio_id):
                 print(f'Ocurrió un error: {err}')
                 return mi_error_500(request)
         
-
+    return render(request, 'fitness/ejercicio/create.html',{"formulario":formulario})
 
 
 """
