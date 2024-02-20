@@ -18,7 +18,7 @@
         {% load bootstrap_icons %}
         <div class="btn-group custom-btn-group">
             <button type="button" class="btn btn-outline-primary">
-                <a href="">
+                <a href="{% url 'ejercicio_editar' ejercicio.id %}">
                     <span>{% bs_icon 'pencil' %}</span> 
                 </a>
             </button>

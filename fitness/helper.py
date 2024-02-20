@@ -20,3 +20,10 @@ class helper:
         for usuario in usuarios:
             lista_usuarios.append((usuario['id'],usuario['username']))
         return lista_usuarios
+    
+    def obtener_ejercicio(id):
+        #Obtenemos todos los ejercicios.
+        headers = {'Authorization':'Bearer '+env('TOKEN_CLIENTE')}
+        response = requests.get('http://127.0.0.1:8000/api/v1/ejercicio/'+str(id),headers=headers)
+        ejercicio = response.json()
+        return ejercicio

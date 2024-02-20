@@ -19,7 +19,7 @@ env = environ.Env()
 # Create your views here.
 def index(request):
   
-      return render(request, 'fitness/index2.html')
+        return render(request, 'fitness/index2.html')
 
 def crear_cabecera():
     return {'Authorization': 'DXsWFMq1D1ZiXm45oo6RSaqx82mnLH'}
@@ -111,7 +111,7 @@ def ejercicio_crear(request):
                 data=json.dumps(datos)
             )
             if(response.status_code == requests.codes.ok):
-                return redirect("ejercicios_lista_api")
+                return redirect('lista')
             else:
                 print(response.status_code)
                 response.raise_for_status()
@@ -133,6 +133,64 @@ def ejercicio_crear(request):
     else:
          formulario = EjercicioForm(None)
     return render(request, 'fitness/ejercicio/create.html',{"formulario":formulario})
+
+def ejercicio_obtener(request, ejercicio_id):
+    ejercicio = helper.obtener_ejercicio(ejercicio_id)
+    return render(request, 'fitness/ejercicio/ejercicio_mostrar.html',{'ejercicio':ejercicio})
+
+def ejercicio_editar(request, ejercicio_id):
+    datosFormulario = None
+    
+    if request.method == 'POST':
+        datosFormulario = request.POST
+        
+    ejercicio = helper.obtener_ejercicio(ejercicio_id)
+    formulario = EjercicioForm(datosFormulario,
+                                initial ={
+                                    'nombre': ejercicio['nombre'],
+                                    'descripcion': ejercicio['descripcion'],
+                                    'tipo_ejercicio': ejercicio['tipo_ejercicio'],
+                                    'usuarios':[usuario['usuarios']['id'] for usuario in ejercicio['usuarios']]
+                                })
+    
+    
+    if (request.method == "POST"):
+            try:
+                formulario = EjercicioForm(request.POST)
+                headers = {
+                    'Authorization': 'Bearer ' + env('TOKEN_CLIENTE'),
+                    'Content-Type':'application/json'
+                }   
+                datos = formulario.data.copy()
+                datos['usuarios'] =request.POST.getlist('usuarios')
+            
+                response = requests.put(
+                    'http://127.0.0.1:8000/api/v1/ejercicios/editar/'+id(ejercicio_id),
+                    headers=headers,
+                    data=json.dumps(datos)
+                )
+                if(response.status_code == requests.codes.ok):
+                    return redirect('lista')
+                else:
+                    print(response.status_code)
+                    response.raise_for_status()
+            except HTTPError as http_err:
+                print(f'Hubo un error en la petición: {http_err}')
+                if(response.status_code == 400):
+                    errores = response.json()
+                    for error in errores:
+                        formulario.add_error(error,errores[error])
+                    return render(request, 
+                                'fitness/ejercicio/create.html',
+                                {"formulario":formulario})
+                else:
+                    return mi_error_500(request)
+            except Exception as err:
+                print(f'Ocurrió un error: {err}')
+                return mi_error_500(request)
+        
+
+
 
 """
    VISTAS ENTRENAMIENTOS: 
