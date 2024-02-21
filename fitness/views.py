@@ -18,11 +18,13 @@ env = environ.Env()
 
 # Create your views here.
 def index(request):
-  
-        return render(request, 'fitness/index2.html')
+    return render(request, 'fitness/index2.html')
 
 def crear_cabecera():
-    return {'Authorization': 'DXsWFMq1D1ZiXm45oo6RSaqx82mnLH'}
+    return {
+        'Authorization': 'Bearer '+env("TOKEN_ADMIN"),
+        "Content-Type": "application/json"
+    }
 
 
 """
@@ -30,7 +32,7 @@ VISTAS DE EJERCICIO:
 """
 def ejercicios_lista_api(request):
     #Obtenemos los ejercicios.
-    headers = {'Authorization':'Bearer KympJJ2dEtlQ3FVqTI9rpMV7m4rTFW'}
+    headers = {'Authorization':'Bearer sem6IlXzR1ER9DcjyLd0FOVuwRurdk'}
     #Debi acceder a la URL y no me muestra nada, de forma interna me esta dando un error 400. Ahora al crear 'headers' con su respectivo token me muestra ya los ejercicios.
     response = requests.get('http://127.0.0.1:8000/api/v1/ejercicios',headers=headers)
     #response = requests.get('http://gabrielapinzon.pythonanywhere.com/api/v1/ejercicios',headers=headers)
