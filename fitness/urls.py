@@ -20,4 +20,9 @@ urlpatterns = [
     path('lista_comentarios',views.comentarios_lista_api,name='lista_comentarios'),
     path('comentarios/busqueda',views.comentario_busqueda_simple,name='comentario_busqueda_simple'),
     path('comentarios/busqueda_avanzada',views.comentario_busqueda_avanzada,name='comentario_busqueda_avanzada'),
+    
+    #REGISTRO - LOGIN Y LOGOUT:
+    path('registrar', views.registrar_usuario, name='registrar_usuario'),
+    path('login', views.login, name='login'),
+    path('logout', views.logout, name='logout'),
 ]

@@ -514,7 +514,16 @@ def comentario_busqueda_avanzada(request):
     
     
     
-    
+def registrar_usuario(request):
+    pass
+
+
+def login(request):
+    pass
+
+
+def logout(request):
+    pass
     
     
     
