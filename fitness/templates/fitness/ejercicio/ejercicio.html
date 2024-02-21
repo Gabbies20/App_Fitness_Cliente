@@ -3,7 +3,7 @@
 <scrpt src="{% static 'javascript/principal.js' %}"></script>
 <div class="card custom-card">
     <div class="custom-card-body">
-        <h5 class="card-title"><a href=""> {{ ejercicio.nombre|capfirst }}</a></h5>
+        <h5 class="card-title"><a href="ejercicio_mostrar" ejercicio.id> {{ ejercicio.nombre|capfirst }}</a></h5>
         <h6 class="card-subtitle mb-2 text-muted">Nombre:{{ ejercicio.nombre }}</h6>
         <p class="card-text">Descripción:{{ ejercicio.descripcion }}</p>
         <p class="card-text">Tipo: {{ ejercicio.tipo_ejercicio }}</p>
@@ -22,8 +22,13 @@
                     <span>{% bs_icon 'pencil' %}</span> 
                 </a>
             </button>
+            <button type="button" class="btn btn-outline-primary">
+                <a href="{% url 'ejercicio_editar_nombre' ejercicio.id %}">
+                    <span>{% bs_icon 'pencil' %} r</span> 
+                </a>
+            </button>
             
-            <form action="" method="post" id="deleteForm">
+            <form action="{% url 'ejercicio_eliminar' ejercicio.id %}" method="post" id="deleteForm">
                 {% csrf_token %}
                 <button class="btn btn-danger" data-toggle="modal" data-target="#confirmDeleteModal" type="button">
                     <span>{% bs_icon 'trash' %}</span> 

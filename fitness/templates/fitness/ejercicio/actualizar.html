@@ -3,7 +3,7 @@
 {% block contenido %}
 
 {% load bootstrap5 %}
-<form action = "{% url 'ejercicio_editar' ejercicio.id %}" method = "post"> 
+<form action="{% url 'ejercicio_editar' ejercicio.id %}" method="POST"> 
     
     {% csrf_token %} 
 
@@ -68,6 +68,9 @@
     {% for error in formulario.tipo_ejercicio.errors %} 
         {{ error }}
     {% endfor %}
+</div>
+<div class="mb-4">
+    {% bootstrap_field formulario.usuarios show_label=True %}
 </div>
     <button type="submit" class="btn btn-primary">Enviar</button>
 

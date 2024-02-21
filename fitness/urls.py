@@ -7,8 +7,11 @@ urlpatterns = [
     path('lista_ejercicios',views.ejercicios_lista_api,name='lista'),
     path('ejercicios/busqueda',views.ejercicio_busqueda_simple,name='ejercicio_busqueda_simple'),
     path('ejercicios/busqueda_avanzada',views.ejercicio_busqueda_avanzada,name='ejercicio_busqueda_avanzada'),
-    path('ejercicios/crear',views.ejercicio_crear,name='ejercicio_crear'),    path('ejercicio/<int:ejercicio_id>',views.ejercicio_obtener,name='ejercicio_mostrar'),
+    path('ejercicios/crear',views.ejercicio_crear,name='ejercicio_crear'),
+    path('ejercicio/<int:ejercicio_id>',views.ejercicio_obtener,name='ejercicio_mostrar'),
     path('ejercicio/editar/<int:ejercicio_id>',views.ejercicio_editar,name='ejercicio_editar'),
+    path('ejercicio/editar/nombre/<int:ejercicio_id>',views.ejercicio_editar_nombre,name='ejercicio_editar_nombre'),
+    path('ejercicio/eliminar/<int:ejercicio_id>',views.ejercicio_eliminar,name='ejercicio_eliminar'),
     #ENTRENAMIENTOS:
     path('lista_entrenamientos',views.entrenamientos_lista_api,name='lista_entrenamientos'),
     path('entrenamientos/busqueda',views.entrenamiento_busqueda_simple,name='entrenamiento_busqueda_simple'),

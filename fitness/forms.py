@@ -29,7 +29,12 @@ class EjercicioForm(forms.Form):
             widget=forms.Select,
             required=True,
         )
-        
+    
+class EjercicioActualizarNombreForm(forms.Form):
+    nombre = forms.CharField(label='Nombre',
+                             required=True,
+                             max_length=200,
+                             help_text="200 caracteres como máximo") 
 #ENTRENAMIENTOS:
 class BusquedaEntrenamientoForm(forms.Form):
     textoBusqueda = forms.CharField(required=True)

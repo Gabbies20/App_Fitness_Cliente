@@ -135,10 +135,12 @@ def ejercicio_crear(request):
     return render(request, 'fitness/ejercicio/create.html',{"formulario":formulario})
 
 def ejercicio_obtener(request, ejercicio_id):
+    print(ejercicio_id)
     ejercicio = helper.obtener_ejercicio(ejercicio_id)
     return render(request, 'fitness/ejercicio/ejercicio_mostrar.html',{'ejercicio':ejercicio})
 
-def ejercicio_editar(request, ejercicio_id):
+def ejercicio_editar(request,ejercicio_id):
+    
     datosFormulario = None
     
     if request.method == 'POST':
@@ -150,10 +152,11 @@ def ejercicio_editar(request, ejercicio_id):
                                     'nombre': ejercicio['nombre'],
                                     'descripcion': ejercicio['descripcion'],
                                     'tipo_ejercicio': ejercicio['tipo_ejercicio'],
-                                    'usuarios':[usuario['usuarios']['id'] for usuario in ejercicio['usuarios']]
+                                    'usuarios': [usuario['id'] for usuario in ejercicio['usuarios']]
+
                                 })
     
-    
+    """
     if (request.method == "POST"):
             try:
                 formulario = EjercicioForm(request.POST)
@@ -165,11 +168,12 @@ def ejercicio_editar(request, ejercicio_id):
                 datos['usuarios'] =request.POST.getlist('usuarios')
             
                 response = requests.put(
-                    'http://127.0.0.1:8000/api/v1/ejercicios/editar/'+id(ejercicio_id),
+                    'http://127.0.0.1:8000/api/v1/ejercicios/editar/'+str(ejercicio_id),
                     headers=headers,
                     data=json.dumps(datos)
                 )
                 if(response.status_code == requests.codes.ok):
+                    messages.success(request, 'Se ha editado correctamente el ejercicio seleccionado.')
                     return redirect('lista')
                 else:
                     print(response.status_code)
@@ -188,8 +192,114 @@ def ejercicio_editar(request, ejercicio_id):
             except Exception as err:
                 print(f'Ocurrió un error: {err}')
                 return mi_error_500(request)
-        
-    return render(request, 'fitness/ejercicio/create.html',{"formulario":formulario})
+    return render(request, 'fitness/ejercicio/actualizar.html',{"formulario":formulario})"""
+    
+    if (request.method == "POST"):
+            try:
+                formulario = EjercicioForm(request.POST)
+                headers = {
+                    'Authorization': 'Bearer ' + env('TOKEN_CLIENTE'),
+                    'Content-Type':'application/json'
+                }
+                datos = request.POST.copy()
+
+                response = requests.put(
+                    'http://127.0.0.1:8000/api/v1/ejercicios/editar/'+ str(ejercicio_id), headers=headers, data=json.dumps(datos)
+                )
+                if(response.status_code == requests.codes.ok):
+                    # Redirecciono al listado completo de recintos
+                    return redirect("lista")
+                else:
+                    print(response.status_code)
+                    response.raise_for_status()
+            except HTTPError as http_err:
+                print(f'Hubo un error en la petición: {http_err}')
+                if(response.status_code == 400):
+                    errores = response.json()
+                    for error in errores:
+                        formulario.add_error(error,errores[error])
+                    return render(request, 
+                            'fitness/ejercicio/actualizar.html',
+                            {"formulario":formulario,"ejercicio":ejercicio})
+                else:
+                    return mi_error_500(request)
+            except Exception as err:
+                print(f'Ocurrió un error: {err}')
+                return mi_error_500(request)
+    return render(request, 'fitness/ejercicio/actualizar.html',{"formulario":formulario,"ejercicio":ejercicio})
+
+
+def ejercicio_editar_nombre(request,ejercicio_id):
+    
+    datosFormulario = None
+    
+    if request.method == "POST":
+        datosFormulario = request.POST
+    
+    ejercicio = helper.obtener_ejercicio(ejercicio_id)
+    formulario = EjercicioActualizarNombreForm(datosFormulario,
+            initial={
+                'nombre': ejercicio['nombre'],
+            }
+    )
+    if (request.method == "POST"):
+        try:
+            formulario = EjercicioActualizarNombreForm(request.POST)
+            headers = {
+                    'Authorization': 'Bearer ' + env('TOKEN_CLIENTE'),
+                    'Content-Type':'application/json'
+                }
+            datos = request.POST.copy()
+            response = requests.patch(
+                'http://127.0.0.1:8000/api/v1/ejercicios/actualizar/nombre/'+str(ejercicio_id),
+                headers=headers,
+                data=json.dumps(datos)
+            )
+            if(response.status_code == requests.codes.ok):
+                return redirect("ejercicio_mostrar",ejercicio_id=ejercicio_id)
+            else:
+                print(response.status_code)
+                response.raise_for_status()
+        except HTTPError as http_err:
+            print(f'Hubo un error en la petición: {http_err}')
+            if(response.status_code == 400):
+                errores = response.json()
+                for error in errores:
+                    formulario.add_error(error,errores[error])
+                return render(request, 
+                            'fitness/ejercicio/actualizar_nombre.html',
+                            {"formulario":formulario,"ejercicio":ejercicio})
+            else:
+                return mi_error_500(request)
+        except Exception as err:
+            print(f'Ocurrió un error: {err}')
+            return mi_error_500(request)
+    return render(request, 'fitness/ejercicio/actualizar_nombre.html',{"formulario":formulario,"ejercicio":ejercicio})
+
+
+def ejercicio_eliminar(request,ejercicio_id):
+    try:
+        headers = {
+                    'Authorization': 'Bearer ' + env('TOKEN_CLIENTE'),
+                    'Content-Type':'application/json'
+                }
+        response = requests.delete(
+            'http://127.0.0.1:8000/api/v1/ejercicios/eliminar/'+str(ejercicio_id),
+            headers=headers,
+        )
+        if(response.status_code == requests.codes.ok):
+            return redirect("lista")
+        else:
+            print(response.status_code)
+            response.raise_for_status()
+    except Exception as err:
+        print(f'Ocurrió un error: {err}')
+        return mi_error_500(request)
+    return redirect('lista')
+
+
+
+
 
 
 """
