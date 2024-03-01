@@ -60,16 +60,6 @@ class BusquedaEntrenamientoAvanzadaForm(forms.Form):
     descripcion = forms.CharField(widget=forms.Textarea, required=False)
     duracion = forms.IntegerField()
     
-"""class BusquedaAvanzadaEntrenamientoForm(forms.Form):
-    textoBusqueda = forms.CharField(required=False)
-    tipos = forms.MultipleChoiceField(choices =Entrenamiento.TIPOS,
-                                      required=False,
-                                      widget=forms.CheckboxSelectMultiple())
-    duracion = forms.IntegerField(
-        required=False,
-        widget=forms.NumberInput(attrs={'min': 1, 'max': 100, 'class': 'tu-clase-css'})
-    )
-"""
 
 #COMENTARIOS:
 class BusquedaComentarioForm(forms.Form):

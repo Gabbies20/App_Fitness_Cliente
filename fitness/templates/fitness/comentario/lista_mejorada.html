@@ -6,9 +6,8 @@
         {% for ejercicio in ejercicios_mostrar %}
             <div class="col-sm-4 mb-2">
                
-                <p>nombre: {{ejercicio.nombre}}</p>
-                <p>descripcion: {{ejercicio.descripcion}}</p>
-                <p>tipo ejercicio: {{ejercicio.tipo_ejercicio}}</p>
+                <p>Nombre: {{ejercicio.texto}}</p>
+                <p>Fecha: {{ejercicio.fecha}}</p>
                 <p>Usuarios:</p>
                 <ul>
                 {% for usuario in ejercicio.usuarios %}
@@ -17,7 +16,7 @@
                 </ul>
             </div>
         {% empty %}
-            <h1>Lo sentimos pero no hay ejercicios</h1>
+            <h1>Lo sentimos pero no hay libros</h1>
         {% endfor %}
     </div>
 {% endblock %}  
