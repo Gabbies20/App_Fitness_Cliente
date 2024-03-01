@@ -32,7 +32,8 @@ VISTAS DE EJERCICIO:
 """
 def ejercicios_lista_api(request):
     #Obtenemos los ejercicios.
-    headers = {'Authorization':'Bearer sem6IlXzR1ER9DcjyLd0FOVuwRurdk'}
+    #headers = {'Authorization':'Bearer sem6IlXzR1ER9DcjyLd0FOVuwRurdk'}
+    headers = crear_cabecera()
     #Debi acceder a la URL y no me muestra nada, de forma interna me esta dando un error 400. Ahora al crear 'headers' con su respectivo token me muestra ya los ejercicios.
     response = requests.get('http://127.0.0.1:8000/api/v1/ejercicios',headers=headers)
     #response = requests.get('http://gabrielapinzon.pythonanywhere.com/api/v1/ejercicios',headers=headers)
@@ -324,7 +325,7 @@ def entrenamiento_busqueda_simple(request):
         headers = crear_cabecera()
         response = requests.get('http://127.0.0.1:8000/api/v1/entrenamientos/busqueda_simple',
         headers=headers,
-        params=formulario.cleaned_data
+        params=formulario.data
         )
         entrenamientos = response.json()
         return render(request,'fitness/entrenamiento/lista_busqueda.html',{'entrenamientos_mostrar':entrenamientos})
@@ -362,32 +363,36 @@ def entrenamiento_busqueda_simple(request):
     
     
 def entrenamiento_busqueda_avanzada(request):
-    formulario = BusquedaEntrenamientoAvanzadaForm(request.GET or None)
-
-    if request.method == 'GET' and formulario.is_valid():
+    if len(request.GET)>0:
+        formulario = BusquedaEntrenamientoAvanzadaForm(request.GET)
         try:
             headers = crear_cabecera()
             response = requests.get(
                 'http://127.0.0.1:8000/api/v1/entrenamientos/busqueda_avanzada',
                 headers=headers,
-                params=formulario.cleaned_data
+                params=formulario.data
             )
-            response.raise_for_status()
-            entrenamientos = response.json()
-            return render(request, 'fitness/entrenamiento/busqueda_avanzada.html', {'entrenamientos_mostrar': entrenamientos})
+            if(response.status_code==requests.codes.ok):
+                entrenamientos = response.json()
+                return render(request, 'fitness/entrenamiento/lista_mejorada.html', {'entrenamientos_mostrar': entrenamientos})
+            else:
+                print(response.status_code)
+                response.raise_for_status()
         except HTTPError as http_err:
             print(f'Hubo un error HTTP: {http_err}')
             if response.status_code == 400:
                 errores = response.json()
-                for campo, mensaje in errores.items():
-                    formulario.add_error(campo, mensaje)
+                for error in errores:
+                    formulario.add_error(error,errores[error])
+                return render(request,'fitness/entrenamiento/busqueda_avanzada.html',{'formulario':formulario,'errores':errores})
             else:
-                raise Http404("No se pudo completar la solicitud")
+                raise mi_error_500(request)
         except Exception as err:
             print(f'Ocurrió un error: {err}')
-            raise Http404("No se pudo completar la solicitud")
-
-    return render(request, 'fitness/entrenamiento/busqueda_avanzada.html', {'formulario': formulario})
+            raise mi_error_500("No se pudo completar la solicitud")
+    else:
+        formulario=BusquedaEntrenamientoAvanzadaForm(None)
+        return render(request, 'fitness/entrenamiento/busqueda_avanzada.html', {'formulario': formulario})
     
     
 
