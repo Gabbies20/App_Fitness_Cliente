@@ -22,14 +22,19 @@
         {% load bootstrap_icons %}
         <div class="btn-group custom-btn-group">
             <button type="button" class="btn btn-outline-primary">
-                <a href="">
+                <a href="{% url 'entrenamiento_editar' entrenamiento.id %}">
+                    <span>{% bs_icon 'pencil' %}</span> 
+                </a>
+            </button>
+            <button type="button" class="btn btn-outline-primary">
+                <a href="{% url 'entrenamiento_editar_nombre' entrenamiento.id %}">
                     <span>{% bs_icon 'pencil' %}</span> 
                 </a>
             </button>
             
-            <form action="" method="post">
+            <form action="{% url ' entrenamiento_eliminar' entrenamiento.id %}" method="post" id="deleteForm{{ entrenamiento.id }}">
                 {% csrf_token %}
-                <button class="btn btn-danger" data-toggle="modal" data-target="#confirmDeleteModal" type="button">
+                <button class="btn btn-danger" data-toggle="modal" data-target="#confirmDeleteModal{{entrenamiento.id}}" type="button">
                     <span>{% bs_icon 'trash' %}</span> 
                 </button>
                  <!-- Ventana modal -->

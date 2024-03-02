@@ -27,3 +27,10 @@ class helper:
         response = requests.get('http://127.0.0.1:8000/api/v1/ejercicio/'+str(id),headers=headers)
         ejercicio = response.json()
         return ejercicio
+    
+    def obtener_entrenamiento(id):
+        #Obtenemos todos los entrenamientos.
+        headers = {'Authorization':'Bearer '+env('TOKEN_CLIENTE')}
+        response = requests.get('http://127.0.0.1:8000/api/v1/entrenamiento/'+str(id),headers=headers)
+        entrenamiento = response.json()
+        return entrenamiento 

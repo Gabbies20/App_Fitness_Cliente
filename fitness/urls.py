@@ -16,6 +16,11 @@ urlpatterns = [
     path('lista_entrenamientos',views.entrenamientos_lista_api,name='lista_entrenamientos'),
     path('entrenamientos/busqueda',views.entrenamiento_busqueda_simple,name='entrenamiento_busqueda_simple'),
     path('entrenamientos/busqueda_avanzada',views.entrenamiento_busqueda_avanzada,name='entrenamiento_busqueda_avanzada'),
+    path('entrenamientos/crear',views.entrenamiento_crear,name='entrenamiento_crear'),
+    path('entrenamiento/<int:entrenamiento_id>',views.entrenamiento_obtener,name='entrenamiento_mostrar'),
+    path('entrenamiento/editar/<int:entrenamiento_id>',views.entrenamiento_editar,name='entrenamiento_editar'),
+    path('entrenamiento/editar/nombre/<int:entrenamiento_id>',views.entrenamiento_editar_nombre,name='entrenamiento_editar_nombre'),
+    path('entrenamiento/eliminar/<int:entrenamiento_id>',views.entrenamiento_eliminar,name='entrenamiento_eliminar'),
     #COMENTARIOS:
     path('lista_comentarios',views.comentarios_lista_api,name='lista_comentarios'),
     path('comentarios/busqueda',views.comentario_busqueda_simple,name='comentario_busqueda_simple'),

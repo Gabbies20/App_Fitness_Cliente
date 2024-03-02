@@ -60,7 +60,29 @@ class BusquedaEntrenamientoAvanzadaForm(forms.Form):
     descripcion = forms.CharField(widget=forms.Textarea, required=False)
     duracion = forms.IntegerField()
     
-
+class EntrenamientoForm(forms.Form):
+    nombre = forms.CharField(label='Nombre',
+                             required=True,
+                             max_length=200,
+                             help_text='200 caracteres como máximo')
+    descripcion = forms.CharField(label='Descripción',
+                                  required=False,
+                                  widget=forms.Textarea())
+    duracion = forms.IntegerField()
+    
+    TIPOS = [
+        ('AER','Aeróbico'),
+        ('FUE','Fuerza o Anaeróbico'),
+        ('FUN','Funcional'),
+        ('HIT','Hit'),
+        ('POT','Potencia')
+    ]
+    
+    tipo = forms.ChoiceField(choices=TIPOS,
+                             initial='ES')
+    
+    
+    
 #COMENTARIOS:
 class BusquedaComentarioForm(forms.Form):
     textoBusqueda = forms.CharField(required=True)
@@ -73,4 +95,26 @@ class BusquedaComentarioAvanzadoForm(forms.Form):
                             widget=forms.SelectDateWidget(years=range(1950,2025)))
 
 
+class ComentarioDoForm(forms.Form):
+    texto = forms.CharField(label='Texto',
+                             required=True,
+                             max_length=200,
+                             help_text='200 caracteres como máximo')
+    fecha = forms.DateField()
     
+    def __init__(self, *args, **kwargs):
+        super(EjercicioForm,self).__init__(*args,**kwargs)
+        
+        usuariosDisponibles = helper.obtener_usuarios_select()
+        self.fields['usuarios'] = forms.ChoiceField(
+            choices=usuariosDisponibles,
+            widget=forms.Select,
+            required=True,
+        )
+        
+        ejerciciosDisponibles = helper.obtener_ejercicio()
+        self.fields['ejercicios'] = forms.MultipleChoiceField(
+            choices=ejerciciosDisponibles,
+            required=True,
+            help_text='Mantén pulsada la tecla para seleccionar los ejercicios.'
+        )

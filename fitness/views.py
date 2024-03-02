@@ -30,6 +30,7 @@ def crear_cabecera():
 """
     VISTAS DE EJERCICIO:
 """
+
 def ejercicios_lista_api(request):
     #headers = {'Authorization':'Bearer sem6IlXzR1ER9DcjyLd0FOVuwRurdk'}
     headers = crear_cabecera()
@@ -319,7 +320,60 @@ def entrenamiento_busqueda_avanzada(request):
     else:
         formulario=BusquedaEntrenamientoAvanzadaForm(None)
         return render(request, 'fitness/entrenamiento/busqueda_avanzada.html', {'formulario': formulario})
+
+def entrenamiento_crear(request):
     
+    if (request.method == "POST"):
+        try:
+            formulario = EntrenamientoForm(request.POST)
+            headers =  {
+                        'Authorization': 'Bearer '+env("TOKEN_CLIENTE"),
+                        "Content-Type": "application/json" 
+                    } 
+            datos = formulario.data.copy()
+            datos["usuarios"] = request.POST.getlist("usuarios")
+            datos["ejercicios"] = request.POST.getlist("ejercicios")
+            datos["fecha"] = str(
+                                datetime.date(year=int(datos['fecha_publicacion_year']),
+                                                        month=int(datos['fecha_publicacion_month']),
+                                                        day=int(datos['fecha_publicacion_day']))
+                                             )
+            
+            response = requests.post(
+                'http://127.0.0.1:8000/api/v1/entrenamientos/crear',
+                headers=headers,
+                data=json.dumps(datos)
+            )
+            if(response.status_code == requests.codes.ok):
+                return redirect("libro_lista")
+            else:
+                print(response.status_code)
+                response.raise_for_status()
+        except HTTPError as http_err:
+            print(f'Hubo un error en la petición: {http_err}')
+            if(response.status_code == 400):
+                errores = response.json()
+                for error in errores:
+                    formulario.add_error(error,errores[error])
+                return render(request, 
+                            'fitness/entrenamiento/create.html',
+                            {"formulario":formulario})
+            else:
+                return mi_error_500(request)
+        except Exception as err:
+            print(f'Ocurrió un error: {err}')
+            return mi_error_500(request)
+        
+    else:
+         formulario = EntrenamientoForm(None)
+    return render(request, 'fitness/entrenamiento/create.html',{"formulario":formulario})
+
+def entrenamiento_obtener(request, entrenamiento_id):
+    print(entrenamiento_id)
+    entrenamiento = helper.obtener_entrenamiento(entrenamiento_id)
+    return render(request, 'fitness/entrenamiento/entrenamiento_mostrar.html',{'entrenamiento':entrenamiento})
+
+
 
 
 """ 
