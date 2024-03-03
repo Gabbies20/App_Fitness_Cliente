@@ -81,6 +81,23 @@ class EntrenamientoForm(forms.Form):
     tipo = forms.ChoiceField(choices=TIPOS,
                              initial='ES')
     
+    def __init__(self, *args, **kwargs):
+        super(EntrenamientoForm,self).__init__(*args,**kwargs)
+        
+        usuariosDisponibles = helper.obtener_usuarios_select()
+        self.fields['usuario'] = forms.ChoiceField(
+            choices=usuariosDisponibles,
+            widget=forms.Select,
+            required=True,
+        )
+        
+        ejerciciosDisponibles = helper.obtener_ejercicios_select()
+        self.fields['ejercicios'] = forms.ChoiceField(
+            choices=ejerciciosDisponibles,
+            widget=forms.Select,
+            required=True
+            
+        )
     
     
 #COMENTARIOS:
@@ -95,26 +112,31 @@ class BusquedaComentarioAvanzadoForm(forms.Form):
                             widget=forms.SelectDateWidget(years=range(1950,2025)))
 
 
-class ComentarioDoForm(forms.Form):
+class ComentarioForm(forms.Form):
     texto = forms.CharField(label='Texto',
                              required=True,
                              max_length=200,
                              help_text='200 caracteres como máximo')
-    fecha = forms.DateField()
+    fecha = forms.DateField(label='Fecha',
+                            initial=datetime.date.today,
+                            widget=forms.SelectDateWidget()
+                            )
     
     def __init__(self, *args, **kwargs):
-        super(EjercicioForm,self).__init__(*args,**kwargs)
+        super(ComentarioForm,self).__init__(*args,**kwargs)
         
         usuariosDisponibles = helper.obtener_usuarios_select()
-        self.fields['usuarios'] = forms.ChoiceField(
+        self.fields['usuario'] = forms.ChoiceField(
             choices=usuariosDisponibles,
             widget=forms.Select,
             required=True,
         )
         
-        ejerciciosDisponibles = helper.obtener_ejercicio()
-        self.fields['ejercicios'] = forms.MultipleChoiceField(
-            choices=ejerciciosDisponibles,
+        entrenamientosDisponibles = helper.obtener_entrenamiento_select()
+        self.fields['entrenamiento'] = forms.MultipleChoiceField(
+            choices=entrenamientosDisponibles,
             required=True,
-            help_text='Mantén pulsada la tecla para seleccionar los ejercicios.'
+            help_text='Mantén pulsada la tecla para seleccionar los entrenamientos.'
         )
+        
+        

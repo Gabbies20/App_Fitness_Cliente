@@ -47,7 +47,7 @@
 
               <!--Nuevo crud para crear desde la API-->
               <li class="nav-item dropdown">
-                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"
+                <a href="{% url 'entrenamiento_crear' %}" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"
                     aria-expanded="false" id="dropdown-menu">
                     CRUDS-API
                 </a>
@@ -55,10 +55,10 @@
                 <!--Lista que se va a desplegar-->
                 <ul class="dropdown-menu" aria-labelledby="dropdown-menu">
                     <li><a href="{% url 'ejercicio_crear'%}" class="dropdown-item">Crear-Ejercicio</a></li>
-                    <li><a href="" class="dropdown-item">Crear Entrenamiento</a></li>
+                    <li><a href="{% url 'entrenamiento_crear' %}" class="dropdown-item">Crear Entrenamiento</a></li>
                     <li><a href="" class="dropdown-item">Crear-Plan de Entrenamiento</a></li>
                     <li><a href="" class="dropdown-item">Crear Rutina Diaria</a></li>
-                    <li><a href="" class="dropdown-item">Crear Comentario</a></li>
+                    <li><a href="{% url 'comentario_crear' %}" class="dropdown-item">Crear Comentario</a></li>
                     <li><a href="" class="dropdown-item">Crear Suscripción</a></li>
                     <li><a href="" class="dropdown-item">Crear PROMOCIÓN</a></li>
                 </ul>
