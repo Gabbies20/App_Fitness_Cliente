@@ -133,7 +133,7 @@ class ComentarioForm(forms.Form):
         )
         
         entrenamientosDisponibles = helper.obtener_entrenamiento_select()
-        self.fields['entrenamiento'] = forms.MultipleChoiceField(
+        self.fields['entrenamiento'] = forms.ChoiceField(
             choices=entrenamientosDisponibles,
             required=True,
             help_text='Mantén pulsada la tecla para seleccionar los entrenamientos.'

@@ -27,6 +27,7 @@ urlpatterns = [
     path('comentarios/busqueda_avanzada',views.comentario_busqueda_avanzada,name='comentario_busqueda_avanzada'),
     path('comentarios/crear',views.comentario_crear,name='comentario_crear'),
     path('comentario/<int:comentario_id>',views.comentario_obtener,name='comentario_mostrar'),
+    path('comentario/editar/<int:comentario_id>',views.comentario_editar,name='comentario_editar'),
     
     #REGISTRO - LOGIN Y LOGOUT:
     path('registrar', views.registrar_usuario, name='registrar_usuario'),

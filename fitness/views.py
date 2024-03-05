@@ -369,7 +369,57 @@ def entrenamiento_obtener(request, entrenamiento_id):
 
 
 def entrenamiento_editar(request,entrenamiento_id):
-    pass
+    
+    datosFormulario = None
+    
+    if request.method == 'POST':
+        datosFormulario = request.POST
+        
+    entrenamiento = helper.obtener_entrenamiento(entrenamiento_id)
+    formulario = EntrenamientoForm(datosFormulario,
+                                initial ={
+                                    'usuario':entrenamiento['usuario']
+                                    'nombre': entrenamiento['nombre'],
+                                    'descripcion': entrenamiento['descripcion'],
+                                    'duracion':entrenamiento['duracion'],
+                                    'tipo':entrenamiento['tipo']
+                                    'ejercicios': [ejercicio['id'] for ejercicio in entrenamiento['ejercicios']]
+
+                                })
+    
+    if (request.method == "POST"):
+            try:
+                formulario = EntrenamientoForm(request.POST)
+                headers = {
+                    'Authorization': 'Bearer ' + env('TOKEN_CLIENTE'),
+                    'Content-Type':'application/json'
+                }
+                datos = request.POST.copy()
+
+                response = requests.put(
+                    'http://127.0.0.1:8000/api/v1/entrenamientos/editar/'+ str(entrenamiento_id), headers=headers, data=json.dumps(datos)
+                )
+                if(response.status_code == requests.codes.ok):
+                    # Redirecciono al listado completo de recintos
+                    return redirect("lista_entrenamientos")
+                else:
+                    print(response.status_code)
+                    response.raise_for_status()
+            except HTTPError as http_err:
+                print(f'Hubo un error en la petición: {http_err}')
+                if(response.status_code == 400):
+                    errores = response.json()
+                    for error in errores:
+                        formulario.add_error(error,errores[error])
+                    return render(request, 
+                            'fitness/entrenamiento/actualizar.html',
+                            {"formulario":formulario,"entrenamiento":entrenamiento})
+                else:
+                    return mi_error_500(request)
+            except Exception as err:
+                print(f'Ocurrió un error: {err}')
+                return mi_error_500(request)
+    return render(request, 'fitness/entrenamiento/actualizar.html',{"formulario":formulario,"entrenamiento":entrenamiento})
 
 def entrenamiento_editar_nombre(request,entrenamiento_id):
     pass
@@ -448,6 +498,7 @@ def comentario_crear(request):
     if (request.method == "POST"):
         try:
             formulario = ComentarioForm(request.POST)
+            print("Datos del formulario:",formulario.data)
             headers =  {
                         'Authorization': 'Bearer '+env("TOKEN_CLIENTE"),
                         "Content-Type": "application/json" 
@@ -458,6 +509,13 @@ def comentario_crear(request):
                                                         month=int(datos['fecha_month']),
                                                         day=int(datos['fecha_day']))
                                              )
+            # Obtener el ID del usuario seleccionado en el formulario
+            usuario_id = datos.get('usuario')
+            if usuario_id:
+                datos['usuario'] = int(usuario_id)
+            # Imprimir los datos que se enviarán en la solicitud POST
+            print('los datos son', datos)
+
             
             response = requests.post(
                 'http://127.0.0.1:8000/api/v1/comentarios/crear',
@@ -476,7 +534,7 @@ def comentario_crear(request):
                 for error in errores:
                     formulario.add_error(error,errores[error])
                 return render(request, 
-                            'libro/create.html',
+                            'fitness/comentario/create.html',
                             {"formulario":formulario})
             else:
                 return mi_error_500(request)
@@ -496,7 +554,8 @@ def comentario_obtener(request,comentario_id):
     
     
     
-    
+def comentario_editar(request,comentario_id):
+    pass
     
     
     
