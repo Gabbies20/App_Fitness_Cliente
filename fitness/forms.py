@@ -4,6 +4,8 @@ from .models import *
 from datetime import date
 import datetime
 from.helper import helper
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
 
 #EJERCICIOS:
 class BusquedaEjercicioForm(forms.Form):
@@ -139,4 +141,25 @@ class ComentarioForm(forms.Form):
             help_text='Mantén pulsada la tecla para seleccionar los entrenamientos.'
         )
         
+    
+    
+    
+class ComentarioActualizarNombreForm(forms.Form):
+    pass
+
+
+class RegistroForm(UserCreationForm):
+    roles = (
+                (2,'cliente'),
+                (3,'entrenador')
+    )
+    
+    rol = forms.ChoiceField(choices=roles)
+    class Meta:
+        model = User
+        fields = ('username','email','password1','password2','rol')
         
+        
+class LoginForm(forms.Form):
+    usuario = forms.CharField()
+    password = forms.CharField(widget=forms.PasswordInput())

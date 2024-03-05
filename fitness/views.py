@@ -18,6 +18,9 @@ env = environ.Env()
 
 # Create your views here.
 def index(request):
+
+
+
     return render(request, 'fitness/index2.html')
 
 def crear_cabecera():
@@ -378,11 +381,11 @@ def entrenamiento_editar(request,entrenamiento_id):
     entrenamiento = helper.obtener_entrenamiento(entrenamiento_id)
     formulario = EntrenamientoForm(datosFormulario,
                                 initial ={
-                                    'usuario':entrenamiento['usuario']
+                                    'usuario':entrenamiento['usuario'],
                                     'nombre': entrenamiento['nombre'],
                                     'descripcion': entrenamiento['descripcion'],
                                     'duracion':entrenamiento['duracion'],
-                                    'tipo':entrenamiento['tipo']
+                                    'tipo':entrenamiento['tipo'],
                                     'ejercicios': [ejercicio['id'] for ejercicio in entrenamiento['ejercicios']]
 
                                 })
@@ -558,25 +561,83 @@ def comentario_editar(request,comentario_id):
     pass
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
 def registrar_usuario(request):
-    pass
+    if(request.method=='POST'):
+        try:
+            formulario = RegistroForm(request.POST)
+            if(formulario.is_valid()):
+                headers = {
+                    "Content-Type": "application/json"
+                }
+                response = requests.post(
+                    'http://127.0.0.1:8000/api/v1/registrar/usuario',
+                    headers=headers,
+                    data=json.dumps(formulario.cleaned_data)
+                )
+                if(response.status_code == requests.codes.ok):
+                    usuario = response.json()
+                    token_acceso = helper.obtener_token_session(
+                            formulario.cleaned_data.get("username"),
+                            formulario.cleaned_data.get("password1")
+                            )
+                    request.session["usuario"]=usuario
+                    request.session["token"] = token_acceso
+                    return redirect("index")
+                else:
+                    print(response.status_code)
+                    response.raise_for_status()
+        except HTTPError as http_err:
+            print(f'Hubo un error en la petición: {http_err}')
+            if(response.status_code == 400):
+                errores = response.json()
+                for error in errores:
+                    formulario.add_error(error,errores[error])
+                return render(request, 
+                            'registration/signup.html',
+                            {"formulario":formulario})
+            else:
+                return mi_error_500(request)
+        except Exception as err:
+            print(f'Ocurrió un error: {err}')
+            return mi_error_500(request)            
+    else:
+        formulario = RegistroForm()
+    return render(request, 'registration/signup.html', {'formulario': formulario})
 
 
 def login(request):
-    pass
+    if (request.method == "POST"):
+        formulario = LoginForm(request.POST)
+        try:
+            token_acceso = helper.obtener_token_session(
+                                formulario.data.get("usuario"),
+                                formulario.data.get("password")
+                                )
+            request.session["token"] = token_acceso
+            
+          
+            headers = {'Authorization': 'Bearer '+token_acceso} 
+            response = requests.get('http://127.0.0.1:8000/api/v1/usuario/token/'+token_acceso,headers=headers)
+            usuario = response.json()
+            request.session["usuario"] = usuario
+            
+            return  redirect("index")
+        except Exception as excepcion:
+            print(f'Hubo un error en la petición: {excepcion}')
+            formulario.add_error("usuario",excepcion)
+            formulario.add_error("password",excepcion)
+            return render(request, 
+                            'registration/login.html',
+                            {"form":formulario})
+    else:  
+        formulario = LoginForm()
+    return render(request, 'registration/login.html', {'form': formulario})
 
 
+    
 def logout(request):
-    pass
+    request.session.clear()
+    return redirect('index')
     
     
     

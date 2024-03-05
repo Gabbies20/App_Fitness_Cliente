@@ -76,6 +76,24 @@
           </form>
 
           <div class="ml-2">
+            {% if not request.session.token%}
+        <a class="btn btn-outline-warning" href="{% url 'login' %}">
+            Login
+        </a>
+        {% endif %}
+
+        {% if not request.session.token %}
+          <a class="btn btn-outline-dangerous" href="{% url 'registrar_usuario' %}">
+              Registrarse
+          </a>
+         {% endif %}
+
+         {% if request.session.token %}
+         <a class="btn btn-outline-danger" href="{% url 'logout' %}">
+             Desconectarse
+         </a>
+        {% endif %}
+          </div>
          
         </div>
         
