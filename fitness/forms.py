@@ -101,11 +101,11 @@ class EntrenamientoForm(forms.Form):
             
         )
     
-class EntrenamientoActualizarNombreForm():
-    nombre = forms.CharField(label='Nombre',
+class EntrenamientoActualizarNombreForm(forms.Form):
+    descripcion = forms.CharField(label='Descripción',
                              required=True,
-                             max_length=200,
-                             help_text="200 caracteres como máximo")
+                             max_length=500,
+                             help_text="500 caracteres como máximo")
 
 
 

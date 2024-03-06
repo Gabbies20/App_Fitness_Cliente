@@ -19,7 +19,7 @@ urlpatterns = [
     path('entrenamientos/crear',views.entrenamiento_crear,name='entrenamiento_crear'),
     path('entrenamiento/<int:entrenamiento_id>',views.entrenamiento_obtener,name='entrenamiento_mostrar'),
     path('entrenamiento/editar/<int:entrenamiento_id>',views.entrenamiento_editar,name='entrenamiento_editar'),
-    path('entrenamiento/editar/nombre/<int:entrenamiento_id>',views.entrenamiento_editar_nombre,name='entrenamiento_editar_nombre'),
+    path('entrenamiento/editar/descripcion/<int:entrenamiento_id>',views.entrenamiento_editar_descripcion,name='entrenamiento_editar_nombre'),
     path('entrenamiento/eliminar/<int:entrenamiento_id>',views.entrenamiento_eliminar,name='entrenamiento_eliminar'),
     #COMENTARIOS:
     path('lista_comentarios',views.comentarios_lista_api,name='lista_comentarios'),

@@ -21,6 +21,7 @@ def index(request):
 
 
 
+
     return render(request, 'fitness/index2.html')
 
 def crear_cabecera():
@@ -202,6 +203,7 @@ def ejercicio_editar_nombre(request,ejercicio_id):
         datosFormulario = request.POST
     
     ejercicio = helper.obtener_ejercicio(ejercicio_id)
+    
     formulario = EjercicioActualizarNombreForm(datosFormulario,
             initial={
                 'nombre': ejercicio['nombre'],
@@ -424,18 +426,21 @@ def entrenamiento_editar(request,entrenamiento_id):
                 return mi_error_500(request)
     return render(request, 'fitness/entrenamiento/actualizar.html',{"formulario":formulario,"entrenamiento":entrenamiento})
 
-def entrenamiento_editar_nombre(request,entrenamiento_id):
+def entrenamiento_editar_descripcion(request,entrenamiento_id):
     datosFormulario = None
     
     if request.method == "POST":
         datosFormulario = request.POST
     
     entrenamiento = helper.obtener_entrenamiento(entrenamiento_id)
+    
     formulario = EntrenamientoActualizarNombreForm(datosFormulario,
             initial={
-                'nombre': entrenamiento['nombre'],
+                'descripcion': entrenamiento['descripcion'],
             }
+    
     )
+    
     if (request.method == "POST"):
         try:
             formulario = EntrenamientoActualizarNombreForm(request.POST)
@@ -445,7 +450,7 @@ def entrenamiento_editar_nombre(request,entrenamiento_id):
                 }
             datos = request.POST.copy()
             response = requests.patch(
-                'http://127.0.0.1:8000/api/v1/entrenamientos/actualizar/nombre/'+str(entrenamiento_id),
+                'http://127.0.0.1:8000/api/v1/entrenamientos/actualizar/descripcion/'+str(entrenamiento_id),
                 headers=headers,
                 data=json.dumps(datos)
             )
@@ -626,10 +631,11 @@ def comentario_editar(request,comentario_id):
     comentario = helper.obtener_comentario(comentario_id)
     formulario = ComentarioForm(datosFormulario,
                                 initial ={
-                                    'nombre': comentario['nombre'],
-                                    'descripcion': comentario['descripcion'],
-                                    'tipo_comentario': comentario['tipo_comentario'],
-                                    'usuarios': [usuario['id'] for usuario in comentario['usuarios']]
+                                    'usuario': comentario['usuario'],
+                                    'entrenamiento': comentario['entrenamiento']['id'],
+                                    'fecha': comentario['fecha'],
+                                    'usuario':comentario['usuario']['id']
+                                    
 
                                 })
     
