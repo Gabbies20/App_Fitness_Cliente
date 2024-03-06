@@ -28,6 +28,8 @@ urlpatterns = [
     path('comentarios/crear',views.comentario_crear,name='comentario_crear'),
     path('comentario/<int:comentario_id>',views.comentario_obtener,name='comentario_mostrar'),
     path('comentario/editar/<int:comentario_id>',views.comentario_editar,name='comentario_editar'),
+    path('comentario/editar/nombre/<int:comentario_id>',views.comentario_editar_nombre,name='comentario_editar_nombre'),
+    path('comentario/eliminar/<int:comentario_id>',views.comentario_eliminar,name='comentario_eliminar'),
     
     #REGISTRO - LOGIN Y LOGOUT:
     path('registrar', views.registrar_usuario, name='registrar_usuario'),

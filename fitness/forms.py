@@ -101,7 +101,14 @@ class EntrenamientoForm(forms.Form):
             
         )
     
-    
+class EntrenamientoActualizarNombreForm():
+    nombre = forms.CharField(label='Nombre',
+                             required=True,
+                             max_length=200,
+                             help_text="200 caracteres como máximo")
+
+
+
 #COMENTARIOS:
 class BusquedaComentarioForm(forms.Form):
     textoBusqueda = forms.CharField(required=True)
@@ -144,8 +151,11 @@ class ComentarioForm(forms.Form):
     
     
     
-class ComentarioActualizarNombreForm(forms.Form):
-    pass
+class ComentarioActualizarTextoForm(forms.Form):
+    texto = forms.CharField(label='Texto',
+                             required=True,
+                             max_length=200,
+                             help_text="200 caracteres como máximo") 
 
 
 class RegistroForm(UserCreationForm):

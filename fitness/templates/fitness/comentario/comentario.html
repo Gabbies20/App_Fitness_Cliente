@@ -12,20 +12,20 @@
         {% load bootstrap_icons %}
         <div class="btn-group custom-btn-group">
             <button type="button" class="btn btn-outline-primary">
-                <a href="">
+                <a href="{% url 'comentario_editar' comentario.id %}">
                     <span>{% bs_icon 'pencil' %}</span> 
                 </a>
             </button>
             <button type="button" class="btn btn-outline-primary">
-                <a href="">
-                    <span>{% bs_icon 'pencil' %}</span> 
+                <a href="{% url 'comentario_editar_nombre' comentario.id %}">
+                    <span>{% bs_icon 'pencil' %}Editar</span> 
                 </a>
             </button>
             
             
-            <form action="{" method="post" id="deleteForm{{comentario.id}}">
+            <form action="{% url 'comentario_eliminar' comentario.id %}" method="post" id="deleteForm{{comentario.id}}">
                 {% csrf_token %}
-                <button class="btn btn-danger" data-toggle="modal" data-target="#confirmDeleteModal" type="button">
+                <button class="btn btn-danger" data-toggle="modal" data-target="#confirmDeleteModal{{ comentario.id }}" type="button">
                     <span>{% bs_icon 'trash' %}</span> 
                 </button>
                  <!-- Ventana modal -->

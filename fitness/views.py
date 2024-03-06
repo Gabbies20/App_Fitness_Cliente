@@ -425,10 +425,70 @@ def entrenamiento_editar(request,entrenamiento_id):
     return render(request, 'fitness/entrenamiento/actualizar.html',{"formulario":formulario,"entrenamiento":entrenamiento})
 
 def entrenamiento_editar_nombre(request,entrenamiento_id):
-    pass
+    datosFormulario = None
+    
+    if request.method == "POST":
+        datosFormulario = request.POST
+    
+    entrenamiento = helper.obtener_entrenamiento(entrenamiento_id)
+    formulario = EntrenamientoActualizarNombreForm(datosFormulario,
+            initial={
+                'nombre': entrenamiento['nombre'],
+            }
+    )
+    if (request.method == "POST"):
+        try:
+            formulario = EntrenamientoActualizarNombreForm(request.POST)
+            headers = {
+                    'Authorization': 'Bearer ' + env('TOKEN_CLIENTE'),
+                    'Content-Type':'application/json'
+                }
+            datos = request.POST.copy()
+            response = requests.patch(
+                'http://127.0.0.1:8000/api/v1/entrenamientos/actualizar/nombre/'+str(entrenamiento_id),
+                headers=headers,
+                data=json.dumps(datos)
+            )
+            if(response.status_code == requests.codes.ok):
+                return redirect("entrenamiento_mostrar",entrenamiento_id=entrenamiento_id)
+            else:
+                print(response.status_code)
+                response.raise_for_status()
+        except HTTPError as http_err:
+            print(f'Hubo un error en la petición: {http_err}')
+            if(response.status_code == 400):
+                errores = response.json()
+                for error in errores:
+                    formulario.add_error(error,errores[error])
+                return render(request, 
+                            'fitness/entrenamiento/actualizar_nombre.html',
+                            {"formulario":formulario,"entrenamiento":entrenamiento})
+            else:
+                return mi_error_500(request)
+        except Exception as err:
+            print(f'Ocurrió un error: {err}')
+            return mi_error_500(request)
+    return render(request, 'fitness/entrenamiento/actualizar_nombre.html',{"formulario":formulario,"entrenamiento":entrenamiento})
 
 def entrenamiento_eliminar(request,entrenamiento_id):
-    pass
+    try:
+        headers = {
+                    'Authorization': 'Bearer ' + env('TOKEN_CLIENTE'),
+                    'Content-Type':'application/json'
+                }
+        response = requests.delete(
+            'http://127.0.0.1:8000/api/v1/entrenamientos/eliminar/'+str(entrenamiento_id),
+            headers=headers,
+        )
+        if(response.status_code == requests.codes.ok):
+            return redirect("lista_entrenamientos")
+        else:
+            print(response.status_code)
+            response.raise_for_status()
+    except Exception as err:
+        print(f'Ocurrió un error: {err}')
+        return mi_error_500(request)
+    return redirect('lista_entrenamientos')
 
 
 
@@ -558,8 +618,124 @@ def comentario_obtener(request,comentario_id):
     
     
 def comentario_editar(request,comentario_id):
-    pass
+    datosFormulario = None
     
+    if request.method == 'POST':
+        datosFormulario = request.POST
+        
+    comentario = helper.obtener_comentario(comentario_id)
+    formulario = ComentarioForm(datosFormulario,
+                                initial ={
+                                    'nombre': comentario['nombre'],
+                                    'descripcion': comentario['descripcion'],
+                                    'tipo_comentario': comentario['tipo_comentario'],
+                                    'usuarios': [usuario['id'] for usuario in comentario['usuarios']]
+
+                                })
+    
+    if (request.method == "POST"):
+            try:
+                formulario = ComentarioForm(request.POST)
+                headers = {
+                    'Authorization': 'Bearer ' + env('TOKEN_CLIENTE'),
+                    'Content-Type':'application/json'
+                }
+                datos = request.POST.copy()
+
+                response = requests.put(
+                    'http://127.0.0.1:8000/api/v1/comentarios/editar/'+ str(comentario_id), headers=headers, data=json.dumps(datos)
+                )
+                if(response.status_code == requests.codes.ok):
+                    # Redirecciono al listado completo de comentarios.
+                    return redirect("lista_comentarios")
+                else:
+                    print(response.status_code)
+                    response.raise_for_status()
+            except HTTPError as http_err:
+                print(f'Hubo un error en la petición: {http_err}')
+                if(response.status_code == 400):
+                    errores = response.json()
+                    for error in errores:
+                        formulario.add_error(error,errores[error])
+                    return render(request, 
+                            'fitness/comentario/actualizar.html',
+                            {"formulario":formulario,"comentario":comentario})
+                else:
+                    return mi_error_500(request)
+            except Exception as err:
+                print(f'Ocurrió un error: {err}')
+                return mi_error_500(request)
+    return render(request, 'fitness/comentario/actualizar.html',{"formulario":formulario,"comentario":comentario})
+
+
+def comentario_editar_nombre(request,comentario_id):
+    
+    datosFormulario = None
+    
+    if request.method == "POST":
+        datosFormulario = request.POST
+    
+    comentario = helper.obtener_comentario(comentario_id)
+    formulario = ComentarioActualizarTextoForm(datosFormulario,
+            initial={
+                'nombre': comentario['nombre'],
+            }
+    )
+    if (request.method == "POST"):
+        try:
+            formulario = ComentarioActualizarTextoForm(request.POST)
+            headers = {
+                    'Authorization': 'Bearer ' + env('TOKEN_CLIENTE'),
+                    'Content-Type':'application/json'
+                }
+            datos = request.POST.copy()
+            response = requests.patch(
+                'http://127.0.0.1:8000/api/v1/comentarios/actualizar/nombre/'+str(comentario_id),
+                headers=headers,
+                data=json.dumps(datos)
+            )
+            if(response.status_code == requests.codes.ok):
+                return redirect("comentario_mostrar",comentario_id=comentario_id)
+            else:
+                print(response.status_code)
+                response.raise_for_status()
+        except HTTPError as http_err:
+            print(f'Hubo un error en la petición: {http_err}')
+            if(response.status_code == 400):
+                errores = response.json()
+                for error in errores:
+                    formulario.add_error(error,errores[error])
+                return render(request, 
+                            'fitness/comentario/actualizar_nombre.html',
+                            {"formulario":formulario,"comentario":comentario})
+            else:
+                return mi_error_500(request)
+        except Exception as err:
+            print(f'Ocurrió un error: {err}')
+            return mi_error_500(request)
+    return render(request, 'fitness/comentario/actualizar_nombre.html',{"formulario":formulario,"comentario":comentario})
+
+
+def comentario_eliminar(request,comentario_id):
+    try:
+        headers = {
+                    'Authorization': 'Bearer ' + env('TOKEN_CLIENTE'),
+                    'Content-Type':'application/json'
+                }
+        response = requests.delete(
+            'http://127.0.0.1:8000/api/v1/comentarios/eliminar/'+str(comentario_id),
+            headers=headers,
+        )
+        if(response.status_code == requests.codes.ok):
+            return redirect("lista_comentarios")
+        else:
+            print(response.status_code)
+            response.raise_for_status()
+    except Exception as err:
+        print(f'Ocurrió un error: {err}')
+        return mi_error_500(request)
+    return redirect('lista_comentarios')
+
     
 def registrar_usuario(request):
     if(request.method=='POST'):
