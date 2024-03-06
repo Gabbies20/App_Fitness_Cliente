@@ -102,11 +102,16 @@ def ejercicio_busqueda_avanzada(request):
 def ejercicio_crear(request):
     if(request.method == 'POST'):
         try:
+            
+            #Crea una instancia del formulario EjercicioForm utilizando los datos proporcionados en request.POST. Esto captura todos los campos del formulario y los convierte en un objeto de formulario Django.
             formulario = EjercicioForm(request.POST)
             headers = {
                 'Authorization': 'Bearer ' + env('TOKEN_CLIENTE'),
                 'Content-Type':'application/json'
             }   
+            
+            
+            #Copia los datos del formulario en un nuevo diccionario llamado datos. Además, se obtiene la lista de usuarios seleccionados en el formulario y se agrega al diccionario datos.
             datos = formulario.data.copy()
             datos['usuarios'] =request.POST.getlist('usuarios')
         
@@ -565,13 +570,20 @@ def comentario_busqueda_avanzada(request):
 def comentario_crear(request):
     if (request.method == "POST"):
         try:
+            #Aquí creo una instancia de LibroForm utilizando los datos proporcionados en request.POST. Esto captura todos los campos y los convierte en un objeto de formulario -django.
             formulario = ComentarioForm(request.POST)
             print("Datos del formulario:",formulario.data)
+            
+            #Se definen los encabezados HTTP que se utilizarán en la solicitud. Esto incluye el token de autorización (probablemente obtenido de una variable de entorno) y el tipo de contenido, que se establece en application/json.
             headers =  {
                         'Authorization': 'Bearer '+env("TOKEN_CLIENTE"),
                         "Content-Type": "application/json" 
                     } 
+            
+            #Se copian los datos del formulario en un nuevo diccionario llamado datos.Esto se hace para poder realizar manipulaciones en estos datos sin afectar el objeto del formulario original.
             datos = formulario.data.copy()
+            
+            #Se combinan los campos de fecha(año,mes y dia) en un solo campo y se convierte en cadena.
             datos["fecha"] = str(
                                             datetime.date(year=int(datos['fecha_year']),
                                                         month=int(datos['fecha_month']),
@@ -585,6 +597,8 @@ def comentario_crear(request):
             print('los datos son', datos)
 
             
+            
+            #Se realiza una solicitud POST a la URL http://127.0.0.1:8000/api/v1/comentarios con los encabezados y datos proporcionados. Se utiliza requests.post para enviar la solicitud HTTP.
             response = requests.post(
                 'http://127.0.0.1:8000/api/v1/comentarios/crear',
                 headers=headers,
@@ -631,12 +645,10 @@ def comentario_editar(request,comentario_id):
     comentario = helper.obtener_comentario(comentario_id)
     formulario = ComentarioForm(datosFormulario,
                                 initial ={
-                                    'usuario': comentario['usuario'],
+                                    'texto': comentario['texto'],
                                     'entrenamiento': comentario['entrenamiento']['id'],
                                     'fecha': comentario['fecha'],
                                     'usuario':comentario['usuario']['id']
-                                    
-
                                 })
     
     if (request.method == "POST"):

@@ -157,7 +157,7 @@ class ComentarioActualizarTextoForm(forms.Form):
                              max_length=200,
                              help_text="200 caracteres como máximo") 
 
-
+#REGISTRO:
 class RegistroForm(UserCreationForm):
     roles = (
                 (2,'cliente'),
