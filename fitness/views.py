@@ -373,7 +373,6 @@ def entrenamiento_crear(request):
     return render(request, 'fitness/entrenamiento/create.html',{"formulario":formulario})
 
 def entrenamiento_obtener(request, entrenamiento_id):
-    print(entrenamiento_id)
     entrenamiento = helper.obtener_entrenamiento(entrenamiento_id)
     return render(request, 'fitness/entrenamiento/entrenamiento_mostrar.html',{'entrenamiento':entrenamiento})
 
@@ -460,7 +459,7 @@ def entrenamiento_editar_descripcion(request,entrenamiento_id):
                 data=json.dumps(datos)
             )
             if(response.status_code == requests.codes.ok):
-                return redirect("entrenamiento_mostrar",entrenamiento_id=entrenamiento_id)
+                return redirect('lista_entrenamientos')
             else:
                 print(response.status_code)
                 response.raise_for_status()
@@ -642,13 +641,16 @@ def comentario_editar(request,comentario_id):
     if request.method == 'POST':
         datosFormulario = request.POST
         
+    #Obtenemos el comentario especifico llamando al metodo de nuetsra clase helper.
     comentario = helper.obtener_comentario(comentario_id)
+    print(comentario)
     formulario = ComentarioForm(datosFormulario,
                                 initial ={
-                                    'texto': comentario['texto'],
+                                    'usuario':comentario['usuario']['id'],
                                     'entrenamiento': comentario['entrenamiento']['id'],
-                                    'fecha': comentario['fecha'],
-                                    'usuario':comentario['usuario']['id']
+                                    'texto': comentario['texto'],
+                                    'fecha': comentario['fecha']
+                                    
                                 })
     
     if (request.method == "POST"):

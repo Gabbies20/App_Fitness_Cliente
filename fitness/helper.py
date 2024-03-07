@@ -52,6 +52,7 @@ class helper:
         headers ={'Authorization':'Bearer '+env('TOKEN_CLIENTE')}
         response = requests.get('http://127.0.0.1:8000/api/v1/comentario/'+str(id),headers=headers)
         comentario = response.json()
+        #print(comentario)
         return comentario
 
     def obtener_entrenamiento_select():
@@ -62,7 +63,7 @@ class helper:
         
         lista_entrenamientos = [('','Ninguna')]
         for entrenamiento in entrenamientos:
-            print(entrenamiento)
+            #print(entrenamiento)
             lista_entrenamientos.append((entrenamiento['id'],entrenamiento['nombre']))
         return lista_entrenamientos
     
