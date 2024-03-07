@@ -22,6 +22,7 @@ def index(request):
 
 
 
+
     return render(request, 'fitness/index2.html')
 
 def crear_cabecera():
@@ -340,7 +341,6 @@ def entrenamiento_crear(request):
                         "Content-Type": "application/json" 
                     } 
             datos = formulario.data.copy()
-            datos["usuarios"] = request.POST.getlist("usuarios")
             datos["ejercicios"] = request.POST.getlist("ejercicios")
             
             response = requests.post(
@@ -630,8 +630,7 @@ def comentario_crear(request):
 def comentario_obtener(request,comentario_id):
     print(comentario_id)
     comentario = helper.obtener_comentario(comentario_id)
-    return render(request,'fitness/comentario/comentario_mostrar.html',{'comentario':comentario})
-    
+    return render(request,'fitness/comentario/mostrar_comentario.html',{'comentario':comentario})
     
     
     
@@ -661,6 +660,11 @@ def comentario_editar(request,comentario_id):
                     'Content-Type':'application/json'
                 }
                 datos = request.POST.copy()
+                datos["fecha"] = str(
+                                            datetime.date(year=int(datos['fecha_year']),
+                                                        month=int(datos['fecha_month']),
+                                                        day=int(datos['fecha_day']))
+                                             )
 
                 response = requests.put(
                     'http://127.0.0.1:8000/api/v1/comentarios/editar/'+ str(comentario_id), headers=headers, data=json.dumps(datos)
@@ -698,7 +702,7 @@ def comentario_editar_nombre(request,comentario_id):
     comentario = helper.obtener_comentario(comentario_id)
     formulario = ComentarioActualizarTextoForm(datosFormulario,
             initial={
-                'nombre': comentario['nombre'],
+                'texto': comentario['texto'],
             }
     )
     if (request.method == "POST"):
@@ -715,7 +719,7 @@ def comentario_editar_nombre(request,comentario_id):
                 data=json.dumps(datos)
             )
             if(response.status_code == requests.codes.ok):
-                return redirect("comentario_mostrar",comentario_id=comentario_id)
+                return redirect('lista_comentarios')
             else:
                 print(response.status_code)
                 response.raise_for_status()
@@ -756,7 +760,8 @@ def comentario_eliminar(request,comentario_id):
         return mi_error_500(request)
     return redirect('lista_comentarios')
 
-    
+
+#REGISTRO:
 def registrar_usuario(request):
     if(request.method=='POST'):
         try:

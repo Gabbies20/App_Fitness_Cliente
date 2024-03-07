@@ -34,7 +34,9 @@
 
                   <!--Lista que se va a desplegar-->
                   <ul class="dropdown-menu" aria-labelledby="dropdown-menu">
+                 
                       <li><a href="" class="dropdown-item">Crear-Ejercicio</a></li>
+                    
                       <li><a href="" class="dropdown-item">Crear Entrenamiento</a></li>
                       <li><a href="" class="dropdown-item">Crear-Plan de Entrenamiento</a></li>
                       <li><a href="" class="dropdown-item">Crear Rutina Diaria</a></li>
@@ -54,7 +56,9 @@
 
                 <!--Lista que se va a desplegar-->
                 <ul class="dropdown-menu" aria-labelledby="dropdown-menu">
+                    {% if request.session.usuario.rol == 3%}
                     <li><a href="{% url 'ejercicio_crear'%}" class="dropdown-item">Crear-Ejercicio</a></li>
+                    {% endif %}
                     <li><a href="{% url 'entrenamiento_crear' %}" class="dropdown-item">Crear Entrenamiento</a></li>
                     <li><a href="" class="dropdown-item">Crear-Plan de Entrenamiento</a></li>
                     <li><a href="" class="dropdown-item">Crear Rutina Diaria</a></li>

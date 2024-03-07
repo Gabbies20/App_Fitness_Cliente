@@ -12,8 +12,8 @@
         <div>
             <p class="card-text" >Ejercicios:</p>
             <ul >
-                {% for ejercicio in entrenamiento.ejercicios%}
-                    <li class="card-text" >{{ ejercicio.nombre }}</li>
+                {% for enetrenamientoEjercicio in entrenamiento.ejercicios%}
+                    <li class="card-text" >{{ enetrenamientoEjercicio.ejercicio.nombre }}</li>
                 {% empty %}
                     <li class="card-text">No hay ejercicios asociados a este entrenamiento.</li>
                 {% endfor %}
