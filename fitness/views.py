@@ -404,6 +404,7 @@ def entrenamiento_editar(request,entrenamiento_id):
                     'Content-Type':'application/json'
                 }
                 datos = request.POST.copy()
+                datos["ejercicios"] = request.POST.getlist("ejercicios")
 
                 response = requests.put(
                     'http://127.0.0.1:8000/api/v1/entrenamientos/editar/'+ str(entrenamiento_id), headers=headers, data=json.dumps(datos)
