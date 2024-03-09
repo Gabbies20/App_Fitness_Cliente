@@ -1,0 +1,41 @@
+{% extends 'fitness/principal.html' %}
+{% load static%}
+
+{% block cabecera%}
+<br>
+
+{% endblock %}
+
+{% block contenido%}
+{% load bootstrap5 %}
+{% bootstrap_css %}
+<div class="container">
+    <div class="row ">
+        {% for enetrenamientoEjercicio in ejercicios_mostrar%}
+        <br>
+        {{ enetrenamientoEjercicio.nombre }}
+        <ul>
+                <li class="card-text">{{ enetrenamientoEjercicio.descripcion }}</li>
+                <li class="card-text">{{ enetrenamientoEjercicio.tipo_ejercicio }}</li>
+        </ul>
+            {% empty %}
+            <li class="card-text">No hay ejercicios asociados a este entrenamiento.</li>
+        {% endfor %}
+    </div>
+</div>
+
+<br>
+{% endblock %}
+<br>
+
+
+<!-- <h1>Entrenamiento: {{ entrenamiento.nombre }}</h1>
+    <form >
+        {% csrf_token %}
+        {% for ejercicio in ejercicios_mostrar %}
+            <input type="checkbox" id="ejercicio_{{ ejercicio.id }}" name="ejercicios_seleccionados" value="{{ ejercicio.id }}">
+            <label for="ejercicio_{{ ejercicio.id }}">{{ ejercicio.nombre }}</label><br>
+        {% endfor %}
+        <button type="submit">Guardar Selección</button>
+    </form> -->
+

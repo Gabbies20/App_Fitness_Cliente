@@ -94,9 +94,9 @@ class EntrenamientoForm(forms.Form):
         )
         
         ejerciciosDisponibles = helper.obtener_ejercicios_select()
-        self.fields['ejercicios'] = forms.ChoiceField(
+        self.fields['ejercicios'] = forms.MultipleChoiceField(
             choices=ejerciciosDisponibles,
-            widget=forms.Select,
+            widget=forms.CheckboxSelectMultiple,
             required=True
             
         )
@@ -155,7 +155,15 @@ class ComentarioActualizarTextoForm(forms.Form):
     texto = forms.CharField(label='Texto',
                              required=True,
                              max_length=200,
+                             
                              help_text="200 caracteres como máximo") 
+    
+    
+class SeleccionarEjerciciosForm(forms.Form):
+    def __init__(self, ejercicios, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for ejercicio in ejercicios:
+            self.fields['ejercicio_%s' % ejercicio.id] = forms.BooleanField(label=ejercicio.nombre, required=False)
 
 #REGISTRO:
 class RegistroForm(UserCreationForm):

@@ -31,6 +31,9 @@ urlpatterns = [
     path('comentario/editar/nombre/<int:comentario_id>',views.comentario_editar_nombre,name='comentario_editar_nombre'),
     path('comentario/eliminar/<int:comentario_id>',views.comentario_eliminar,name='comentario_eliminar'),
     
+    #FUNCIONALIDADES DE MIS COMPAÑEROS:
+    path('entrenamiento-ejercicios/<int:entrenamiento_id>',views.obtener_ejercicios_entrenamiento,name='entrenamiento-ejercicios'),
+    path('mostrar-ejercicios/<int:entrenamiento_id>',views.mostrar_ejercicios_entrenamiento,name="elecciones"),
     #REGISTRO - LOGIN Y LOGOUT:
     path('registrar', views.registrar_usuario, name='registrar_usuario'),
     path('login', views.login, name='login'),

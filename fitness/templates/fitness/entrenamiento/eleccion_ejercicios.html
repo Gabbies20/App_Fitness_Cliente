@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Seleccionar Ejercicios</title>
+</head>
+<body>
+    <h1>Entrenamiento: {{ entrenamiento.nombre }}</h1>
+    <form method="post" action="{% url 'guardar_historial_ejercicios' %}">
+        {% csrf_token %}
+        {% for ejercicio in ejercicios_mostrar %}
+            <input type="checkbox" id="ejercicio_{{ ejercicio.id }}" name="ejercicios_seleccionados" value="{{ ejercicio.id }}">
+            <label for="ejercicio_{{ ejercicio.id }}">{{ ejercicio.nombre }}</label><br>
+        {% endfor %}
+        <button type="submit">Guardar Selección</button>
+    </form>
+</body>
+</html>

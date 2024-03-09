@@ -8,6 +8,7 @@ import requests
 import environ
 import os
 from pathlib import Path
+from django.http import JsonResponse
 
 
 #ENV:
@@ -760,6 +761,57 @@ def comentario_eliminar(request,comentario_id):
         print(f'Ocurrió un error: {err}')
         return mi_error_500(request)
     return redirect('lista_comentarios')
+
+
+
+
+#FUNCIONALIDADES DE MIS COMPAÑEROS:
+#MANUEL:
+def obtener_ejercicios_entrenamiento(request, entrenamiento_id):
+    try:
+        headers = {
+                    'Authorization': 'Bearer ' + env('TOKEN_CLIENTE'),
+                    'Content-Type':'application/json'
+                }
+        response = requests.get(
+            'http://127.0.0.1:8000/api/v1/entrenamiento-ejercicios/'+str(entrenamiento_id),
+            headers=headers,
+        )
+        ejercicios= response.json()
+        if(response.status_code == requests.codes.ok):
+            print(response.text)
+            return render(request,'fitness/entrenamiento/ejercicios.html',{'ejercicios_mostrar':ejercicios})
+        else:
+            print(response.status_code)
+            response.raise_for_status()
+    except Exception as err:
+        print(f'Ocurrió un error: {err}')
+        return mi_error_500(request)
+    return redirect('lista_comentarios')
+
+
+def mostrar_ejercicios_entrenamiento(request, entrenamiento_id):
+    try:
+        headers = {
+                    'Authorization': 'Bearer ' + env('TOKEN_CLIENTE'),
+                    'Content-Type':'application/json'
+                }
+        response = requests.get(
+            'http://127.0.0.1:8000/api/v1/entrenamiento-ejercicios/'+str(entrenamiento_id),
+            headers=headers,
+        )
+        ejercicios= response.json()
+        if(response.status_code == requests.codes.ok):
+            print(response.text)
+            return render(request, 'fitness/entrenamiento/eleccion_ejercicios.html', {'ejercicios_mostrar': ejercicios})
+
+        else:
+            # Manejar el caso en que la solicitud no fue exitosa
+            return render(request, {'error': f'Error al obtener datos del servidor: {response.status_code}'})
+    except Exception as e:
+        # Manejar cualquier excepción que pueda ocurrir durante la solicitud
+        return render(request, {'error': f'Error inesperado: {e}'})
+
 
 
 #REGISTRO:

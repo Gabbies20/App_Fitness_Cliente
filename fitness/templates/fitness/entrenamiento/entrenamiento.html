@@ -31,7 +31,12 @@
                     <span>{% bs_icon 'pencil' %}Editar</span> 
                 </a>
             </button>
-            
+            <div>
+                <a href="{% url 'entrenamiento-ejercicios' entrenamiento.id%}">jjh</a>
+            </div>
+            <div>
+                <a href="{% url 'elecciones' entrenamiento.id%}">eee</a>
+            </div>
             <form action="{% url 'entrenamiento_eliminar' entrenamiento.id %}" method="post" id="deleteForm{{ entrenamiento.id }}">
                 {% csrf_token %}
                 <button class="btn btn-danger" data-toggle="modal" data-target="#confirmDeleteModal{{entrenamiento.id}}" type="button">
