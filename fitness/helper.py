@@ -21,6 +21,17 @@ class helper:
             lista_usuarios.append((usuario['id'],usuario['username']))
         return lista_usuarios
     
+    
+    def obtener_grupos_musculares():
+        headers = {'Authorization': 'Bearer ' +env("TOKEN_CLIENTE")}
+        response = requests.get('http://127.0.0.1:8000/api/v1/grupos-musculares',headers=headers)
+        grupos_musculares = response.json()
+        
+        lista_grupos = [('','Ninguno')]
+        for grupo in grupos_musculares:
+            lista_grupos.append((grupo['id'],grupo['nombre']))
+        return lista_grupos
+        
     def obtener_ejercicio(id):
         #Obtenemos todos los ejercicios.
         headers = {'Authorization':'Bearer '+env('TOKEN_CLIENTE')}

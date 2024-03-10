@@ -23,7 +23,9 @@
                     .card-img-bottom 	Establecemos una imagen para la card en la parte inferior
                 -->
                     <div class="text-center">
-                            <h1 class="display-6">¿Lo que hago por ti?</h1>
+                            <h1 class="display-6">¿Lo que hago por tiiiiii?</h1>
+                            <a href="{% url 'elecciones'%}">Elegir ejercicios</a>
+                            <a href="{% url 'historial'%}">Historial ejercicios</a>
                             <h6 class="">Ayudarte a alcanzar tu mejor versión, para que te veas y sientas genial.</h1>
                             {% if request.session.usuario%}
                             Fecha Inicio:<p class="text-primary">{{request.session.fecha}}</p>

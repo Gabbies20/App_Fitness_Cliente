@@ -1,5 +1,6 @@
 from django import forms
 from django.forms import ModelForm
+import requests
 from .models import *
 from datetime import date
 import datetime
@@ -18,20 +19,42 @@ class BusquedaEjercicioAvanzadaForm(forms.Form):
     descripcion = forms.CharField(widget=forms.Textarea, required=False)
 
 class EjercicioForm(forms.Form):
+    #Valores que no necesitan valores de la BD.
     nombre = forms.CharField(required=True)
     descripcion = forms.CharField(widget=forms.Textarea, required=True)
-    tipo_ejercicio = forms.CharField(required=True)
+    TIPOS= [
+        ('AER','Aerobico'),
+        ('FUE', 'Fuerza o Anaerobico'),
+        ('FUN','Funcional'),
+        ('HIT','Hit'),
+        ('POT','Potencia'),
+    ]
     
+    tipos = forms.ChoiceField(choices=TIPOS,
+                                initial='FUN')
+    
+    imagen = forms.FileField(required=False)
+    
+    
+    #Modificamos el constructor de este formulario, para incluir los campos que necesitan de la BD.
     def __init__(self, *args, **kwargs):
         super(EjercicioForm,self).__init__(*args,**kwargs)
         
         usuariosDisponibles = helper.obtener_usuarios_select()
-        self.fields['usuarios'] = forms.ChoiceField(
+        self.fields['usuarios'] = forms.MultipleChoiceField(
             choices=usuariosDisponibles,
-            widget=forms.Select,
+            widget=forms.CheckboxSelectMultiple,
             required=True,
         )
-    
+
+        gruposDisponibles = helper.obtener_grupos_musculares()
+        #Agrega un campo llamador "" al formulario.
+        self.fields['grupos_musculares'] = forms.MultipleChoiceField(
+            choices=gruposDisponibles,
+            widget=forms.CheckboxSelectMultiple,
+            required=True,
+        )
+        
 class EjercicioActualizarNombreForm(forms.Form):
     nombre = forms.CharField(label='Nombre',
                              required=True,
@@ -164,6 +187,91 @@ class SeleccionarEjerciciosForm(forms.Form):
         super().__init__(*args, **kwargs)
         for ejercicio in ejercicios:
             self.fields['ejercicio_%s' % ejercicio.id] = forms.BooleanField(label=ejercicio.nombre, required=False)
+            
+            
+            
+class SeleccionEjerciciosForm(forms.Form):    
+    def __init__(self, *args, **kwargs):
+        super(SeleccionEjerciciosForm, self).__init__(*args, **kwargs)
+        
+        # Hacer una solicitud a la API para obtener la lista de ejercicios
+        response = requests.get('http://127.0.0.1:8000/api/v1/ejercicios')
+        if response.status_code == 200:
+            ejercicios = response.json()  # Supongamos que la API devuelve un JSON con los ejercicios
+            # Crear una lista de tuplas (id, nombre) para las opciones del formulario
+            choices = [(ejercicio['id'], ejercicio['nombre']) for ejercicio in ejercicios]
+            self.fields['ejercicios_seleccionados'] = forms.MultipleChoiceField(
+                choices=choices,
+                widget=forms.CheckboxSelectMultiple,
+                label='Selecciona tus ejercicios:'
+            )
+        else:
+            # Si hay un problema con la solicitud a la API, mostrar un mensaje de error
+            self.fields['ejercicios_seleccionados'] = forms.MultipleChoiceField(
+                choices=(),
+                widget=forms.CheckboxSelectMultiple,
+                label='Error al cargar los ejercicios. Inténtalo de nuevo más tarde.'
+            )
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
 
 #REGISTRO:
 class RegistroForm(UserCreationForm):

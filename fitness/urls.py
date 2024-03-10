@@ -34,6 +34,8 @@ urlpatterns = [
     #FUNCIONALIDADES DE MIS COMPAÑEROS:
     path('entrenamiento-ejercicios/<int:entrenamiento_id>',views.obtener_ejercicios_entrenamiento,name='entrenamiento-ejercicios'),
     path('mostrar-ejercicios/<int:entrenamiento_id>',views.mostrar_ejercicios_entrenamiento,name="elecciones"),
+    path('elegir-ejercicios',views.elegir_ejercicios,name="elecciones"),
+    path('historial',views.historial_usuario,name="historial"),
     #REGISTRO - LOGIN Y LOGOUT:
     path('registrar', views.registrar_usuario, name='registrar_usuario'),
     path('login', views.login, name='login'),

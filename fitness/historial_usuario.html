@@ -1,0 +1,44 @@
+{% extends 'fitness/principal.html' %}
+{% load static %}
+{% load bootstrap_icons %}  <!-- Debe ir antes de cualquier uso de las etiquetas de íconos -->
+
+{% block cabecera %}
+<br>
+  <h2 class="display-5">Bienvenidaaaaaaaaaaaaaaaaaaaaaa, {{ request.session.usuario.username}}</h2>
+{% endblock %}
+
+{% block contenido %}
+<div class="container">
+    <h3>Historial de Ejercicios</h3>
+    <table class="table">
+      <thead>
+        <tr>
+            <th>Usuario</th>
+            <th>Ejercicio</th>
+            <th>Ejercicio</th>
+            <th>Ejercicio</th>
+            <th>Fecha</th>
+            <th>Duración</th>
+            <th>Repeticiones</th>
+            <th>Peso Utilizado</th>
+            <th>Calorías</th>
+        </tr>
+      </thead>
+      <p>sdvjsvsvsvsfsdsdfs</p>
+      <tbody>
+        {% for historial in historial_mostrar %}
+        <tr>
+            <td>{{ historial.usuario.username }}</td>
+            <td>{{ historial.ejercicio.nombre }}</td>
+            <td>{{ historial.fecha }}</td>
+            <td>{{ historial.duracion }}</td>
+            <td>{{ historial.repeticiones }}</td>
+            <td>{{ historial.peso }}</td>
+            <td>{{ historial.calorias }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+</div>
+
+{% endblock %}

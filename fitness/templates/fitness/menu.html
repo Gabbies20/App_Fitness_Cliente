@@ -56,7 +56,7 @@
 
                 <!--Lista que se va a desplegar-->
                 <ul class="dropdown-menu" aria-labelledby="dropdown-menu">
-                    {% if request.session.usuario.rol == 3%}
+                    {% if request.session.usuario.rol == 2%}
                     <li><a href="{% url 'ejercicio_crear'%}" class="dropdown-item">Crear-Ejercicio</a></li>
                     {% endif %}
                     <li><a href="{% url 'entrenamiento_crear' %}" class="dropdown-item">Crear Entrenamiento</a></li>

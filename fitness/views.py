@@ -8,7 +8,7 @@ import requests
 import environ
 import os
 from pathlib import Path
-from django.http import JsonResponse
+from django.http import Http404, JsonResponse
 
 
 #ENV:
@@ -19,10 +19,6 @@ env = environ.Env()
 
 # Create your views here.
 def index(request):
-
-
-
-
 
     return render(request, 'fitness/index2.html')
 
@@ -116,6 +112,7 @@ def ejercicio_crear(request):
             #Copia los datos del formulario en un nuevo diccionario llamado datos. Además, se obtiene la lista de usuarios seleccionados en el formulario y se agrega al diccionario datos.
             datos = formulario.data.copy()
             datos['usuarios'] =request.POST.getlist('usuarios')
+            datos['grupos_musculares'] = request.POST.getlist('grupos_musculares')
         
             response = requests.post(
                 'http://127.0.0.1:8000/api/v1/ejercicios/crear',
@@ -811,6 +808,96 @@ def mostrar_ejercicios_entrenamiento(request, entrenamiento_id):
     except Exception as e:
         # Manejar cualquier excepción que pueda ocurrir durante la solicitud
         return render(request, {'error': f'Error inesperado: {e}'})
+
+
+def elegir_ejercicios(request):
+     #headers = {'Authorization':'Bearer sem6IlXzR1ER9DcjyLd0FOVuwRurdk'}
+    headers = crear_cabecera()
+    response = requests.get('http://127.0.0.1:8000/api/v1/ejercicios',headers=headers)
+    #response = requests.get('http://gabrielapinzon.pythonanywhere.com/api/v1/ejercicios',headers=headers)
+    ejercicios = response.json()
+    return render(request, 'fitness/eleccion_ejercicios.html',{'ejercicios_mostrar':ejercicios})
+
+
+
+def historial_usuario(request):
+      # Obtener el ID del usuario de la sesión
+    usuario_id = request.session.get('usuario', {}).get('id')
+    
+    if usuario_id is None:
+        # Manejar el caso en que no se encuentre el ID del usuario en la sesión
+        return render(request, 'fitness/error.html', {'mensaje': 'ID de usuario no encontrado en la sesión'})
+    
+    # Crear las cabeceras para la solicitud a la API
+    headers = crear_cabecera()
+    
+    try:
+        # Realizar la solicitud a la API para obtener el historial de ejercicios del usuario
+        response = requests.get(f'http://127.0.0.1:8000/api/v1/historiales/{usuario_id}', headers=headers)
+        response.raise_for_status()  # Levantar una excepción si la solicitud no fue exitosa
+        historial = response.json()  # Convertir la respuesta JSON en un diccionario de Python
+    except requests.RequestException as e:
+        # Manejar cualquier error de solicitud que ocurra
+        return render(request, 'fitness/error.html', {'mensaje': f'Error al realizar la solicitud a la API: {e}'})
+    
+    # Renderizar la plantilla con el historial de ejercicios obtenido de la API
+    return render(request, 'fitness/historial_usuario.html', {'historial_mostrar': historial})
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

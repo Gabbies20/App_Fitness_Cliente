@@ -14,6 +14,22 @@
                     <li class="card-text" >{{ usuario.usuario.username }}</li>
                 {% endfor%}
             </ul>
+        <p class="card-text">Grupo muscular: </p>
+        <ul>
+            {% for grupo_muscular in ejercicio.grupos_musculares %}
+              <li>
+                <p>ID: {{ grupo_muscular.id }}</p>
+                <p>Nombre: {{ grupo_muscular.nombre }}</p>
+                <p>Nivel: {{ grupo_muscular.nivel }}</p>
+                <p>Músculos:</p>
+                <ul>
+                  {% for musculo_id in grupo_muscular.musculos %}
+                    <li>{{ musculo_id }}</li>
+                  {% endfor %}
+                </ul>
+              </li>
+            {% endfor %}
+          </ul>
         </div>
         {% load bootstrap_icons %}
         <div class="btn-group custom-btn-group">

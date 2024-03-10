@@ -19,20 +19,6 @@
                       {% csrf_token %}
                       {% bootstrap_form formulario %}
                       <br>
-                      <!--<div class="mb-4">
-                        {% bootstrap_field formulario.nombre show_label=True %}
-                    </div>
-                
-                    <div class="mb-4">
-                        {% bootstrap_field formulario.descripcion show_label=True %}
-                    </div>
-                    
-                    <div class="mb-4">
-                        {% bootstrap_field formulario.tipo_ejercicio show_label=True %}
-                    </div>
-                    <div class="mb-4">
-                        {% bootstrap_field formulario.usuarios show_label=True %}
-                    </div> -->
                     {% buttons %}
                     <button type="submit" class="btn btn-primary">Enviar</button>
                     {% endbuttons %}

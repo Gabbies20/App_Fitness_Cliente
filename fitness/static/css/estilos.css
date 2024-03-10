@@ -113,3 +113,23 @@ a.btn.btn-outline-dangerous {
 .bg-lightyellow {
     background-color: rgb(243, 243, 152);
 }
+.custom-table {
+    width: 100%;
+    margin-top: 6rem; /* Espacio superior de 6 unidades */
+}
+
+/* Estilo personalizado para las celdas */
+.custom-table th,
+.custom-table td {
+    background-color: #e7f2f9; /* Color celeste muy bajito */
+    color: #333; /* Color de texto */
+    border: 1px solid #ccc; /* Borde gris claro */
+    padding: 8px; /* Espaciado interno */
+    text-align: center; /* Alineación del texto al centro */
+}
+
+/* Estilo para las celdas de la primera columna */
+.custom-table td:first-child {
+    background-color: #1f739d; /* Color celeste un poco más oscuro */
+}
+  

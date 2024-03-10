@@ -1,0 +1,36 @@
+{% extends 'fitness/principal.html' %}
+{% load static %}
+{% load bootstrap_icons %}  <!-- Debe ir antes de cualquier uso de las etiquetas de íconos -->
+
+{% block cabecera %}
+<br>
+  <h2 class="display-5">Bienvenido, {{ request.session.usuario.username}}</h2>
+{% endblock %}
+
+{% block contenido %}
+<div class="container">
+    <h1 class="mt-5"></h1>
+    <h4 class="mt-4">Selecciona tus ejercicios:</h4>
+    <form action="" method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            {% for ejercicio in ejercicios_mostrar %}
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="ejercicio_{{ ejercicio.id }}" name="ejercicios_seleccionados" value="{{ ejercicio.id }}">
+                    <label class="form-check-label" for="ejercicio_{{ ejercicio.id }}">{{ ejercicio.nombre }}</label>
+                </div>
+            {% endfor %}
+        </div>
+        <button type="submit" class="btn btn-primary">Guardar Ejercicios</button>
+    </form>
+    <br>
+    <h2>Calorías y Duración de los Ejercicios Seleccionados:</h2>
+    <ul class="list-group">
+        {% comment %} {% for ejercicio_id in ejercicios_seleccionados %}
+            <li class="list-group-item">{{ ejercicios|get_ejercicio_by_id:ejercicio_id }} - Calorías: {{ ejercicios|get_ejercicio_by_id:ejercicio_id.calorias }} - Duración: {{ ejercicios|get_ejercicio_by_id:ejercicio_id.duracion }}</li>
+        {% endfor %} {% endcomment %}
+    </ul>
+</div>
+
+{% endblock %}
+
