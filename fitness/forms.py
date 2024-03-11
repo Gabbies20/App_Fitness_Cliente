@@ -1,5 +1,8 @@
+from typing import Any, Mapping
 from django import forms
 from django.forms import ModelForm
+from django.forms.renderers import BaseRenderer
+from django.forms.utils import ErrorList
 import requests
 from .models import *
 from datetime import date
@@ -30,7 +33,7 @@ class EjercicioForm(forms.Form):
         ('POT','Potencia'),
     ]
     
-    tipos = forms.ChoiceField(choices=TIPOS,
+    tipo_ejercicio = forms.ChoiceField(choices=TIPOS,
                                 initial='FUN')
     
     imagen = forms.FileField(required=False)
@@ -213,10 +216,20 @@ class SeleccionEjerciciosForm(forms.Form):
                 label='Error al cargar los ejercicios. Inténtalo de nuevo más tarde.'
             )
             
-            
-            
-            
-            
+class ActualizarPerfilForm(forms.Form):
+    altura = forms.FloatField()
+    email = forms.CharField(required=True)
+    peso = forms.FloatField()
+    
+    def __init__(self,*args, **kwargs):
+        super(ActualizarPerfilForm,self).__init__(*args, **kwargs)
+        
+        usuariosDisponibles = helper.obtener_usuarios_select()
+        self.fields['usuario'] = forms.ChoiceField(
+            choices = usuariosDisponibles,
+            widget=forms.Select,
+            required=True,
+        )
             
             
             

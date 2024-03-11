@@ -1,0 +1,19 @@
+{% extends "fitness/principal2.html" %}
+
+{% block contenido %}
+
+{% load bootstrap5 %}
+<form action="{% url 'actualizar-perfil' %}" method="POST"> 
+    
+    {% csrf_token %} 
+
+    <div class="mb-4">
+        {% bootstrap_form formulario %}
+<div class="mb-4">
+</div>
+    <button type="submit" class="btn btn-primary">Guardar cambios</button>
+
+</form> 
+
+
+{% endblock %}

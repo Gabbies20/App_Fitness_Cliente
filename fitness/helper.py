@@ -39,6 +39,12 @@ class helper:
         ejercicio = response.json()
         return ejercicio
     
+    def obtener_usuario(id):
+        #Obtenemos todos los ejercicios.
+        headers = {'Authorization':'Bearer '+env('TOKEN_CLIENTE')}
+        response = requests.get('http://127.0.0.1:8000/api/v1/usuario/'+str(id),headers=headers)
+        usuario = response.json()
+        return usuario
     
     def obtener_ejercicios_select():
         #Obtenemos todos los usuarios:

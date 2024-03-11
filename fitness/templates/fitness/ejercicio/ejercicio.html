@@ -18,13 +18,12 @@
         <ul>
             {% for grupo_muscular in ejercicio.grupos_musculares %}
               <li>
-                <p>ID: {{ grupo_muscular.id }}</p>
                 <p>Nombre: {{ grupo_muscular.nombre }}</p>
                 <p>Nivel: {{ grupo_muscular.nivel }}</p>
                 <p>Músculos:</p>
                 <ul>
                   {% for musculo_id in grupo_muscular.musculos %}
-                    <li>{{ musculo_id }}</li>
+                    <li>{{ musculo_id.nombre }}</li>
                   {% endfor %}
                 </ul>
               </li>

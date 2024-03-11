@@ -1,0 +1,55 @@
+{% extends 'fitness/principal2.html' %}
+{% load static %}
+{% load bootstrap_icons %} <!-- Debe ir antes de cualquier uso de las etiquetas de íconos -->
+
+{% block cabecera %}
+<br>
+<h2 class="display-6 text-center">Historial de ejercicios de {{ request.session.usuario.username}}</h2>
+{% endblock %}
+{{mensaje}}
+{% block contenido %}
+<div class="container">
+  <div class="row">
+  </div>
+</div>
+<!-- Tabla de 2 por 8 con colores de Bootstrap -->
+<div class="row">
+  <div class="container mt-4">
+    <table class="table table-dark table-striped-columns table-bordered text-center">
+      <thead class="table-success">
+        <tr class="table-success">
+          <th scope="col" class="bg-light">Ejercicio ID</th>
+          <th>Fecha de realización</th>
+          <th>Duración</th>
+          <th>Repeticiones</th>
+          <th>Peso</th>
+          <th>Calorías</th>
+        </tr>
+      </thead>
+      <tbody class="table-ligh">
+        {% for historial in historial_mostrar %}
+        <tr class="table-ligh">
+          <td class="table-light">{{ historial.id }}</td>
+          <td class="table-light">{{ historial.fecha}}</td>
+          <td class="table-light"><b><p class="text-danger">{{historial.duracion}} minutos</p></b></td>
+          <td class="table-light">{{ historial.repeticiones }}</td>
+          <td class="table-light">{{ historial.peso }}kg</td>
+          <td class="table-light"><b><p class="text-danger">{{historial.calorias}}</p></b></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <br>
+    <div>
+      <p class="text-lg text-muted font-italic"> El tiempo total de ejercicio realizado por {{ request.session.usuario.username}} es de  <span style="color: slategray">{{ tiempo}} </span>minutos.</p>
+    <p class="text-lg text-muted font-italic"> Las calorías totales quemadas por {{ request.session.usuario.username}} son <span style="color:slategray">{{ calorias}}.</span></p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <button class="btn btn-outline-success" type="submit">Agregar historial</button>
+    </div>
+  </div>
+</div>
+{% endblock %}
+

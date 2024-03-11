@@ -1,108 +1,108 @@
 {% load static%}
 
 <!--<nav class="navbar navbar-expand-lg navbar-light bg-warning fixed-top">-->
-<nav class="navbar navbar-expand-lg navbar-light bg-warning fixed-top">
-  <div class="container-fluid">
-      <a href="#" class="navbar-brand">GJPO</a>
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #c5f7b7;">
+    <div class="container-fluid">
+        <a href="#" class="navbar-brand">GJPO</a>
 
 
-      <!--Boton para el menu movil-->
-      <button 
-          class="navbar-toggler"  
-          type="button" 
-          data-bs-toggle="collapse" 
-          data-bs-target="#menu"
-          aria-controls="menu"
-          aria-expanded="false"
-          aria-label="Mostrar / Ocultar Menu">
-      
-          <span class="navbar-toggler-icon"></span>
-      </button>
-          
-      
+        <!--Boton para el menu movil-->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu"
+            aria-controls="menu" aria-expanded="false" aria-label="Mostrar / Ocultar Menu">
 
-      <!--Menu de navegacion-->
-      <div class="collapse navbar-collapse" id="menu">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li class="nav-item"><a href="{% url 'index' %}" class="nav-link">Inicio</a></li>
-              <!--Dropdown-->
-              <li class="nav-item dropdown">
-                  <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"
-                      aria-expanded="false" id="dropdown-menu">
-                      !!
-                  </a>
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-                  <!--Lista que se va a desplegar-->
-                  <ul class="dropdown-menu" aria-labelledby="dropdown-menu">
-                 
-                      <li><a href="" class="dropdown-item">Crear-Ejercicio</a></li>
-                    
-                      <li><a href="" class="dropdown-item">Crear Entrenamiento</a></li>
-                      <li><a href="" class="dropdown-item">Crear-Plan de Entrenamiento</a></li>
-                      <li><a href="" class="dropdown-item">Crear Rutina Diaria</a></li>
-                      <li><a href="" class="dropdown-item">Crear Comentario</a></li>
-                      <li><a href="" class="dropdown-item">Crear Suscripción</a></li>
-                      <li><a href="" class="dropdown-item">Crear PROMOCIÓN</a></li>
-                  </ul>
 
-              </li>
 
-              <!--Nuevo crud para crear desde la API-->
-              <li class="nav-item dropdown">
-                <a href="{% url 'entrenamiento_crear' %}" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"
-                    aria-expanded="false" id="dropdown-menu">
-                    CRUDS-API
+        <!--Menu de navegacion-->
+        <div class="collapse navbar-collapse" id="menu">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item"><a href="{% url 'index' %}" class="nav-link">Inicio</a></li>
+                {% comment %} <!--Dropdown-->
+                <li class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"
+                        aria-expanded="false" id="dropdown-menu">
+                        !!
+                    </a>
+
+                    {% comment %} <!--Lista que se va a desplegar-->
+                    <ul class="dropdown-menu" aria-labelledby="dropdown-menu">
+
+                        <li><a href="" class="dropdown-item">Crear-Ejercicio</a></li>
+
+                        <li><a href="" class="dropdown-item">Crear Entrenamiento</a></li>
+                        <li><a href="" class="dropdown-item">Crear-Plan de Entrenamiento</a></li>
+                        <li><a href="" class="dropdown-item">Crear Rutina Diaria</a></li>
+                        <li><a href="" class="dropdown-item">Crear Comentario</a></li>
+                        <li><a href="" class="dropdown-item">Crear Suscripción</a></li>
+                        <li><a href="" class="dropdown-item">Crear PROMOCIÓN</a></li>
+                    </ul> {% endcomment %}
+
+                </li>
+
+                <!--Nuevo crud para crear desde la API-->
+                {% if request.session.usuario.rol == 3%}
+                <li class="nav-item dropdown">
+                    <a href="{% url 'entrenamiento_crear' %}" class="nav-link dropdown-toggle" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false" id="dropdown-menu">
+                        CRUDS-API
+                    </a>
+
+                    <!--Lista que se va a desplegar-->
+                    <ul class="dropdown-menu" aria-labelledby="dropdown-menu">
+                            <li><a href="{% url 'ejercicio_crear'%}" class="dropdown-item">Crear-Ejercicio</a></li>
+
+                            <li><a href="{% url 'entrenamiento_crear' %}" class="dropdown-item">Crear Entrenamiento</a></li>
+                            <li><a href="" class="dropdown-item">Crear-Plan de Entrenamiento</a></li>
+                            <li><a href="" class="dropdown-item">Crear Rutina Diaria</a></li>
+                            <li><a href="{% url 'comentario_crear' %}" class="dropdown-item">Crear Comentario</a></li>
+                            <li><a href="" class="dropdown-item">Crear Suscripción</a></li>
+                            <li><a href="" class="dropdown-item">Crear PROMOCIÓN</a></li>
+                        
+                    </ul>
+
+                </li>
+                {% endif %}
+                <li class="nav-item">
+                    <a href="{% url 'perfil-usuario'%}" class="nav-link">
+                        <i class="fas fa-user-circle"></i>
+                    </a>
+                </li>
+                <li class="nav-item"><a href="{% url 'historial'%}" class="nav-link">Historial de Ejercicios</a></li>
+
+
+            </ul>
+
+            <form action="" class="d-flex">
+                <input type="search" class="form-control me-2" placeholder="Buscar ejercicio por músculo..." aria-label="Buscar">
+                <button class="btn btn-outline-primary" type="button">Buscar</button>
+            </form>
+
+            <div class="ml-2">
+                {% if not request.session.token%}
+                <a class="btn btn-outline-warning" href="{% url 'login' %}">
+                    Login
                 </a>
+                {% endif %}
 
-                <!--Lista que se va a desplegar-->
-                <ul class="dropdown-menu" aria-labelledby="dropdown-menu">
-                    {% if request.session.usuario.rol == 2%}
-                    <li><a href="{% url 'ejercicio_crear'%}" class="dropdown-item">Crear-Ejercicio</a></li>
-                    {% endif %}
-                    <li><a href="{% url 'entrenamiento_crear' %}" class="dropdown-item">Crear Entrenamiento</a></li>
-                    <li><a href="" class="dropdown-item">Crear-Plan de Entrenamiento</a></li>
-                    <li><a href="" class="dropdown-item">Crear Rutina Diaria</a></li>
-                    <li><a href="{% url 'comentario_crear' %}" class="dropdown-item">Crear Comentario</a></li>
-                    <li><a href="" class="dropdown-item">Crear Suscripción</a></li>
-                    <li><a href="" class="dropdown-item">Crear PROMOCIÓN</a></li>
-                </ul>
+                {% if not request.session.token %}
+                <a class="btn btn-outline-dangerous" href="{% url 'registrar_usuario' %}">
+                    Registrarse
+                </a>
+                {% endif %}
 
-            </li>
-              <li class="nav-item"><a href="#" class="nav-link">Blog</a></li>
-              <li class="nav-item"><a href="#" class="nav-link">Contacto</a></li>
+                {% if request.session.token %}
+                <a class="btn btn-outline-danger" href="{% url 'logout' %}">
+                    Desconectarse
+                </a>
+                {% endif %}
+            </div>
 
-
-          </ul>
-
-          <form action="" class="d-flex">
-              <input type="search" class="form-control me-2" placeholder="Buscar..." aria-label="Buscar">
-              <button class="btn btn-outline-primary" type="button">Buscar</button>
-          </form>
-
-          <div class="ml-2">
-            {% if not request.session.token%}
-        <a class="btn btn-outline-warning" href="{% url 'login' %}">
-            Login
-        </a>
-        {% endif %}
-
-        {% if not request.session.token %}
-          <a class="btn btn-outline-dangerous" href="{% url 'registrar_usuario' %}">
-              Registrarse
-          </a>
-         {% endif %}
-
-         {% if request.session.token %}
-         <a class="btn btn-outline-danger" href="{% url 'logout' %}">
-             Desconectarse
-         </a>
-        {% endif %}
-          </div>
-         
         </div>
-        
-      </div>
-  </div>
+
+    </div>
+    </div>
 </nav>
 <br>
 <br>

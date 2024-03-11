@@ -1,3 +1,4 @@
+import errno
 from django.shortcuts import render,redirect
 from .forms import *
 from django.contrib import messages
@@ -9,6 +10,7 @@ import environ
 import os
 from pathlib import Path
 from django.http import Http404, JsonResponse
+from datetime import datetime
 
 
 #ENV:
@@ -19,6 +21,7 @@ env = environ.Env()
 
 # Create your views here.
 def index(request):
+
 
     return render(request, 'fitness/index2.html')
 
@@ -113,6 +116,7 @@ def ejercicio_crear(request):
             datos = formulario.data.copy()
             datos['usuarios'] =request.POST.getlist('usuarios')
             datos['grupos_musculares'] = request.POST.getlist('grupos_musculares')
+            
         
             response = requests.post(
                 'http://127.0.0.1:8000/api/v1/ejercicios/crear',
@@ -148,19 +152,19 @@ def ejercicio_obtener(request, ejercicio_id):
     return render(request, 'fitness/ejercicio/ejercicio_mostrar.html',{'ejercicio':ejercicio})
 
 def ejercicio_editar(request,ejercicio_id):
-    
     datosFormulario = None
-    
     if request.method == 'POST':
         datosFormulario = request.POST
-        
+    #Obtenemos el ejercicio por la API.
     ejercicio = helper.obtener_ejercicio(ejercicio_id)
+    #Especificamos cada uno de los valores que vamos a rellenar.
     formulario = EjercicioForm(datosFormulario,
                                 initial ={
                                     'nombre': ejercicio['nombre'],
                                     'descripcion': ejercicio['descripcion'],
                                     'tipo_ejercicio': ejercicio['tipo_ejercicio'],
-                                    'usuarios': [usuario['id'] for usuario in ejercicio['usuarios']]
+                                    'grupos_musculares': [grupo['id'] for grupo in ejercicio['grupos_musculares']],
+                                    'usuarios': [usuario['usuario']['id'] for usuario in ejercicio['usuarios']]
 
                                 })
     
@@ -803,49 +807,132 @@ def mostrar_ejercicios_entrenamiento(request, entrenamiento_id):
             return render(request, 'fitness/entrenamiento/eleccion_ejercicios.html', {'ejercicios_mostrar': ejercicios})
 
         else:
-            # Manejar el caso en que la solicitud no fue exitosa
-            return render(request, {'error': f'Error al obtener datos del servidor: {response.status_code}'})
-    except Exception as e:
-        # Manejar cualquier excepción que pueda ocurrir durante la solicitud
-        return render(request, {'error': f'Error inesperado: {e}'})
+            print(response.status_code)
+            response.raise_for_status()
+    except Exception as err:
+        print(f'Ocurrió un error: {err}')
+        return mi_error_500(request)
 
 
 def elegir_ejercicios(request):
-     #headers = {'Authorization':'Bearer sem6IlXzR1ER9DcjyLd0FOVuwRurdk'}
     headers = crear_cabecera()
     response = requests.get('http://127.0.0.1:8000/api/v1/ejercicios',headers=headers)
-    #response = requests.get('http://gabrielapinzon.pythonanywhere.com/api/v1/ejercicios',headers=headers)
     ejercicios = response.json()
     return render(request, 'fitness/eleccion_ejercicios.html',{'ejercicios_mostrar':ejercicios})
 
 
-
 def historial_usuario(request):
-      # Obtener el ID del usuario de la sesión
     usuario_id = request.session.get('usuario', {}).get('id')
-    
     if usuario_id is None:
-        # Manejar el caso en que no se encuentre el ID del usuario en la sesión
-        return render(request, 'fitness/error.html', {'mensaje': 'ID de usuario no encontrado en la sesión'})
-    
-    # Crear las cabeceras para la solicitud a la API
+        mensaje='No hay un usuario registrado con ese nombre.'
+        return render(request, 'fitness/historial_usuario.html', {'mensaje':mensaje})
     headers = crear_cabecera()
-    
     try:
-        # Realizar la solicitud a la API para obtener el historial de ejercicios del usuario
         response = requests.get(f'http://127.0.0.1:8000/api/v1/historiales/{usuario_id}', headers=headers)
-        response.raise_for_status()  # Levantar una excepción si la solicitud no fue exitosa
-        historial = response.json()  # Convertir la respuesta JSON en un diccionario de Python
-    except requests.RequestException as e:
-        # Manejar cualquier error de solicitud que ocurra
-        return render(request, 'fitness/error.html', {'mensaje': f'Error al realizar la solicitud a la API: {e}'})
+        
+        historial = response.json()
+        tiempo_total = 0
+        calorias_total = 0
+        for ejercicio in historial:
+            fecha_str = ejercicio.get('fecha')
+            print(fecha_str)
+            if fecha_str:
+                fecha = datetime.strptime(fecha_str, '%Y-%m-%dT%H:%M:%S%z')  # Analizar la fecha desde una cadena ISO 8601
+                ejercicio['fecha'] = fecha.strftime('%Y-%m-%d %H:%M:%S')  # Formato deseado 
+
+            #Calculo del tiempo y calorias de cada ejercicio:
+            tiempo_total += ejercicio['duracion']
+            calorias_total += ejercicio['calorias']
+        calorias_total = int(calorias_total)
+        print(tiempo_total)
+        print(calorias_total)
+        if(response.status_code == requests.codes.ok):
+            print(response.text)
+            return render(request, 'fitness/usuario/historial_usuario.html', {'historial_mostrar': historial,'tiempo':tiempo_total,'calorias':calorias_total})
+        else:
+            #print(response.status_code)
+            response.raise_for_status()
+    except Exception as err:
+        print(f'Ocurrió un error: {err}')
+        return mi_error_500(request)
     
-    # Renderizar la plantilla con el historial de ejercicios obtenido de la API
-    return render(request, 'fitness/historial_usuario.html', {'historial_mostrar': historial})
+def perfil_usuario(request):
+    usuario_id = request.session.get('usuario', {}).get('id')
+    if usuario_id is None:
+        mensaje='No hay un usuario registrado con ese nombre.'
+        return render(request, 'fitness/usuario/perfil_usuario.html', {'mensaje':mensaje})
+    headers = crear_cabecera()
+    try:
+        response = requests.get(f'http://127.0.0.1:8000/api/v1/perfil-usuario/{usuario_id}', headers=headers)
+        
+        perfil_user = response.json()
+        
+        for perfil in perfil_user:
+            fecha_creacion = perfil['usuario']['date_joined']
+            print(fecha_creacion)
+            if fecha_creacion:
+                fecha = datetime.strptime(fecha_creacion, '%Y-%m-%dT%H:%M:%S%z')  # Analizar la fecha desde una cadena ISO 8601
+                perfil['usuario']['date_joined'] = fecha.strftime('%Y-%m-%d %H:%M:%S') 
+        print(perfil_user)
+        if(response.status_code == requests.codes.ok):
+            print(response.text)
+            return render(request, 'fitness/usuario/perfil_usuario.html', {'perfil_mostrar': perfil_user})
+        else:
+            #print(response.status_code)
+            response.raise_for_status()
+    except Exception as err:
+        print(f'Ocurrió un error: {err}')
+        return mi_error_500(request)
+
+def actualizar_perfil(request):
+    usuario_id = request.session.get('usuario', {}).get('id')
+    datosFormulario = None
+    if request.method == 'POST':
+        datosFormulario = request.POST
+    #Obtenemos el ejercicio por la API.
+    perfil = helper.obtener_usuario(usuario_id)
+    #Especificamos cada uno de los valores que vamos a rellenar.
+    formulario = ActualizarPerfilForm(datosFormulario,
+                                initial ={
+                                    'altura': perfil['altura'],
+                                    'email': perfil['email'],
+                                    'peso': perfil['peso'],
+
+                                })
     
+    if (request.method == "POST"):
+            try:
+                formulario = ActualizarPerfilForm(request.POST)
+                headers = {
+                    'Authorization': 'Bearer ' + env('TOKEN_CLIENTE'),
+                    'Content-Type':'application/json'
+                }
+                datos = request.POST.copy()
 
-
-
+                response = requests.put(
+                    'http://127.0.0.1:8000/api/v1/usuario/'+ str(usuario_id), headers=headers, data=json.dumps(datos)
+                )
+                if(response.status_code == requests.codes.ok):
+                    # Redirecciono al listado completo de recintos
+                    return redirect("perfil-usuario")
+                else:
+                    print(response.status_code)
+                    response.raise_for_status()
+            except HTTPError as http_err:
+                print(f'Hubo un error en la petición: {http_err}')
+                if(response.status_code == 400):
+                    errores = response.json()
+                    for error in errores:
+                        formulario.add_error(error,errores[error])
+                    return render(request, 
+                            'fitness/usuario/actualizar.html',
+                            {"formulario":formulario,"perfil":perfil})
+                else:
+                    return mi_error_500(request)
+            except Exception as err:
+                print(f'Ocurrió un error: {err}')
+                return mi_error_500(request)
+    return render(request, 'fitness/usuario/actualizar.html',{"formulario":formulario,"perfil":perfil})
 
 
 

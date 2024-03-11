@@ -36,6 +36,9 @@ urlpatterns = [
     path('mostrar-ejercicios/<int:entrenamiento_id>',views.mostrar_ejercicios_entrenamiento,name="elecciones"),
     path('elegir-ejercicios',views.elegir_ejercicios,name="elecciones"),
     path('historial',views.historial_usuario,name="historial"),
+    path('perfil-usuario/',views.perfil_usuario,name="perfil-usuario"),
+    path('usuario/actualizar/',views.actualizar_perfil,name="actualizar-perfil"),
+    #path('ejercicio/busqueda-musculo',views.ejercicio_busqueda_musculo)
     #REGISTRO - LOGIN Y LOGOUT:
     path('registrar', views.registrar_usuario, name='registrar_usuario'),
     path('login', views.login, name='login'),
