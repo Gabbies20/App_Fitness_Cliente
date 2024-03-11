@@ -3,7 +3,7 @@
 
 {% block cabecera%}
 <br>
-  <h2>RESULTADO DE BÚSQUEDA:</h2>
+  <h2 class="display-5">Resultados de ejercicio por músculos:</h2>
 {% endblock %}
 
 {% block busqueda %}
@@ -15,7 +15,7 @@
 <p>La cantidad de planes que contiene son: {{ ejercicios_mostrar|length }}</p>
 
       {% for ejercicio in ejercicios_mostrar%}
-        {% include 'fitness/promocion/promocion.html'%}
+        {% include 'fitness/ejercicio/ejercicio.html'%}
       {% endfor %}
 
 {% endblock %}

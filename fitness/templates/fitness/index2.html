@@ -22,19 +22,33 @@
                     .card-img-top 		Establecemos una imagen para la card en la parte superior
                     .card-img-bottom 	Establecemos una imagen para la card en la parte inferior
                 -->
+                    {% if request.session.usuario.rol == 2%}
                     <div class="text-center">
-                            <h1 class="display-6">¿Lo que hago por tiiiiii?</h1>
-                            <a href="{% url 'elecciones'%}">Elegir ejercicios</a>
-                            <a href="">Historial ejercicios</a>
-                            <h6 class="">Ayudarte a alcanzar tu mejor versión, para que te veas y sientas genial.</h1>
-                            {% if request.session.usuario%}
-                            Fecha Inicio:<p class="text-primary">{{request.session.fecha}}</p>
-                           
-                            Nombre Usuario: <p class="text-primary">
-                                {{ request.session.usuario.username }}
-                            </p>
-                            {% endif %}
+                        <h1 class="display-6">¿Lo que hago por ti?</h1>
+                        <h6 class="">Ayudarte a alcanzar tu mejor versión, para que te veas y sientas genial.</h1>
+                        
+                        Usuario: <p class="text-primary">{{request.session.usuario.username}}</p>
+                </div>
+                    {% endif %}
+                    {% if request.session.usuario.rol == 3%}
+                    <div class="text-center">
+                        <h1 class="display-6">Gracias, {{request.session.usuario.username}}</h1>
+                        <h1 class="display-6">por formar parte de nuestro equipo.</h1>
+                       
+                        Entrenador <p class="text-primary">
+                            {{ request.session.usuario.username }}
+                        </p>
                     </div>
+                    {% endif %}
+                    {% if request.session.usuario.rol == 1%}
+                    <div class="text-center">
+                       
+                        <h1 class="display-6">Soy 
+                            {{ request.session.usuario.username }}
+                        </h1>
+                    {% endif %}
+                </div>
+                   
                 </div>
             </div>
             <br>
@@ -57,29 +71,6 @@
                         </div>
                     </div>
                 </div>
-            
-                <div class="col-4">
-                    <div class="card h-100" style="position: relative;">
-                        <div style="background-image: url('../../static/imagenes/ejercicios-completos.jpg'); background-size: cover; height: 200px; width: 100%;"></div>
-                        <div class="card-body d-flex flex-column align-items-center justify-content-center text-center" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
-                            <a href="" class="btn btn-outline-light mt-3">PLAN DE ENTRENAMIENTO</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <br>
-            <hr>
-            <br>
-            <div class="row mt-3">
-                <div class="col-4">
-                    <div class="card h-100" style="position: relative;">
-                        <div style="background-image: url('../../static/imagenes/rutina-gimnasio.webp'); background-size: cover; height: 200px; width: 100%;"></div>
-                        <div class="card-body d-flex flex-column align-items-center justify-content-center text-center" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
-                            <a href="" class="btn btn-outline-light mt-3">RUTINAS DIARIA</a>
-                        </div>
-                    </div>
-                </div>
-            
                 <div class="col-4">
                     <div class="card h-100" style="position: relative;">
                         <div style="background-image: url('../../static/imagenes/comentario.webp'); background-size: cover; height: 200px; width: 100%;"></div>
@@ -88,28 +79,18 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <br>
+            <hr>
+            <br>
+            <div class="row mt-3">
+               
+                
             
-                <div class="col-4">
-                    <div class="card h-100" style="position: relative;">
-                        <div style="background-image: url('../../static/imagenes/usuarios.jpeg'); background-size: cover; height: 200px; width: 100%;"></div>
-                        <div class="card-body d-flex flex-column align-items-center justify-content-center text-center" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
-                            <a href="" class="btn btn-outline-light mt-3">SUSCRIPCIONES</a>
-                        </div>
-                    </div>
-                </div>
                 <br>
                 <hr>
                 <br>
-                <div "row 12">
-                    <div class="col-12">
-                        <div class="card h-100" style="position: relative;">
-                            <div style="background-image: url('../../static/imagenes/2-1920x960.jpg'); background-size: cover; height: 200px; width: 100%;"></div>
-                            <div class="card-body d-flex flex-column align-items-center justify-content-center text-center" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
-                                <a href="" class="btn btn-outline-light mt-3">PROMOCIÓN</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+               
             
             <br>
             <br>

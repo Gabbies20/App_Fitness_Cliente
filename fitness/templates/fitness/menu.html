@@ -19,47 +19,56 @@
         <div class="collapse navbar-collapse" id="menu">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item"><a href="{% url 'index' %}" class="nav-link">Inicio</a></li>
-                {% comment %} <!--Dropdown-->
-                <li class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"
-                        aria-expanded="false" id="dropdown-menu">
-                        !!
-                    </a>
-
-                    {% comment %} <!--Lista que se va a desplegar-->
-                    <ul class="dropdown-menu" aria-labelledby="dropdown-menu">
-
-                        <li><a href="" class="dropdown-item">Crear-Ejercicio</a></li>
-
-                        <li><a href="" class="dropdown-item">Crear Entrenamiento</a></li>
-                        <li><a href="" class="dropdown-item">Crear-Plan de Entrenamiento</a></li>
-                        <li><a href="" class="dropdown-item">Crear Rutina Diaria</a></li>
-                        <li><a href="" class="dropdown-item">Crear Comentario</a></li>
-                        <li><a href="" class="dropdown-item">Crear Suscripción</a></li>
-                        <li><a href="" class="dropdown-item">Crear PROMOCIÓN</a></li>
-                    </ul> {% endcomment %}
-
-                </li>
+                 <!--Dropdown-->
+          
 
                 <!--Nuevo crud para crear desde la API-->
-                {% if request.session.usuario.rol == 3%}
+                {% if request.session.usuario.rol == 3 or request.session.usuario.rol == 1%}
                 <li class="nav-item dropdown">
                     <a href="{% url 'entrenamiento_crear' %}" class="nav-link dropdown-toggle" role="button"
                         data-bs-toggle="dropdown" aria-expanded="false" id="dropdown-menu">
-                        CRUDS-API
+                        Crea
                     </a>
 
+                    <ul class="dropdown-menu" aria-labelledby="dropdown-menu">
+                        <li><a href="{% url 'ejercicio_crear'%}" class="dropdown-item">Un ejercicio</a></li>
+
+                        <li><a href="{% url 'entrenamiento_crear' %}" class="dropdown-item">Un entrenamiento</a></li>
+                        <li><a href="{% url 'comentario_crear' %}" class="dropdown-item">Crear Comentario</a></li>
+
+                    </ul>
                     <!--Lista que se va a desplegar-->
                     <ul class="dropdown-menu" aria-labelledby="dropdown-menu">
-                            <li><a href="{% url 'ejercicio_crear'%}" class="dropdown-item">Crear-Ejercicio</a></li>
+                        <li><a href="{% url 'ejercicio_crear'%}" class="dropdown-item">Un ejercicio</a></li>
 
-                            <li><a href="{% url 'entrenamiento_crear' %}" class="dropdown-item">Crear Entrenamiento</a></li>
-                            <li><a href="" class="dropdown-item">Crear-Plan de Entrenamiento</a></li>
-                            <li><a href="" class="dropdown-item">Crear Rutina Diaria</a></li>
-                            <li><a href="{% url 'comentario_crear' %}" class="dropdown-item">Crear Comentario</a></li>
-                            <li><a href="" class="dropdown-item">Crear Suscripción</a></li>
-                            <li><a href="" class="dropdown-item">Crear PROMOCIÓN</a></li>
-                        
+                        <li><a href="{% url 'entrenamiento_crear' %}" class="dropdown-item">Crear Entrenamiento</a></li>
+                        <li><a href="" class="dropdown-item">Un entrenamiento</a></li>
+                        <li><a href="{% url 'comentario_crear' %}" class="dropdown-item">Crear Comentario</a></li>
+
+                    </ul>
+
+                </li>
+                {% endif %}
+                {% if request.session.usuario.rol == 2%}
+                <li class="nav-item dropdown">
+                    <a href="{% url 'entrenamiento_crear' %}" class="nav-link dropdown-toggle" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false" id="dropdown-menu">
+                        Crea
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="dropdown-menu">
+                        <li><a href="{% url 'comentario_crear' %}" class="dropdown-item">Crear Comentario</a></li>
+
+                    </ul>
+                    <!--Lista que se va a desplegar-->
+                    <ul class="dropdown-menu" aria-labelledby="dropdown-menu">
+                        <li><a href="{% url 'ejercicio_crear'%}" class="dropdown-item">Un ejercicio</a></li>
+
+                        <li><a href="{% url 'entrenamiento_crear' %}" class="dropdown-item">Crear Entrenamiento</a></li>
+                        <li><a href="" class="dropdown-item">Un entrenamiento</a></li>
+                        <li><a href="{% url 'comentario_crear' %}" class="dropdown-item">Crear Comentario</a></li>
+                        <li><a href="" class="dropdown-item">Crear Suscripción</a></li>
+                        <li><a href="" class="dropdown-item">Crear PROMOCIÓN</a></li>
+
                     </ul>
 
                 </li>
@@ -69,19 +78,37 @@
                         <i class="fas fa-user-circle"></i>
                     </a>
                 </li>
-                <li class="nav-item"><a href="{% url 'historial'%}" class="nav-link">Historial de Ejercicios</a></li>
+                {% if request.session.usuario.rol == 2 or request.session.usuario.rol == 1 %}
+                    <li class="nav-item"><a href="{% url 'historial'%}" class="nav-link">Historial de Ejercicios</a></li>
+                {% endif %}
+
+                {% if request.session.usuario.username %}
+                    <li class="nav-item">
+                        <a class="nav-link">
+                            {% if request.session.usuario.rol == 1%}
+                                <p class="text-muted"><span style="font-size: smaller; color: grey;">Soy, {{request.session.usuario.username }}</span></p>
+                            {% endif %}
+                            {% if request.session.usuario.rol == 2 %}
+                                <p class="text-muted"><span style="font-size: smaller; color: grey;">Hola, {{request.session.usuario.username }}</span></p>
+                            {% endif %}
+                            {% if request.session.usuario.rol == 3%}
+                                <p class="text-muted"><span style="font-size: smaller; color: grey;">Entrenador, {{request.session.usuario.username }}</span></p>
+                            {% endif %}
+                        </a>
+                    </li>
+                {% endif %}
 
 
             </ul>
-
-            <form action="" class="d-flex">
-                <input type="search" class="form-control me-2" placeholder="Buscar ejercicio por músculo..." aria-label="Buscar">
-                <button class="btn btn-outline-primary" type="button">Buscar</button>
+            <form method="get" action="{% url 'busqueda-musculos' %}" class="d-flex">
+                <input type="search" class="form-control me-2" placeholder="Buscar ejercicio por músculo..."
+                    name="textoBusqueda" aria-label="Buscar">
+                <button class="btn btn-outline-success" type="submit">Buscar</button>
             </form>
 
             <div class="ml-2">
                 {% if not request.session.token%}
-                <a class="btn btn-outline-warning" href="{% url 'login' %}">
+                <a class="btn btn-outline-success" href="{% url 'login' %}" style="background-color: #c5f7b7;">
                     Login
                 </a>
                 {% endif %}
@@ -93,7 +120,7 @@
                 {% endif %}
 
                 {% if request.session.token %}
-                <a class="btn btn-outline-danger" href="{% url 'logout' %}">
+                <a class="btn btn-danger" href="{% url 'logout' %}">
                     Desconectarse
                 </a>
                 {% endif %}

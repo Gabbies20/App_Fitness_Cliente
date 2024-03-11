@@ -1,14 +1,15 @@
 {% load static %}
 <div class="card custom-card">
     <div class="custom-card-body">
-        <h5 class="card-title"><a href=""> {{ comentario.texto|capfirst }}</a></h5>
-        <h6 class="card-subtitle mb-2 text-muted">Usuario:{{ comentario.usuario.username }}</h6>
+        <h6 class="card-subtitle mb-2 text-muted">Realizado por:{{ comentario.usuario.username }}</h6>
         <p class="card-text">Entrenamiento:{{comentario.entrenamiento.nombre }}</p>
         <p class="card-text">Texto:{{ comentario.texto}}</p>
         <p class="card-text">Fecha:{{ comentario.fecha }}</p>
        
         <div>
         </div>
+       {% if request.session.usuario.rol == 1 %}
+             
         {% load bootstrap_icons %}
         <div class="btn-group custom-btn-group">
             <button type="button" class="btn btn-outline-primary">
@@ -21,8 +22,6 @@
                     <span>{% bs_icon 'pencil' %}Editar</span> 
                 </a>
             </button>
-            
-            
             <form action="{% url 'comentario_eliminar' comentario.id%}" method="post" id="deleteForm{{comentario.id}}">
                 {% csrf_token %}
                 <button class="btn btn-danger" data-toggle="modal" data-target="#confirmDeleteModal{{ comentario.id }}" type="button">
@@ -50,5 +49,6 @@
                 </div>
             </form>
         </div>
+       {% endif %}
     </div>
 </div>

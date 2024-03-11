@@ -13,7 +13,7 @@ class helper:
     def obtener_usuarios_select():
         #Obtenemos todos los usuarios:
         headers = {'Authorization': 'Bearer ' +env("TOKEN_CLIENTE")}
-        response = requests.get('http://127.0.0.1:8000/api/v1/usuarios',headers=headers)
+        response = requests.get('https://gabrielapinzon.pythonanywhere.com/api/v1/usuarios',headers=headers)
         usuarios = response.json()
         
         lista_usuarios = [('','Ninguna')]
@@ -24,7 +24,7 @@ class helper:
     
     def obtener_grupos_musculares():
         headers = {'Authorization': 'Bearer ' +env("TOKEN_CLIENTE")}
-        response = requests.get('http://127.0.0.1:8000/api/v1/grupos-musculares',headers=headers)
+        response = requests.get('https://gabrielapinzon.pythonanywhere.com/api/v1/grupos-musculares',headers=headers)
         grupos_musculares = response.json()
         
         lista_grupos = [('','Ninguno')]
@@ -35,21 +35,21 @@ class helper:
     def obtener_ejercicio(id):
         #Obtenemos todos los ejercicios.
         headers = {'Authorization':'Bearer '+env('TOKEN_CLIENTE')}
-        response = requests.get('http://127.0.0.1:8000/api/v1/ejercicio/'+str(id),headers=headers)
+        response = requests.get('https://gabrielapinzon.pythonanywhere.com/api/v1/ejercicio/'+str(id),headers=headers)
         ejercicio = response.json()
         return ejercicio
     
     def obtener_usuario(id):
         #Obtenemos todos los ejercicios.
         headers = {'Authorization':'Bearer '+env('TOKEN_CLIENTE')}
-        response = requests.get('http://127.0.0.1:8000/api/v1/usuario/'+str(id),headers=headers)
+        response = requests.get('https://gabrielapinzon.pythonanywhere.com/api/v1/usuario/'+str(id),headers=headers)
         usuario = response.json()
         return usuario
     
     def obtener_ejercicios_select():
         #Obtenemos todos los usuarios:
         headers = {'Authorization': 'Bearer ' +env("TOKEN_CLIENTE")}
-        response = requests.get('http://127.0.0.1:8000/api/v1/ejercicios',headers=headers)
+        response = requests.get('https://gabrielapinzon.pythonanywhere.com/api/v1/ejercicios',headers=headers)
         ejercicios = response.json()
         
         lista_ejercicios = [('','Ninguna')]
@@ -60,14 +60,14 @@ class helper:
     def obtener_entrenamiento(id):
         #Obtenemos todos los entrenamientos.
         headers = {'Authorization':'Bearer '+env('TOKEN_CLIENTE')}
-        response = requests.get('http://127.0.0.1:8000/api/v1/entrenamiento/'+str(id),headers=headers)
+        response = requests.get('https://gabrielapinzon.pythonanywhere.com/api/v1/entrenamiento/'+str(id),headers=headers)
         entrenamiento = response.json()
         return entrenamiento 
     
     def obtener_comentario(id):
         #Obtener todos los comentarios.
         headers ={'Authorization':'Bearer '+env('TOKEN_CLIENTE')}
-        response = requests.get('http://127.0.0.1:8000/api/v1/comentario/'+str(id),headers=headers)
+        response = requests.get('https://gabrielapinzon.pythonanywhere.com/api/v1/comentario/'+str(id),headers=headers)
         comentario = response.json()
         #print(comentario)
         return comentario
@@ -75,7 +75,7 @@ class helper:
     def obtener_entrenamiento_select():
         #Obtenemos todos los usuarios:
         headers = {'Authorization': 'Bearer ' +env("TOKEN_CLIENTE")}
-        response = requests.get('http://127.0.0.1:8000/api/v1/entrenamientos',headers=headers)
+        response = requests.get('https://gabrielapinzon.pythonanywhere.com/api/v1/entrenamientos',headers=headers)
         entrenamientos = response.json()
         
         lista_entrenamientos = [('','Ninguna')]
@@ -86,7 +86,7 @@ class helper:
     
     
     def obtener_token_session(usuario,password):
-            token_url = 'http://127.0.0.1:8000/oauth2/token/'
+            token_url = 'https://gabrielapinzon.pythonanywhere.com/oauth2/token/'
             data = {
                 'grant_type': 'password',
                 'username': usuario,

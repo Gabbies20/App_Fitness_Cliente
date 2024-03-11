@@ -1,41 +1,34 @@
-# App_Fitness_Cliente
-import requests
-from django.http import JsonResponse
-
-def obtener_entrenamientos_desde_api(url):
-    try:
-        response = requests.get(url)
-        # Verificar si la solicitud fue exitosa
-        response.raise_for_status()
-
-        # Verificar el tipo de contenido de la respuesta
-        content_type = response.headers.get('Content-Type')
-        if 'application/json' in content_type:
-            # Si el contenido es JSON, cargamos y devolvemos los datos
-            return response.json()
-        else:
-            # Si el contenido no es JSON, devolvemos un mensaje de error
-            return {'error': 'El contenido de la respuesta no es JSON'}
-
-    except requests.exceptions.RequestException as e:
-        # Si hay algún error en la solicitud, devolvemos un mensaje de error
-        return {'error': f'Error al obtener datos de la API: {str(e)}'}
+TRABAJO FINAL:
+CRUD completo de Ejercicio (Actualización no funciona) (LINEA 39 A LINEA 276).
+CRUD completo de Entrenamiento (Funciona completo) (LINEA 280 A LINEA 503).
+CRUD completo de Comentario. (Fuciona completo) (LINEA 510 A LINEA 764)
 
 
-def entrenamientos_lista_api(request):
-    url_api = 'http://127.0.0.1:8000/api/v1/entrenamientos'
-    entrenamientos = obtener_entrenamientos_desde_api(url_api)
+FUNCIONALIDADES DE MIS COMPAÑEROS:
+(LINEA  771 A LINEA 954)
+1.Rutina de ejercicios de un entrenamiento.
+2.Página que suma las calorías por usuario.
+3.Filtrado de ejercicios por músculo.
+4.Registrar tiempo de ejercicio.
+5.Login con google (sin hacer).
+6. Marcar ejercicios favoritos ( sin hacer).
+7. Incluir fotos en los ejercicios (sin hacer) .
 
-    if 'error' in entrenamientos:
-        # Si ocurrió un error al obtener los datos de la API, devolvemos un mensaje de error
-        return JsonResponse(entrenamientos, status=500)
 
-    return render(request, 'fitness/lista_api_entrenamientos.html', {'entrenamientos_mostrar': entrenamientos})
 
---------------
-En este ejemplo, la función obtener_entrenamientos_desde_api() se encarga de realizar la solicitud a la API y manejar diferentes escenarios:
+ REGISTRO, LOGIN Y LOOUT (Funciona Completo)
+ (LINEA 1009 A LINEA 1085)
 
-Si la solicitud es exitosa y el contenido es JSON, carga y devuelve los datos en formato JSON.
-Si la solicitud es exitosa pero el contenido no es JSON, devuelve un mensaje de error indicando que el contenido no es JSON.
-Si ocurre algún error durante la solicitud, devuelve un mensaje de error con detalles sobre el error.
-Luego, en la vista entrenamientos_lista_api(), verificamos si hay algún error en la respuesta de la API. Si hay un error, devolvemos un JsonResponse con un mensaje de error y un código de estado HTTP 500 (Error del servidor). De lo contrario, pasamos los datos obtenidos a la plantilla para su renderización.
+
+REFACTORIZACIÓN DE CÓDIGO: Nula
+
+
+ PERMISOS:
+ ADMIN:Todos los permisos.
+ ENTRENADOR:Puede crear, actualizar y eliminar ejercicios, crea, actualiza y elimina entrenamientos, referente a los comentarios este solo puede leerlos.
+ USUARIO:Puede consultar ejercicios,entrenamientos y ver su historial de Ejercicios, crea comenatarios y los puede editar.
+
+
+
+ *Siento el tiempo de entrega y el sin sentido de mi página.Gracias
+

@@ -1,79 +1,86 @@
 {% load static %}
 
-<scrpt src="{% static 'javascript/principal.js' %}"></script>
-<div class="card custom-card">
-    <div class="custom-card-body">
-        <h5 class="card-title"><a href="ejercicio_mostrar" ejercicio.id> {{ ejercicio.nombre|capfirst }}</a></h5>
-        <h6 class="card-subtitle mb-2 text-muted">Nombre:{{ ejercicio.nombre }}</h6>
-        <p class="card-text">Descripción:{{ ejercicio.descripcion }}</p>
-        <p class="card-text">Tipo: {{ ejercicio.tipo_ejercicio }}</p>
-        <div>
-            <p class="card-text" >Usuarios:</p>
-            <ul >
-                {% for usuario in ejercicio.usuarios %}
-                    <li class="card-text" >{{ usuario.usuario.username }}</li>
-                {% endfor%}
-            </ul>
-        <p class="card-text">Grupo muscular: </p>
-        <ul>
-            {% for grupo_muscular in ejercicio.grupos_musculares %}
-              <li>
-                <p>Nombre: {{ grupo_muscular.nombre }}</p>
-                <p>Nivel: {{ grupo_muscular.nivel }}</p>
-                <p>Músculos:</p>
+<scrpt src="{% static 'javascript/principal.js' %}">
+    </script>
+    <div class="card custom-card">
+        <div class="custom-card-body">
+            <h5 class="card-title"><a href="ejercicio_mostrar" ejercicio.id> {{ ejercicio.nombre|capfirst }}</a></h5>
+            <h6 class="card-subtitle mb-2 text-muted">Nombre:{{ ejercicio.nombre }}</h6>
+            <p class="card-text">Descripción:{{ ejercicio.descripcion }}</p>
+            <p class="card-text">Tipo: {{ ejercicio.tipo_ejercicio }}</p>
+            <div>
+                <p class="card-text">Usuarios:</p>
                 <ul>
-                  {% for musculo_id in grupo_muscular.musculos %}
-                    <li>{{ musculo_id.nombre }}</li>
-                  {% endfor %}
+                    {% for usuario in ejercicio.usuarios %}
+                    <li class="card-text">{{ usuario.usuario.username }}</li>
+                    {% endfor%}
                 </ul>
-              </li>
-            {% endfor %}
-          </ul>
-        </div>
-        {% load bootstrap_icons %}
-        <div class="btn-group custom-btn-group">
-            <button type="button" class="btn btn-outline-primary">
-                <a href="{% url 'ejercicio_editar' ejercicio.id %}">
-                    <span>{% bs_icon 'pencil' %}</span> 
-                </a>
-            </button>
-            <button type="button" class="btn btn-outline-primary">
-                <a href="{% url 'ejercicio_editar_nombre' ejercicio.id %}">
-                    <span>{% bs_icon 'pencil' %} </span> 
-                </a>
-            </button>
-            
-            <form action="{% url 'ejercicio_eliminar' ejercicio.id %}" method="post" id="deleteForm{{ ejercicio.id }}">
-                {% csrf_token %}
-                <button class="btn btn-danger" data-toggle="modal" data-target="#confirmDeleteModal{{ ejercicio.id }}" type="button">
-                    <span>{% bs_icon 'trash' %}</span> 
-                </button>
-            
-                <!-- Ventana modal -->
-                <div class="modal fade" id="confirmDeleteModal{{ ejercicio.id }}" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmar Eliminación</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <p>¿Estás seguro de que deseas eliminar este ejercicio?</p>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                                <button type="submit" class="btn btn-danger">Eliminar</button>
+                <p class="card-text">Grupo muscular: </p>
+                <ul>
+                    {% for grupo_muscular in ejercicio.grupos_musculares %}
+                    <li>
+                        <p>Nombre: {{ grupo_muscular.nombre }}</p>
+                        <p>Nivel: {{ grupo_muscular.nivel }}</p>
+                        <p>Músculos:</p>
+                        <ul>
+                            {% for musculo_id in grupo_muscular.musculos %}
+                            <li>{{ musculo_id.nombre }}</li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% load bootstrap_icons %}
+            {% if request.session.usuario.rol == 1 or request.session.usuario.rol == 3 %}
+                <div class="btn-group custom-btn-group">
+                    <button type="button" class="btn btn-outline-primary">
+                        <a href="{% url 'ejercicio_editar' ejercicio.id %}">
+                            <span>{% bs_icon 'pencil' %}</span>
+                        </a>
+                    </button>
+                    <button type="button" class="btn btn-outline-primary">
+                        <a href="{% url 'ejercicio_editar_nombre' ejercicio.id %}">
+                            <span>{% bs_icon 'pencil' %} </span>
+                        </a>
+                    </button>
+
+                    <form action="{% url 'ejercicio_eliminar' ejercicio.id %}" method="post"
+                        id="deleteForm{{ ejercicio.id }}">
+                        {% csrf_token %}
+                        <button class="btn btn-danger" data-toggle="modal"
+                            data-target="#confirmDeleteModal{{ ejercicio.id }}" type="button">
+                            <span>{% bs_icon 'trash' %}</span>
+                        </button>
+
+                        <!-- Ventana modal -->
+                        <div class="modal fade" id="confirmDeleteModal{{ ejercicio.id }}" tabindex="-1" role="dialog"
+                            aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmar Eliminación</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>¿Estás seguro de que deseas eliminar este ejercicio?</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-dismiss="modal">Cancelar</button>
+                                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
-            </form>
+            {% endif %}
+            <br>
+            <br>
         </div>
-        <br>
-        <br>
     </div>
-</div>
-<br>
-<br>
+    <br>
+    <br>

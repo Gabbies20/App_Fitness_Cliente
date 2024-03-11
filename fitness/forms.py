@@ -232,7 +232,8 @@ class ActualizarPerfilForm(forms.Form):
         )
             
             
-            
+class BusquedaEjerciciosMusculoForm(forms.Form):
+    textoBusqueda = forms.CharField(required=True)       
             
             
             

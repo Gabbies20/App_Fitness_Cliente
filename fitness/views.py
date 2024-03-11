@@ -39,7 +39,7 @@ def crear_cabecera():
 def ejercicios_lista_api(request):
     #headers = {'Authorization':'Bearer sem6IlXzR1ER9DcjyLd0FOVuwRurdk'}
     headers = crear_cabecera()
-    response = requests.get('http://127.0.0.1:8000/api/v1/ejercicios',headers=headers)
+    response = requests.get('https://gabrielapinzon.pythonanywhere.com/api/v1/ejercicios',headers=headers)
     #response = requests.get('http://gabrielapinzon.pythonanywhere.com/api/v1/ejercicios',headers=headers)
     ejercicios = response.json()
     return render(request, 'fitness/lista_api.html',{'ejercicios_mostrar':ejercicios})
@@ -51,7 +51,7 @@ def ejercicio_busqueda_simple(request):
     if formulario.is_valid():
         headers = crear_cabecera()
         response = requests.get(
-            'http://127.0.0.1:8000/api/v1/ejercicios/busqueda_simple',
+            'https://gabrielapinzon.pythonanywhere.com/api/v1/ejercicios/busqueda_simple',
             headers = headers,
             params = formulario.cleaned_data
         )
@@ -70,7 +70,7 @@ def ejercicio_busqueda_avanzada(request):
         try:
             headers = crear_cabecera()
             response = requests.get(
-                'http://127.0.0.1:8000/api/v1/ejercicios/busqueda_avanzada',
+                'https://gabrielapinzon.pythonanywhere.com/api/v1/ejercicios/busqueda_avanzada',
                 headers=headers,
                 params=formulario.data
             )             
@@ -119,7 +119,7 @@ def ejercicio_crear(request):
             
         
             response = requests.post(
-                'http://127.0.0.1:8000/api/v1/ejercicios/crear',
+                'https://gabrielapinzon.pythonanywhere.com/api/v1/ejercicios/crear',
                 headers=headers,
                 data=json.dumps(datos)
             )
@@ -178,7 +178,7 @@ def ejercicio_editar(request,ejercicio_id):
                 datos = request.POST.copy()
 
                 response = requests.put(
-                    'http://127.0.0.1:8000/api/v1/ejercicios/editar/'+ str(ejercicio_id), headers=headers, data=json.dumps(datos)
+                    'https://gabrielapinzon.pythonanywhere.com/api/v1/ejercicios/editar/'+ str(ejercicio_id), headers=headers, data=json.dumps(datos)
                 )
                 if(response.status_code == requests.codes.ok):
                     # Redirecciono al listado completo de recintos
@@ -226,7 +226,7 @@ def ejercicio_editar_nombre(request,ejercicio_id):
                 }
             datos = request.POST.copy()
             response = requests.patch(
-                'http://127.0.0.1:8000/api/v1/ejercicios/actualizar/nombre/'+str(ejercicio_id),
+                'https://gabrielapinzon.pythonanywhere.com/api/v1/ejercicios/actualizar/nombre/'+str(ejercicio_id),
                 headers=headers,
                 data=json.dumps(datos)
             )
@@ -259,7 +259,7 @@ def ejercicio_eliminar(request,ejercicio_id):
                     'Content-Type':'application/json'
                 }
         response = requests.delete(
-            'http://127.0.0.1:8000/api/v1/ejercicios/eliminar/'+str(ejercicio_id),
+            'https://gabrielapinzon.pythonanywhere.com/api/v1/ejercicios/eliminar/'+str(ejercicio_id),
             headers=headers,
         )
         if(response.status_code == requests.codes.ok):
@@ -279,7 +279,7 @@ def ejercicio_eliminar(request,ejercicio_id):
 """
 def entrenamientos_lista_api(request):
     headers = crear_cabecera()
-    response = requests.get('http://127.0.0.1:8000/api/v1/entrenamientos',headers=headers)
+    response = requests.get('https://gabrielapinzon.pythonanywhere.com/api/v1/entrenamientos',headers=headers)
     entrenamientos = response.json()
     return render(request,'fitness/lista_api_entrenamientos.html',{'entrenamientos_mostrar':entrenamientos})
     
@@ -289,7 +289,7 @@ def entrenamiento_busqueda_simple(request):
     formulario = BusquedaEntrenamientoForm(request.GET)
     if formulario.is_valid():
         headers = crear_cabecera()
-        response = requests.get('http://127.0.0.1:8000/api/v1/entrenamientos/busqueda_simple',
+        response = requests.get('https://gabrielapinzon.pythonanywhere.com/api/v1/entrenamientos/busqueda_simple',
         headers=headers,
         params=formulario.data
         )
@@ -307,7 +307,7 @@ def entrenamiento_busqueda_avanzada(request):
         try:
             headers = crear_cabecera()
             response = requests.get(
-                'http://127.0.0.1:8000/api/v1/entrenamientos/busqueda_avanzada',
+                'https://gabrielapinzon.pythonanywhere.com/api/v1/entrenamientos/busqueda_avanzada',
                 headers=headers,
                 params=formulario.data
             )
@@ -346,7 +346,7 @@ def entrenamiento_crear(request):
             datos["ejercicios"] = request.POST.getlist("ejercicios")
             
             response = requests.post(
-                'http://127.0.0.1:8000/api/v1/entrenamientos/crear',
+                'https://gabrielapinzon.pythonanywhere.com/api/v1/entrenamientos/crear',
                 headers=headers,
                 data=json.dumps(datos)
             )
@@ -409,7 +409,7 @@ def entrenamiento_editar(request,entrenamiento_id):
                 datos["ejercicios"] = request.POST.getlist("ejercicios")
 
                 response = requests.put(
-                    'http://127.0.0.1:8000/api/v1/entrenamientos/editar/'+ str(entrenamiento_id), headers=headers, data=json.dumps(datos)
+                    'https://gabrielapinzon.pythonanywhere.com/api/v1/entrenamientos/editar/'+ str(entrenamiento_id), headers=headers, data=json.dumps(datos)
                 )
                 if(response.status_code == requests.codes.ok):
                     # Redirecciono al listado completo de recintos
@@ -457,7 +457,7 @@ def entrenamiento_editar_descripcion(request,entrenamiento_id):
                 }
             datos = request.POST.copy()
             response = requests.patch(
-                'http://127.0.0.1:8000/api/v1/entrenamientos/actualizar/descripcion/'+str(entrenamiento_id),
+                'https://gabrielapinzon.pythonanywhere.com/api/v1/entrenamientos/actualizar/descripcion/'+str(entrenamiento_id),
                 headers=headers,
                 data=json.dumps(datos)
             )
@@ -489,7 +489,7 @@ def entrenamiento_eliminar(request,entrenamiento_id):
                     'Content-Type':'application/json'
                 }
         response = requests.delete(
-            'http://127.0.0.1:8000/api/v1/entrenamientos/eliminar/'+str(entrenamiento_id),
+            'https://gabrielapinzon.pythonanywhere.com/api/v1/entrenamientos/eliminar/'+str(entrenamiento_id),
             headers=headers,
         )
         if(response.status_code == requests.codes.ok):
@@ -509,7 +509,7 @@ def entrenamiento_eliminar(request,entrenamiento_id):
 """
 def comentarios_lista_api(request):
     headers = crear_cabecera()
-    response = requests.get('http://127.0.0.1:8000/api/v1/comentarios',headers=headers)
+    response = requests.get('https://gabrielapinzon.pythonanywhere.com/api/v1/comentarios',headers=headers)
     comentarios = response.json()
     return render(request, 'fitness/comentario/lista_comentarios.html',{'comentarios_mostrar':comentarios})
 
@@ -520,7 +520,7 @@ def comentario_busqueda_simple(request):
     if formulario.is_valid():
         headers = crear_cabecera()
         response = requests.get(
-            'http://127.0.0.1:8000/api/v1/comentarios/busqueda_simple',
+            'https://gabrielapinzon.pythonanywhere.com/api/v1/comentarios/busqueda_simple',
             headers = headers,
             params = formulario.cleaned_data
         )
@@ -539,7 +539,7 @@ def comentario_busqueda_avanzada(request):
         try:
             headers = crear_cabecera()
             response = requests.get(
-                'http://127.0.0.1:8000/api/v1/comentarios/busqueda_avanzada',
+                'https://gabrielapinzon.pythonanywhere.com/api/v1/comentarios/busqueda_avanzada',
                 headers=headers,
                 params=formulario.data
             )             
@@ -600,9 +600,9 @@ def comentario_crear(request):
 
             
             
-            #Se realiza una solicitud POST a la URL http://127.0.0.1:8000/api/v1/comentarios con los encabezados y datos proporcionados. Se utiliza requests.post para enviar la solicitud HTTP.
+            #Se realiza una solicitud POST a la URL https://gabrielapinzon.pythonanywhere.com/api/v1/comentarios con los encabezados y datos proporcionados. Se utiliza requests.post para enviar la solicitud HTTP.
             response = requests.post(
-                'http://127.0.0.1:8000/api/v1/comentarios/crear',
+                'https://gabrielapinzon.pythonanywhere.com/api/v1/comentarios/crear',
                 headers=headers,
                 data=json.dumps(datos)
             )
@@ -670,7 +670,7 @@ def comentario_editar(request,comentario_id):
                                              )
 
                 response = requests.put(
-                    'http://127.0.0.1:8000/api/v1/comentarios/editar/'+ str(comentario_id), headers=headers, data=json.dumps(datos)
+                    'https://gabrielapinzon.pythonanywhere.com/api/v1/comentarios/editar/'+ str(comentario_id), headers=headers, data=json.dumps(datos)
                 )
                 if(response.status_code == requests.codes.ok):
                     # Redirecciono al listado completo de comentarios.
@@ -717,7 +717,7 @@ def comentario_editar_nombre(request,comentario_id):
                 }
             datos = request.POST.copy()
             response = requests.patch(
-                'http://127.0.0.1:8000/api/v1/comentarios/actualizar/nombre/'+str(comentario_id),
+                'https://gabrielapinzon.pythonanywhere.com/api/v1/comentarios/actualizar/nombre/'+str(comentario_id),
                 headers=headers,
                 data=json.dumps(datos)
             )
@@ -750,7 +750,7 @@ def comentario_eliminar(request,comentario_id):
                     'Content-Type':'application/json'
                 }
         response = requests.delete(
-            'http://127.0.0.1:8000/api/v1/comentarios/eliminar/'+str(comentario_id),
+            'https://gabrielapinzon.pythonanywhere.com/api/v1/comentarios/eliminar/'+str(comentario_id),
             headers=headers,
         )
         if(response.status_code == requests.codes.ok):
@@ -775,7 +775,7 @@ def obtener_ejercicios_entrenamiento(request, entrenamiento_id):
                     'Content-Type':'application/json'
                 }
         response = requests.get(
-            'http://127.0.0.1:8000/api/v1/entrenamiento-ejercicios/'+str(entrenamiento_id),
+            'https://gabrielapinzon.pythonanywhere.com/api/v1/entrenamiento-ejercicios/'+str(entrenamiento_id),
             headers=headers,
         )
         ejercicios= response.json()
@@ -798,7 +798,7 @@ def mostrar_ejercicios_entrenamiento(request, entrenamiento_id):
                     'Content-Type':'application/json'
                 }
         response = requests.get(
-            'http://127.0.0.1:8000/api/v1/entrenamiento-ejercicios/'+str(entrenamiento_id),
+            'https://gabrielapinzon.pythonanywhere.com/api/v1/entrenamiento-ejercicios/'+str(entrenamiento_id),
             headers=headers,
         )
         ejercicios= response.json()
@@ -816,7 +816,7 @@ def mostrar_ejercicios_entrenamiento(request, entrenamiento_id):
 
 def elegir_ejercicios(request):
     headers = crear_cabecera()
-    response = requests.get('http://127.0.0.1:8000/api/v1/ejercicios',headers=headers)
+    response = requests.get('https://gabrielapinzon.pythonanywhere.com/api/v1/ejercicios',headers=headers)
     ejercicios = response.json()
     return render(request, 'fitness/eleccion_ejercicios.html',{'ejercicios_mostrar':ejercicios})
 
@@ -828,7 +828,7 @@ def historial_usuario(request):
         return render(request, 'fitness/historial_usuario.html', {'mensaje':mensaje})
     headers = crear_cabecera()
     try:
-        response = requests.get(f'http://127.0.0.1:8000/api/v1/historiales/{usuario_id}', headers=headers)
+        response = requests.get(f'https://gabrielapinzon.pythonanywhere.com/api/v1/historiales/{usuario_id}', headers=headers)
         
         historial = response.json()
         tiempo_total = 0
@@ -858,15 +858,18 @@ def historial_usuario(request):
     
 def perfil_usuario(request):
     usuario_id = request.session.get('usuario', {}).get('id')
+    print(f'Solicitando perfil de usuario para usuario ID {usuario_id}')
     if usuario_id is None:
         mensaje='No hay un usuario registrado con ese nombre.'
         return render(request, 'fitness/usuario/perfil_usuario.html', {'mensaje':mensaje})
     headers = crear_cabecera()
     try:
-        response = requests.get(f'http://127.0.0.1:8000/api/v1/perfil-usuario/{usuario_id}', headers=headers)
-        
+        response = requests.get(f'https://gabrielapinzon.pythonanywhere.com/api/v1/perfil-usuario/{usuario_id}', headers=headers)
+        print(f'https://gabrielapinzon.pythonanywhere.com/api/v1/perfil-usuario/{usuario_id}')
+
         perfil_user = response.json()
-        
+        perfil_user = response.json()
+        print('Respuesta de la API:', perfil_user)
         for perfil in perfil_user:
             fecha_creacion = perfil['usuario']['date_joined']
             print(fecha_creacion)
@@ -897,7 +900,6 @@ def actualizar_perfil(request):
                                     'altura': perfil['altura'],
                                     'email': perfil['email'],
                                     'peso': perfil['peso'],
-
                                 })
     
     if (request.method == "POST"):
@@ -910,7 +912,7 @@ def actualizar_perfil(request):
                 datos = request.POST.copy()
 
                 response = requests.put(
-                    'http://127.0.0.1:8000/api/v1/usuario/'+ str(usuario_id), headers=headers, data=json.dumps(datos)
+                    'https://gabrielapinzon.pythonanywhere.com/api/v1/usuario/'+ str(usuario_id), headers=headers, data=json.dumps(datos)
                 )
                 if(response.status_code == requests.codes.ok):
                     # Redirecciono al listado completo de recintos
@@ -934,7 +936,22 @@ def actualizar_perfil(request):
                 return mi_error_500(request)
     return render(request, 'fitness/usuario/actualizar.html',{"formulario":formulario,"perfil":perfil})
 
-
+def musculos_busqueda_simple(request):
+    formulario = BusquedaEjerciciosMusculoForm(request.GET)
+    
+    if formulario.is_valid():
+        headers = crear_cabecera()
+        response = requests.get(
+            'https://gabrielapinzon.pythonanywhere.com/api/v1/ejercicios/musculos/busqueda',
+            headers=headers,
+            params=formulario.cleaned_data
+        )
+        ejercicios = response.json()
+        return render(request, 'fitness/musculos/ejercicios.html',{"ejercicios_mostrar":ejercicios})
+    if("HTTP_REFERER" in request.META):
+        return redirect(request.META["HTTP_REFERER"])
+    else:
+        return redirect("index")
 
 
 
@@ -998,7 +1015,7 @@ def registrar_usuario(request):
                     "Content-Type": "application/json"
                 }
                 response = requests.post(
-                    'http://127.0.0.1:8000/api/v1/registrar/usuario',
+                    'https://gabrielapinzon.pythonanywhere.com/api/v1/registrar/usuario',
                     headers=headers,
                     data=json.dumps(formulario.cleaned_data)
                 )
@@ -1045,7 +1062,7 @@ def login(request):
             
           
             headers = {'Authorization': 'Bearer '+token_acceso} 
-            response = requests.get('http://127.0.0.1:8000/api/v1/usuario/token/'+token_acceso,headers=headers)
+            response = requests.get('https://gabrielapinzon.pythonanywhere.com/api/v1/usuario/token/'+token_acceso,headers=headers)
             usuario = response.json()
             request.session["usuario"] = usuario
             
