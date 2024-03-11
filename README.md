@@ -32,3 +32,5 @@ REFACTORIZACIÓN DE CÓDIGO: Nula
 
  *Siento el tiempo de entrega y el sin sentido de mi página.Gracias
 
+TOKEN_CLIENTE='w3C527RUJgSnsfIUvwYdP8bcd9Sw0e'
+TOKEN_ADMIN='dxDLkdUWhLkzRydrXf5CQA5P9e0voj'
